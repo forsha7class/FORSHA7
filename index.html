@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="FORSHA 7 — Rise Together. Bali Crystal College.">
-<title>FORSHA 7 — Rise Together</title>
+<meta name="description" content="FORSHA 7 - Rise Together. Bali Crystal College.">
+<title>FORSHA 7 - Rise Together</title>
 <link rel="canonical" href="https://forsha7.example/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="FORSHA 7 — Rise Together">
+<meta property="og:title" content="FORSHA 7 - Rise Together">
 <meta property="og:description" content="Front Office · Housekeeping. Satu kelas, dua disiplin, satu arah.">
 <meta property="og:image" content="img/01a.webp">
 <meta name="twitter:card" content="summary_large_image">
@@ -15,17 +15,18 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --navy:#071a31;--deep:#040f1d;--gold:#d4af37;--gold2:#efd975;
-  --white:#f7f7f2;--muted:#a9b5c5;--line:rgba(255,255,255,.11);
-  --soft:rgba(255,255,255,.045);--ease:cubic-bezier(.22,.7,.2,1);
+  --ink:#04070d;--surface:#0a1424;--deep:#04070d;--navy:#0a1424;
+  --accent:#c9a227;--gold:#c9a227;--gold2:#e2c14b;
+  --text:#f4f5f7;--white:#f4f5f7;--muted:#93a0b4;--line:rgba(255,255,255,.10);--soft:rgba(255,255,255,.04);
+  --ease:cubic-bezier(.16,1,.3,1);--ease-soft:cubic-bezier(.22,.7,.2,1);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:90px}
-body{background:var(--deep);color:var(--white);font-family:Inter,system-ui,sans-serif;line-height:1.7;overflow-x:hidden}
+body{background:var(--ink);color:var(--text);font-family:Outfit,system-ui,sans-serif;line-height:1.65;overflow-x:hidden;font-variant-numeric:tabular-nums}
 /* Fase 2: aurora mesh, 3 drifting blobs. Pure CSS, no JS, no dep. */
 .aurora{position:fixed;inset:-20%;z-index:0;pointer-events:none;filter:blur(90px);opacity:.5}
 .aurora i{position:absolute;display:block;border-radius:50%;mix-blend-mode:screen}
@@ -44,7 +45,7 @@ a{color:inherit;text-decoration:none}button{font:inherit;color:inherit}
 
 .loader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:var(--deep);transition:.5s var(--ease)}
 .loader.done{opacity:0;visibility:hidden;pointer-events:none}
-.loader-seven{font:48px "Playfair Display",serif;color:var(--gold);text-align:center}
+.loader-seven{font:48px Outfit,sans-serif;color:var(--gold);text-align:center}
 .loader-line{width:130px;height:1px;margin:15px auto;background:rgba(255,255,255,.12);overflow:hidden}
 .loader-line span{display:block;width:0;height:100%;background:var(--gold);animation:load 1s var(--ease) forwards}
 @keyframes load{to{width:100%}}
@@ -52,7 +53,7 @@ a{color:inherit;text-decoration:none}button{font:inherit;color:inherit}
 
 .topbar{position:fixed;top:0;left:0;width:100%;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:18px 6vw;background:rgba(7,26,49,.78);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.05)}
 .brand{display:flex;align-items:center;gap:12px}
-.brand-mark{width:37px;height:37px;display:grid;place-items:center;border:1px solid var(--gold);color:var(--gold);font:19px "Playfair Display",serif}
+.brand-mark{width:37px;height:37px;display:grid;place-items:center;border:1px solid var(--gold);color:var(--gold);font:19px Outfit,sans-serif}
 .brand-text{display:grid;line-height:1.05}.brand-text strong{font-size:12px;letter-spacing:.09em}.brand-text small{margin-top:5px;color:var(--muted);font-size:8px;letter-spacing:.18em}
 .nav{display:flex;gap:26px}.nav a{position:relative;color:var(--muted);font-size:10px;letter-spacing:.11em;text-transform:uppercase;padding:5px 0}.nav a:after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--gold);transition:.35s var(--ease)}.nav a:hover,.nav a.active{color:var(--white)}.nav a:hover:after,.nav a.active:after{width:100%}
 
@@ -66,7 +67,7 @@ main{width:min(1180px,86vw);margin:auto}
 section{scroll-margin-top:90px}
 .section{padding:120px 0;border-top:1px solid var(--line)}
 .kicker{margin:0 0 17px;color:var(--gold2);text-transform:uppercase;letter-spacing:.24em;font-size:10px;font-weight:700}
-h1,h2,h3,blockquote{font-family:"Playfair Display",Georgia,serif;font-weight:700}
+h1,h2,h3,blockquote{font-family:Outfit,sans-serif;font-weight:700}
 h1{font-size:clamp(62px,12vw,150px);line-height:.86;letter-spacing:-.045em}
 h2{font-size:clamp(46px,7vw,86px);line-height:.96;letter-spacing:-.035em}
 h1 span,h2 em,.gold{color:var(--gold);font-style:normal}
@@ -74,29 +75,29 @@ h1 span,h2 em,.gold{color:var(--gold);font-style:normal}
 .hero{position:relative;min-height:100vh;display:grid;align-items:center;overflow:hidden}
 .hero-content{position:relative;z-index:3;max-width:820px}
 .hero-title{opacity:0;transform:translateY(28px);animation:up 1s .55s var(--ease) forwards}
-.wordmark{display:flex;gap:5px;margin-top:18px;font:15px "Playfair Display",serif;letter-spacing:.45em;color:var(--muted)}
+.wordmark{display:flex;gap:5px;margin-top:18px;font:15px Outfit,sans-serif;letter-spacing:.45em;color:var(--muted)}
 .wordmark-letter{cursor:pointer;transition:.3s var(--ease)}.wordmark-letter:hover{color:var(--gold);transform:translateY(-4px)}
 .wordmark-info{min-height:21px;margin-top:7px;color:var(--gold2);font-size:9px;letter-spacing:.17em;text-transform:uppercase}
 .hero-description{max-width:640px;margin-top:27px;color:var(--muted);font-size:clamp(16px,2vw,20px);opacity:0;transform:translateY(20px);animation:up .9s .82s var(--ease) forwards}.hero-description strong{color:var(--white)}
 .hero-actions{display:flex;gap:24px;align-items:center;margin-top:34px;opacity:0;transform:translateY(20px);animation:up .9s 1.02s var(--ease) forwards}
 .btn{display:inline-flex;align-items:center;gap:15px;padding:14px 18px;background:var(--gold);color:var(--navy);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;transition:.25s var(--ease)}.btn span{font-size:15px}.btn:hover{box-shadow:0 14px 34px rgba(0,0,0,.27)}
 .text-link{color:var(--muted);font-size:10px;letter-spacing:.1em;text-transform:uppercase}.text-link span{color:var(--gold);margin-left:5px}.text-link:hover{color:var(--white)}
-.hero-seven{position:absolute;right:-3vw;bottom:-8vw;z-index:4;font:clamp(280px,48vw,630px)/.68 "Playfair Display",serif;color:rgba(255,255,255,.035);pointer-events:auto;cursor:pointer;user-select:none;will-change:transform;background:none;border:0;padding:0;font-family:"Playfair Display",serif}
+.hero-seven{position:absolute;right:-3vw;bottom:-8vw;z-index:4;font:clamp(280px,48vw,630px)/.68 Outfit,sans-serif;color:rgba(255,255,255,.035);pointer-events:auto;cursor:pointer;user-select:none;will-change:transform;background:none;border:0;padding:0;font-family:Outfit,sans-serif}
 .hero-seven:focus-visible{outline:1px solid var(--gold);outline-offset:-10px}
 .hero-grid{position:absolute;inset:15% 0 0;z-index:1;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.026) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.026) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.7),transparent 78%)}
 
 .split{display:grid;grid-template-columns:1fr 1fr;gap:8vw}
 .copy{max-width:610px;color:var(--muted);font-size:16px}.copy p+p{margin-top:22px}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:35px}
-.stat{padding:24px;border:1px solid var(--line);background:var(--soft);transition:.35s var(--ease)}.stat:hover{transform:translateY(-6px);border-color:rgba(212,175,55,.38)}.stat b{display:block;font:44px "Playfair Display",serif;color:var(--gold)}.stat small{color:var(--muted);font-size:9px;letter-spacing:.15em;text-transform:uppercase}
+.stat{padding:24px;border:1px solid var(--line);background:var(--soft);transition:.35s var(--ease)}.stat:hover{transform:translateY(-6px);border-color:rgba(212,175,55,.38)}.stat b{display:block;font:44px Outfit,sans-serif;color:var(--gold)}.stat small{color:var(--muted);font-size:9px;letter-spacing:.15em;text-transform:uppercase}
 
-.seven-section{display:grid;grid-template-columns:.55fr 1.45fr;gap:7vw;align-items:end}.seven-mark{font:clamp(160px,28vw,330px)/.7 "Playfair Display",serif;color:rgba(255,255,255,.045)}.seven-copy blockquote{font-size:clamp(38px,6vw,74px);line-height:1.04;letter-spacing:-.03em}.seven-copy blockquote span{color:var(--gold)}
+.seven-section{display:grid;grid-template-columns:.55fr 1.45fr;gap:7vw;align-items:end}.seven-mark{font:clamp(160px,28vw,330px)/.7 Outfit,sans-serif;color:rgba(255,255,255,.045)}.seven-copy blockquote{font-size:clamp(38px,6vw,74px);line-height:1.04;letter-spacing:-.03em}.seven-copy blockquote span{color:var(--gold)}
 
 .section-head{margin-bottom:50px}
 .acronym{border-top:1px solid var(--line)}
 .acro{width:100%;display:grid;grid-template-columns:78px 1fr 30px;gap:18px;align-items:center;padding:20px 0;border-bottom:1px solid var(--line);background:transparent;text-align:left;cursor:pointer;transition:.35s var(--ease)}
 .acro:hover,.acro.active{padding-left:14px;padding-right:14px;background:rgba(212,175,55,.045)}
-.acro-letter{font:40px "Playfair Display",serif;color:var(--gold)}.acro-title{display:block;font-size:16px;font-weight:600}.acro-sub{color:var(--muted);font-size:12px}.acro-arrow{color:var(--gold);text-align:right;transition:.3s var(--ease);transform:rotate(0deg)}.acro.active .acro-arrow{transform:rotate(45deg)}
+.acro-letter{font:40px Outfit,sans-serif;color:var(--gold)}.acro-title{display:block;font-size:16px;font-weight:600}.acro-sub{color:var(--muted);font-size:12px}.acro-arrow{color:var(--gold);text-align:right;transition:.3s var(--ease);transform:rotate(0deg)}.acro.active .acro-arrow{transform:rotate(45deg)}
 .acro-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s var(--ease);overflow:hidden}.acro-panel.open{grid-template-rows:1fr}.acro-panel-inner{min-height:0;overflow:hidden}
 /* ponytail: 0fr grid trick needs Safari 16.4+; max-height fallback below that, tiny tail-end unanimated */
 @supports not (grid-template-rows:0fr){
@@ -115,7 +116,7 @@ h1 span,h2 em,.gold{color:var(--gold);font-style:normal}
 .people-head{display:grid;grid-template-columns:1.2fr .8fr;gap:50px;align-items:end}.people-side{border-left:1px solid var(--gold);padding-left:22px;color:var(--muted)}.people-side strong{display:block;color:var(--white);font-size:11px;letter-spacing:.15em}.people-side p{margin-top:5px;font-size:13px}
 .people{border-top:1px solid var(--line);margin-top:55px}.person{display:grid;grid-template-columns:55px 1fr 65px;align-items:center;width:100%;padding:24px 0;border:0;border-bottom:1px solid var(--line);background:transparent;text-align:left;font:inherit;color:inherit;cursor:pointer;transition:.35s var(--ease)}.person:hover{padding-left:14px;padding-right:14px;background:rgba(212,175,55,.045)}
 .person:focus-visible,.member:focus-visible{outline:1px solid var(--gold);outline-offset:-2px}
-.index{color:var(--gold);font-size:9px;letter-spacing:.16em}.person-name{display:block;font-family:"Playfair Display",Georgia,serif;font-weight:700;font-size:clamp(22px,3vw,31px);line-height:1.1}.role{display:block;margin-top:5px;color:var(--muted);font-size:9px;letter-spacing:.16em;text-transform:uppercase}.arrow{color:var(--gold);text-align:right;opacity:.3;transition:.3s var(--ease)}.person:hover .arrow{opacity:1;transform:translateX(4px)}
+.index{color:var(--gold);font-size:9px;letter-spacing:.16em}.person-name{display:block;font-family:Outfit,sans-serif;font-weight:700;font-size:clamp(22px,3vw,31px);line-height:1.1}.role{display:block;margin-top:5px;color:var(--muted);font-size:9px;letter-spacing:.16em;text-transform:uppercase}.arrow{color:var(--gold);text-align:right;opacity:.3;transition:.3s var(--ease)}.person:hover .arrow{opacity:1;transform:translateX(4px)}
 .class-label{margin:105px 0 50px}
 .members{display:grid;grid-template-columns:1fr 1fr;gap:0 50px;border-top:1px solid var(--line)}
 .member{display:grid;grid-template-columns:40px 1fr auto;gap:10px;min-height:73px;align-items:center;width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;text-align:left;font:inherit;color:inherit;cursor:pointer;transition:.3s var(--ease)}.member:hover{padding-left:10px;background:rgba(212,175,55,.035)}.member-index{color:var(--gold);font-size:9px}.member-name{font-size:14px;font-weight:600}.member-status{color:var(--muted);font-size:8px;letter-spacing:.13em;text-transform:uppercase}
@@ -135,7 +136,7 @@ h1 span,h2 em,.gold{color:var(--gold);font-style:normal}
 .profile-back{margin-top:40px;background:none;border:0;cursor:pointer;color:var(--muted);font-size:10px;letter-spacing:.1em;text-transform:uppercase}.profile-back span{color:var(--gold);margin-right:5px}
 
 .interaction{margin-top:22px;display:flex;align-items:center;gap:8px}.mini-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.2)}.mini-dot.seen{background:var(--gold)}.seen-note{color:var(--muted);font-size:8px;letter-spacing:.14em;text-transform:uppercase}
-.ending{text-align:center;padding:155px 0 170px}.ending small{color:var(--muted);text-transform:uppercase;letter-spacing:.25em;font-size:9px}.ending h2{margin-top:18px;font-size:clamp(56px,10vw,118px)}.ending-line{width:min(400px,70vw);height:1px;margin:35px auto;background:linear-gradient(90deg,transparent,var(--gold),transparent)}.ending-seven{font:80px "Playfair Display",serif;color:rgba(255,255,255,.06)}
+.ending{text-align:center;padding:155px 0 170px}.ending small{color:var(--muted);text-transform:uppercase;letter-spacing:.25em;font-size:9px}.ending h2{margin-top:18px;font-size:clamp(56px,10vw,118px)}.ending-line{width:min(400px,70vw);height:1px;margin:35px auto;background:linear-gradient(90deg,transparent,var(--gold),transparent)}.ending-seven{font:80px Outfit,sans-serif;color:rgba(255,255,255,.06)}
 .ending-note{min-height:22px;margin-top:18px;color:var(--gold2);font-size:9px;letter-spacing:.15em;text-transform:uppercase}
 
 footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px;border-top:1px solid var(--line);color:var(--muted);font-size:10px}footer strong{color:var(--white);letter-spacing:.08em}.back-top{cursor:pointer}.back-top:hover{color:var(--white)}
@@ -143,7 +144,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
 /* --- photos --- */
 .avatar{position:relative;overflow:hidden;background:linear-gradient(145deg,#12294a,#071a31);flex:none}
 .avatar img{width:100%;height:100%;object-fit:cover;display:block;transition:.5s var(--ease)}
-.avatar-fallback{position:absolute;inset:0;display:grid;place-items:center;font-family:"Playfair Display",serif;color:var(--gold);opacity:.55}
+.avatar-fallback{position:absolute;inset:0;display:grid;place-items:center;font-family:Outfit,sans-serif;color:var(--gold);opacity:.55}
 .person{grid-template-columns:60px 1fr 65px}
 .person .avatar{width:52px;height:52px;border-radius:50%;border:1px solid rgba(212,175,55,.35)}
 .person:hover .avatar img{transform:scale(1.06)}
@@ -195,7 +196,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
   mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
 .marquee-track{display:flex;gap:34px;width:max-content;animation:slide 42s linear infinite}
 .marquee:hover .marquee-track{animation-play-state:paused}
-.marquee-track span{font:15px "Playfair Display",serif;letter-spacing:.06em;color:var(--muted);white-space:nowrap;display:flex;align-items:center;gap:34px}
+.marquee-track span{font:15px Outfit,sans-serif;letter-spacing:.06em;color:var(--muted);white-space:nowrap;display:flex;align-items:center;gap:34px}
 .marquee-track span:after{content:"◆";color:var(--gold);font-size:7px}
 @keyframes slide{to{transform:translate3d(-50%,0,0)}}
 @media(prefers-reduced-motion:reduce){.marquee-track{animation:none}.spot:before{display:none}}
@@ -243,7 +244,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
 @media(prefers-reduced-motion:reduce){.principle.active:after{animation:none}.glow{display:none}}
 @media(max-width:650px){.glow{display:none}}
 
-.easter{position:fixed;inset:0;z-index:1200;display:grid;place-items:center;background:rgba(4,15,29,.96);opacity:0;visibility:hidden;pointer-events:none;transition:.4s var(--ease)}.easter.show{opacity:1;visibility:visible;pointer-events:auto}.easter-inner{text-align:center}.easter-num{font:120px "Playfair Display",serif;color:var(--gold);line-height:.8}.easter p{margin-top:15px;color:var(--muted);font-size:11px;letter-spacing:.18em;text-transform:uppercase}.easter button{margin-top:28px;padding:10px 14px;background:none;border:1px solid var(--line);color:var(--white);cursor:pointer;font-size:9px;letter-spacing:.12em;text-transform:uppercase}
+.easter{position:fixed;inset:0;z-index:1200;display:grid;place-items:center;background:rgba(4,15,29,.96);opacity:0;visibility:hidden;pointer-events:none;transition:.4s var(--ease)}.easter.show{opacity:1;visibility:visible;pointer-events:auto}.easter-inner{text-align:center}.easter-num{font:120px Outfit,sans-serif;color:var(--gold);line-height:.8}.easter p{margin-top:15px;color:var(--muted);font-size:11px;letter-spacing:.18em;text-transform:uppercase}.easter button{margin-top:28px;padding:10px 14px;background:none;border:1px solid var(--line);color:var(--white);cursor:pointer;font-size:9px;letter-spacing:.12em;text-transform:uppercase}
 
 @media(max-width:950px){.split,.philosophy,.people-head{grid-template-columns:1fr;gap:40px}.seven-section{grid-template-columns:1fr;gap:35px}.principles{grid-template-columns:repeat(2,1fr)}.members{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(3,1fr)}.profile-photos{max-width:100%}}
 @media(max-width:650px){.topbar{padding:15px 5vw}.brand-text small{display:none}.nav{gap:11px}.nav a{font-size:8px;letter-spacing:.05em}main{width:88vw}.section{padding:90px 0}.hero{min-height:90vh}.hero-seven{right:-10vw}.hero-actions{flex-wrap:wrap}.stats,.profile-meta{grid-template-columns:1fr}.principles{grid-template-columns:1fr}.progress{display:none}.acro{grid-template-columns:55px 1fr 24px}.acro-detail{padding-left:55px}.person{grid-template-columns:58px 1fr 25px}.person h3{font-size:21px}.person .avatar{width:48px;height:48px}.members{grid-template-columns:1fr}.member{grid-template-columns:58px 1fr}.gallery{grid-template-columns:repeat(2,1fr);gap:8px}.profile-photos{grid-template-columns:1fr}.profile-photo.solo{grid-column:span 1;aspect-ratio:3/4}footer{flex-direction:column}}
@@ -289,7 +290,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
 
 <section id="home" class="hero section-target">
   <div class="hero-content">
-    <p class="kicker">Bali Crystal College · Class Identity</p>
+    <p class="kicker">Bali Crystal College</p>
     <h1 class="hero-title">FORSHA <span>7</span></h1>
 
     <div class="wordmark" aria-label="FORSHA acronym">
@@ -317,7 +318,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
 <section id="identity" class="section reveal section-target">
   <div class="split">
     <div>
-      <p class="kicker">01 — Identity</p>
+      <p class="kicker">One class</p>
       <h2>More than<br><em>just a class.</em></h2>
     </div>
     <div>
@@ -340,7 +341,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
   <div class="seven-section">
     <div class="seven-mark">07</div>
     <div class="seven-copy">
-      <p class="kicker">02 — The Number</p>
+      <p class="kicker">The number</p>
       <blockquote>One number.<br>One identity.<br><span>One direction.</span></blockquote>
     </div>
   </div>
@@ -348,7 +349,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
 
 <section id="about" class="section reveal section-target">
   <div class="section-head">
-    <p class="kicker">03 — The Name</p>
+    <p class="kicker">The name</p>
     <h2>FORSHA,<br><em>opened.</em></h2>
   </div>
 
@@ -401,7 +402,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
 
 <section id="philosophy" class="section reveal section-target">
   <div class="philosophy">
-    <div><p class="kicker">04 — Philosophy</p><h2>Grow through<br><em>each other.</em></h2></div>
+    <div><p class="kicker">Philosophy</p><h2>Grow through<br><em>each other.</em></h2></div>
     <div class="long-copy">
       <p>FORSHA 7 is built from two hospitality disciplines, but its identity is not divided by them.</p>
       <p>Front Office brings presence, communication, and welcome. Housekeeping brings precision, discipline, and attention to detail.</p>
@@ -412,23 +413,23 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
 
 <section id="principles" class="section reveal section-target">
   <div class="section-head">
-    <p class="kicker">05 — Principles</p>
+    <p class="kicker">Principles</p>
     <h2>What we<br><em>stand for.</em></h2>
   </div>
 
   <div class="principles">
-    <article class="principle spot active" data-detail="Respect — How we communicate, collaborate, and treat every person around us."><span class="principle-index">01</span><h3>Respect</h3><p>People first.</p></article>
-    <article class="principle spot" data-detail="Solidarity — Different strengths become more useful when the team stays connected."><span class="principle-index">02</span><h3>Solidarity</h3><p>We move together.</p></article>
-    <article class="principle spot" data-detail="Discipline — Consistency turns expectations into habits and habits into standards."><span class="principle-index">03</span><h3>Discipline</h3><p>Standards matter.</p></article>
-    <article class="principle spot" data-detail="Excellence — Small details compound. Good work is rarely accidental."><span class="principle-index">04</span><h3>Excellence</h3><p>Details define.</p></article>
-    <article class="principle spot" data-detail="Growth — Every challenge is another chance to become more capable than yesterday."><span class="principle-index">05</span><h3>Growth</h3><p>Keep moving.</p></article>
+    <article class="principle spot active" data-detail="Respect: how we communicate, collaborate, and treat every person around us."><span class="principle-index">01</span><h3>Respect</h3><p>People first.</p></article>
+    <article class="principle spot" data-detail="Solidarity: different strengths become more useful when the team stays connected."><span class="principle-index">02</span><h3>Solidarity</h3><p>We move together.</p></article>
+    <article class="principle spot" data-detail="Discipline: consistency turns expectations into habits and habits into standards."><span class="principle-index">03</span><h3>Discipline</h3><p>Standards matter.</p></article>
+    <article class="principle spot" data-detail="Excellence: small details compound. Good work is rarely accidental."><span class="principle-index">04</span><h3>Excellence</h3><p>Details define.</p></article>
+    <article class="principle spot" data-detail="Growth: every challenge is another chance to become more capable than yesterday."><span class="principle-index">05</span><h3>Growth</h3><p>Keep moving.</p></article>
   </div>
-  <div class="principle-detail" id="principleDetail">Respect — How we communicate, collaborate, and treat every person around us.</div>
+  <div class="principle-detail" id="principleDetail">Respect: how we communicate, collaborate, and treat every person around us.</div>
 </section>
 
 <section id="members" class="section reveal section-target">
   <div class="people-head">
-    <div><p class="kicker">06 — Our People</p><h2>One class.<br><em>Twenty names.</em></h2></div>
+    <div><p class="kicker">Our people</p><h2>One class.<br><em>Twenty names.</em></h2></div>
     <div class="people-side"><strong>CLASS COMMITTEE</strong><p>Four roles. One direction.</p></div>
   </div>
 
@@ -437,7 +438,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
   <div class="marquee" aria-hidden="true"><div class="marquee-track" id="marqueeTrack"></div></div>
 
   <div class="class-label">
-    <p class="kicker">07 — The Class</p>
+    <p class="kicker">The class</p>
     <h2>Twenty names.<br><em>One identity.</em></h2>
   </div>
 
@@ -446,7 +447,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
 
 <section id="gallery" class="section reveal section-target">
   <div class="section-head">
-    <p class="kicker">08 — Gallery</p>
+    <p class="kicker">Gallery</p>
     <h2>Twenty people.<br><em>Two frames each.</em></h2>
   </div>
   <div class="gallery" id="galleryGrid"></div>
@@ -478,7 +479,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
     <p class="profile-role" id="profileRole"></p>
     <div class="profile-meta">
       <div class="box spot"><small>Position</small><strong id="metaRole"></strong></div>
-      <div class="box spot"><small>Photos</small><strong id="metaFoto">—</strong></div>
+      <div class="box spot"><small>Photos</small><strong id="metaFoto">-</strong></div>
       <div class="box spot"><small>Class</small><strong>Bali Crystal College</strong></div>
     </div>
     <div class="profile-photos" id="profilePhotos"></div>
