@@ -57,16 +57,18 @@ a{color:inherit;text-decoration:none}button{font:inherit;color:inherit}
 .brand-text{display:grid;line-height:1.05}.brand-text strong{font-size:12px;letter-spacing:.09em}.brand-text small{margin-top:5px;color:var(--muted);font-size:8px;letter-spacing:.18em}
 .nav{display:flex;gap:26px}.nav a{position:relative;color:var(--muted);font-size:10px;letter-spacing:.11em;text-transform:uppercase;padding:5px 0}.nav a:after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--gold);transition:.35s var(--ease)}.nav a:hover,.nav a.active{color:var(--white)}.nav a:hover:after,.nav a.active:after{width:100%}
 
-.progress{position:fixed;top:50%;right:28px;z-index:400;transform:translateY(-50%);display:flex;flex-direction:column;gap:14px}
-.dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.22);cursor:pointer;transition:.3s var(--ease)}
-.dot.active{background:var(--gold);transform:scale(1.9)}
+/* Reading progress. Was a rail of 8 decorative dots; now one bar that reports
+   real scroll position instead of decorating the margin. */
+.progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:600;background:transparent;pointer-events:none}
+.progress span.bar{display:block;height:100%;width:0;background:var(--accent);transform-origin:0 50%}
 .progress-label{position:absolute;right:17px;top:50%;transform:translateY(-50%);padding:5px 8px;border:1px solid var(--line);background:rgba(4,15,29,.92);color:var(--muted);font-size:8px;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;opacity:0;pointer-events:none;transition:.25s ease}
 .progress:hover .progress-label{opacity:1}
 
 main{width:min(1180px,86vw);margin:auto}
 section{scroll-margin-top:90px}
 .section{padding:120px 0;border-top:1px solid var(--line)}
-.kicker{margin:0 0 17px;color:var(--gold2);text-transform:uppercase;letter-spacing:.24em;font-size:10px;font-weight:700}
+.eyebrow{display:inline-block;margin:0 0 22px;padding:5px 12px;border:1px solid var(--line);color:var(--accent);text-transform:uppercase;letter-spacing:.20em;font-size:11px;font-weight:500}
+.profile-kicker{color:var(--accent);font-size:11px;letter-spacing:.18em}
 h1,h2,h3,blockquote{font-family:Outfit,sans-serif;font-weight:700}
 h1{font-size:clamp(62px,12vw,150px);line-height:.86;letter-spacing:-.045em}
 h2{font-size:clamp(46px,7vw,86px);line-height:.96;letter-spacing:-.035em}
@@ -88,10 +90,14 @@ h1 span,h2 em,.gold{color:var(--gold);font-style:normal}
 
 .split{display:grid;grid-template-columns:1fr 1fr;gap:8vw}
 .copy{max-width:610px;color:var(--muted);font-size:16px}.copy p+p{margin-top:22px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:35px}
-.stat{padding:24px;border:1px solid var(--line);background:var(--soft);transition:.35s var(--ease)}.stat:hover{transform:translateY(-6px);border-color:rgba(212,175,55,.38)}.stat b{display:block;font:44px Outfit,sans-serif;color:var(--gold)}.stat small{color:var(--muted);font-size:9px;letter-spacing:.15em;text-transform:uppercase}
-
-.seven-section{display:grid;grid-template-columns:.55fr 1.45fr;gap:7vw;align-items:end}.seven-mark{font:clamp(160px,28vw,330px)/.7 Outfit,sans-serif;color:rgba(255,255,255,.045)}.seven-copy blockquote{font-size:clamp(38px,6vw,74px);line-height:1.04;letter-spacing:-.03em}.seven-copy blockquote span{color:var(--gold)}
+/* ponytail: was a 3-equal-card row, the single most generic layout. Figures sit in one
+   hairline strip instead; no boxes, no equal columns. */
+.stats{display:flex;flex-wrap:wrap;gap:0;margin-top:40px;border-top:1px solid var(--line)}
+.stat{flex:1 1 160px;padding:22px 24px 22px 0;border-right:1px solid var(--line);transition:border-color .35s var(--ease)}
+.stat:last-child{border-right:0}
+.stat:hover{border-color:rgba(255,255,255,.22)}
+.stat b{display:block;font:300 46px/1 Outfit,sans-serif;color:var(--text);letter-spacing:-.03em}
+.stat small{display:block;margin-top:8px;color:var(--muted);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
 
 .section-head{margin-bottom:50px}
 .acronym{border-top:1px solid var(--line)}
@@ -113,14 +119,21 @@ h1 span,h2 em,.gold{color:var(--gold);font-style:normal}
 .principle-index{color:var(--gold);font-size:9px;letter-spacing:.18em}.principle h3{margin-top:48px;font-size:22px}.principle p{margin-top:7px;color:var(--muted);font-size:12px}
 .principle-detail{min-height:75px;margin-top:22px;padding:18px 20px;border-left:1px solid var(--gold);background:rgba(255,255,255,.018);color:var(--muted)}
 
-.people-head{display:grid;grid-template-columns:1.2fr .8fr;gap:50px;align-items:end}.people-side{border-left:1px solid var(--gold);padding-left:22px;color:var(--muted)}.people-side strong{display:block;color:var(--white);font-size:11px;letter-spacing:.15em}.people-side p{margin-top:5px;font-size:13px}
-.people{border-top:1px solid var(--line);margin-top:55px}.person{display:grid;grid-template-columns:55px 1fr 65px;align-items:center;width:100%;padding:24px 0;border:0;border-bottom:1px solid var(--line);background:transparent;text-align:left;font:inherit;color:inherit;cursor:pointer;transition:.35s var(--ease)}.person:hover{padding-left:14px;padding-right:14px;background:rgba(212,175,55,.045)}
-.person:focus-visible,.member:focus-visible{outline:1px solid var(--gold);outline-offset:-2px}
-.index{color:var(--gold);font-size:9px;letter-spacing:.16em}.person-name{display:block;font-family:Outfit,sans-serif;font-weight:700;font-size:clamp(22px,3vw,31px);line-height:1.1}.role{display:block;margin-top:5px;color:var(--muted);font-size:9px;letter-spacing:.16em;text-transform:uppercase}.arrow{color:var(--gold);text-align:right;opacity:.3;transition:.3s var(--ease)}.person:hover .arrow{opacity:1;transform:translateX(4px)}
-.class-label{margin:105px 0 50px}
-.members{display:grid;grid-template-columns:1fr 1fr;gap:0 50px;border-top:1px solid var(--line)}
-.member{display:grid;grid-template-columns:40px 1fr auto;gap:10px;min-height:73px;align-items:center;width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;text-align:left;font:inherit;color:inherit;cursor:pointer;transition:.3s var(--ease)}.member:hover{padding-left:10px;background:rgba(212,175,55,.035)}.member-index{color:var(--gold);font-size:9px}.member-name{font-size:14px;font-weight:600}.member-status{color:var(--muted);font-size:8px;letter-spacing:.13em;text-transform:uppercase}
+.names-head{margin-bottom:52px}
+/* One list. No card boxes: a hairline between rows is all the separation it needs. */
+/* Two columns on wide screens: 20 full-width rows was 4400px of scrolling for
+   a list you scan, not read. */
+.people{display:grid;grid-template-columns:1fr 1fr;gap:0 54px;border-top:1px solid var(--line);margin-top:52px}
+.person{display:grid;grid-template-columns:34px 52px 1fr auto 26px;gap:14px;align-items:center;width:100%;padding:14px 0;border:0;border-bottom:1px solid var(--line);background:transparent;text-align:left;font:inherit;color:inherit;cursor:pointer;transition:padding .35s var(--ease),background .35s var(--ease)}
+.person:hover,.person:focus-visible{padding-left:12px;padding-right:12px;background:rgba(255,255,255,.028)}
+.person:focus-visible{outline:1px solid var(--accent);outline-offset:-2px}
+.person-index{color:var(--muted);font-size:11px;letter-spacing:.14em;font-variant-numeric:tabular-nums}
+.person-name{display:block;font-weight:600;font-size:clamp(17px,2.2vw,22px);line-height:1.15;letter-spacing:-.01em}
+.role{display:block;margin-top:4px;color:var(--muted);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
 .person-text{display:grid;gap:0;min-width:0}
+.badge{align-self:center;padding:4px 9px;border:1px solid var(--line);color:var(--accent);font-size:10px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+.arrow{color:var(--accent);text-align:right;opacity:.35;transition:.3s var(--ease)}
+.person:hover .arrow{opacity:1;transform:translateX(4px)}
 
 .profile{position:fixed;inset:0;z-index:800;background:rgba(4,15,29,.96);opacity:0;visibility:hidden;pointer-events:none;transition:.45s var(--ease);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 .profile.open{opacity:1;visibility:visible;pointer-events:auto}
@@ -135,7 +148,6 @@ h1 span,h2 em,.gold{color:var(--gold);font-style:normal}
 .profile-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:60px}.box{padding:20px;border:1px solid var(--line);background:var(--soft)}.box small{color:var(--gold);font-size:8px;letter-spacing:.16em;text-transform:uppercase}.box strong{display:block;margin-top:7px;font-size:14px}
 .profile-back{margin-top:40px;background:none;border:0;cursor:pointer;color:var(--muted);font-size:10px;letter-spacing:.1em;text-transform:uppercase}.profile-back span{color:var(--gold);margin-right:5px}
 
-.interaction{margin-top:22px;display:flex;align-items:center;gap:8px}.mini-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.2)}.mini-dot.seen{background:var(--gold)}.seen-note{color:var(--muted);font-size:8px;letter-spacing:.14em;text-transform:uppercase}
 .ending{text-align:center;padding:155px 0 170px}.ending small{color:var(--muted);text-transform:uppercase;letter-spacing:.25em;font-size:9px}.ending h2{margin-top:18px;font-size:clamp(56px,10vw,118px)}.ending-line{width:min(400px,70vw);height:1px;margin:35px auto;background:linear-gradient(90deg,transparent,var(--gold),transparent)}.ending-seven{font:80px Outfit,sans-serif;color:rgba(255,255,255,.06)}
 .ending-note{min-height:22px;margin-top:18px;color:var(--gold2);font-size:9px;letter-spacing:.15em;text-transform:uppercase}
 
@@ -146,7 +158,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
 .avatar img{width:100%;height:100%;object-fit:cover;display:block;transition:.5s var(--ease)}
 .avatar-fallback{position:absolute;inset:0;display:grid;place-items:center;font-family:Outfit,sans-serif;color:var(--gold);opacity:.55}
 .person{grid-template-columns:60px 1fr 65px}
-.person .avatar{width:52px;height:52px;border-radius:50%;border:1px solid rgba(212,175,55,.35)}
+.person .avatar{width:48px;height:48px;border:1px solid var(--line)}
 .person:hover .avatar img{transform:scale(1.06)}
 .member{grid-template-columns:60px 1fr auto;min-height:88px}
 .member .avatar{width:48px;height:48px;border-radius:50%;border:1px solid var(--line)}
@@ -160,13 +172,20 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
 .profile-photo.solo{grid-column:span 2;aspect-ratio:16/9}
 .profile-photo .avatar-fallback{font-size:38px}
 
-/* gallery */
-.gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:50px}
-.gallery-item{position:relative;aspect-ratio:3/4;overflow:hidden;cursor:zoom-in;border:1px solid var(--line);background:#0a1b31}
-.gallery-item img{width:100%;height:100%;object-fit:cover;display:block;transition:.55s var(--ease)}
-.gallery-item:hover img{transform:scale(1.05)}
-.gallery-item figcaption{position:absolute;left:0;right:0;bottom:0;padding:26px 12px 10px;background:linear-gradient(transparent,rgba(4,15,29,.92));font-size:10px;letter-spacing:.06em;opacity:0;transition:.35s var(--ease)}
-.gallery-item:hover figcaption{opacity:1}
+/* gallery: one tile per person, two frames side by side. Caption sits under the
+   photo, never overlaid on it. */
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:52px}
+.gallery-item{margin:0}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.pair-img{position:relative;display:block;width:100%;aspect-ratio:3/4;padding:0;border:0;overflow:hidden;background:#0c1520;cursor:zoom-in}
+.pair-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .55s var(--ease)}
+.pair-img:hover img,.pair-img:focus-visible img{transform:scale(1.045)}
+.pair-img:focus-visible{outline:1px solid var(--accent);outline-offset:-2px}
+/* Caption aligned on a shared baseline. The name truncates, the role holds its
+   width, so roles line up down the column instead of drifting. */
+.gallery-item figcaption{display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:12px;margin-top:11px;padding-top:9px;border-top:1px solid var(--line);min-height:32px}
+.gallery-item figcaption span{display:block;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;font-weight:500}
+.gallery-item figcaption small{color:var(--muted);font-size:10px;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
 
 /* lightbox */
 .lightbox{position:fixed;inset:0;z-index:1100;display:grid;place-items:center;background:rgba(4,15,29,.97);opacity:0;visibility:hidden;pointer-events:none;transition:.35s var(--ease)}
@@ -246,8 +265,32 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
 
 .easter{position:fixed;inset:0;z-index:1200;display:grid;place-items:center;background:rgba(4,15,29,.96);opacity:0;visibility:hidden;pointer-events:none;transition:.4s var(--ease)}.easter.show{opacity:1;visibility:visible;pointer-events:auto}.easter-inner{text-align:center}.easter-num{font:120px Outfit,sans-serif;color:var(--gold);line-height:.8}.easter p{margin-top:15px;color:var(--muted);font-size:11px;letter-spacing:.18em;text-transform:uppercase}.easter button{margin-top:28px;padding:10px 14px;background:none;border:1px solid var(--line);color:var(--white);cursor:pointer;font-size:9px;letter-spacing:.12em;text-transform:uppercase}
 
-@media(max-width:950px){.split,.philosophy,.people-head{grid-template-columns:1fr;gap:40px}.seven-section{grid-template-columns:1fr;gap:35px}.principles{grid-template-columns:repeat(2,1fr)}.members{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(3,1fr)}.profile-photos{max-width:100%}}
-@media(max-width:650px){.topbar{padding:15px 5vw}.brand-text small{display:none}.nav{gap:11px}.nav a{font-size:8px;letter-spacing:.05em}main{width:88vw}.section{padding:90px 0}.hero{min-height:90vh}.hero-seven{right:-10vw}.hero-actions{flex-wrap:wrap}.stats,.profile-meta{grid-template-columns:1fr}.principles{grid-template-columns:1fr}.progress{display:none}.acro{grid-template-columns:55px 1fr 24px}.acro-detail{padding-left:55px}.person{grid-template-columns:58px 1fr 25px}.person h3{font-size:21px}.person .avatar{width:48px;height:48px}.members{grid-template-columns:1fr}.member{grid-template-columns:58px 1fr}.gallery{grid-template-columns:repeat(2,1fr);gap:8px}.profile-photos{grid-template-columns:1fr}.profile-photo.solo{grid-column:span 1;aspect-ratio:3/4}footer{flex-direction:column}}
+@media(max-width:950px){.split,.philosophy{grid-template-columns:1fr;gap:40px}.principles{grid-template-columns:repeat(2,1fr)}.people{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(3,1fr)}.profile-photos{max-width:100%}}
+@media(max-width:650px){
+.topbar{padding:14px 5vw}.brand-text small{display:none}
+.nav{gap:14px}.nav a{font-size:11px;letter-spacing:.06em;padding:8px 0}
+main{width:90vw}
+.section{padding:78px 0}
+.hero{min-height:100dvh}.hero-seven{right:-14vw}
+.hero-actions{flex-wrap:wrap;gap:18px}
+/* tap targets: 44px minimum */
+.btn{padding:15px 20px;min-height:44px}
+.text-link{min-height:44px;display:inline-flex;align-items:center}
+.principles{grid-template-columns:1fr;gap:10px}
+.profile-meta{grid-template-columns:1fr}
+.acro{grid-template-columns:46px 1fr 24px;gap:12px;padding:18px 0;min-height:44px}
+.acro-detail{padding-left:46px}
+.person{grid-template-columns:28px 46px 1fr 24px;gap:12px}
+.person .avatar{width:44px;height:44px}
+.badge{display:none}
+.gallery{grid-template-columns:1fr;gap:24px}
+.profile-photos{grid-template-columns:1fr}
+.profile-photo.solo{grid-column:span 1;aspect-ratio:3/4}
+.stats{flex-direction:column}
+.stat{border-right:0;border-bottom:1px solid var(--line);padding:18px 0}
+.stat:last-child{border-bottom:0}
+footer{flex-direction:column;gap:8px}
+}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.001ms!important;transition-duration:.001ms!important}.reveal{opacity:1;transform:none}}
 </style>
 </head>
@@ -274,23 +317,13 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
   </nav>
 </header>
 
-<aside class="progress" aria-label="Section navigation">
-  <span class="progress-label" id="progressLabel">Home</span>
-  <span class="dot active" data-progress="home"></span>
-  <span class="dot" data-progress="identity"></span>
-  <span class="dot" data-progress="about"></span>
-  <span class="dot" data-progress="philosophy"></span>
-  <span class="dot" data-progress="principles"></span>
-  <span class="dot" data-progress="members"></span>
-  <span class="dot" data-progress="gallery"></span>
-  <span class="dot" data-progress="ending"></span>
-</aside>
+<div class="progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressBar"><span class="bar" id="progressFill"></span></div>
 
 <main>
 
 <section id="home" class="hero section-target">
   <div class="hero-content">
-    <p class="kicker">Bali Crystal College</p>
+    <p class="eyebrow">Bali Crystal College</p>
     <h1 class="hero-title">FORSHA <span>7</span></h1>
 
     <div class="wordmark" aria-label="FORSHA acronym">
@@ -318,7 +351,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
 <section id="identity" class="section reveal section-target">
   <div class="split">
     <div>
-      <p class="kicker">One class</p>
+      <p class="eyebrow">One class</p>
       <h2>More than<br><em>just a class.</em></h2>
     </div>
     <div>
@@ -328,28 +361,15 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
         <p>This space is designed to be explored rather than simply read: every name, letter, principle, and movement connects back to the same identity.</p>
       </div>
       <div class="stats">
-        <article class="stat spot"><b data-to="20" data-pad="2">20</b><small>People</small></article>
-        <article class="stat spot"><b data-to="1" data-pad="2">01</b><small>Identity</small></article>
-        <article class="stat spot"><b data-to="7" data-pad="2">07</b><small>Class</small></article>
+        <div class="stat"><b data-to="20" data-pad="2">20</b><small>People</small></div>
+        <div class="stat"><b data-to="7" data-pad="2">07</b><small>Class</small></div>
       </div>
-      <div class="interaction" id="interactionStatus"><span class="mini-dot seen" id="statusDot"></span><span class="seen-note" id="statusText">Your journey starts here</span></div>
-    </div>
-  </div>
-</section>
-
-<section class="section reveal section-target" id="sevenSection">
-  <div class="seven-section">
-    <div class="seven-mark">07</div>
-    <div class="seven-copy">
-      <p class="kicker">The number</p>
-      <blockquote>One number.<br>One identity.<br><span>One direction.</span></blockquote>
     </div>
   </div>
 </section>
 
 <section id="about" class="section reveal section-target">
   <div class="section-head">
-    <p class="kicker">The name</p>
     <h2>FORSHA,<br><em>opened.</em></h2>
   </div>
 
@@ -402,7 +422,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
 
 <section id="philosophy" class="section reveal section-target">
   <div class="philosophy">
-    <div><p class="kicker">Philosophy</p><h2>Grow through<br><em>each other.</em></h2></div>
+    <div><h2>Grow through<br><em>each other.</em></h2></div>
     <div class="long-copy">
       <p>FORSHA 7 is built from two hospitality disciplines, but its identity is not divided by them.</p>
       <p>Front Office brings presence, communication, and welcome. Housekeeping brings precision, discipline, and attention to detail.</p>
@@ -414,6 +434,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
 <section id="principles" class="section reveal section-target">
   <div class="section-head">
     <p class="kicker">Principles</p>
+    <p class="eyebrow">Principles</p>
     <h2>What we<br><em>stand for.</em></h2>
   </div>
 
@@ -428,27 +449,16 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
 </section>
 
 <section id="members" class="section reveal section-target">
-  <div class="people-head">
-    <div><p class="kicker">Our people</p><h2>One class.<br><em>Twenty names.</em></h2></div>
-    <div class="people-side"><strong>CLASS COMMITTEE</strong><p>Four roles. One direction.</p></div>
-  </div>
-
-  <div class="people" id="committee"></div>
+  <h2 class="names-head">Twenty names.<br><em>One identity.</em></h2>
 
   <div class="marquee" aria-hidden="true"><div class="marquee-track" id="marqueeTrack"></div></div>
 
-  <div class="class-label">
-    <p class="kicker">The class</p>
-    <h2>Twenty names.<br><em>One identity.</em></h2>
-  </div>
-
-  <div class="members" id="roster"></div>
+  <div class="people" id="committee"></div>
 </section>
 
 <section id="gallery" class="section reveal section-target">
   <div class="section-head">
-    <p class="kicker">Gallery</p>
-    <h2>Twenty people.<br><em>Two frames each.</em></h2>
+    <h2>Two frames.<br><em>One person.</em></h2>
   </div>
   <div class="gallery" id="galleryGrid"></div>
 </section>
@@ -610,27 +620,31 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
     });
   });
 
-  // Render roster from data.
-  const komite = PEOPLE.slice(0,4), anggota = PEOPLE.slice(4);
-  $("#committee").innerHTML = komite.map(p => `
+  // One list, all twenty. Committee is a badge, not a second section.
+  // ponytail: the old split (4 big cards + 16 rows) listed the same people twice.
+  const isCommittee = p => p.n <= 4;
+  $("#committee").innerHTML = PEOPLE.map((p, i) => `
     <button type="button" class="person profile-trigger" data-idx="${p.n}" aria-label="Buka profil ${esc(p.nama)}">
+      <span class="person-index">${String(i+1).padStart(2,"0")}</span>
       ${avatar(p)}
       <span class="person-text"><span class="person-name">${esc(p.nama)}</span><span class="role">${esc(p.role)}</span></span>
+      ${isCommittee(p) ? '<span class="badge">Committee</span>' : ""}
       <span class="arrow" aria-hidden="true">↗</span>
     </button>`).join("");
-  $("#roster").innerHTML = anggota.map(p => `
-    <button type="button" class="member profile-trigger" data-idx="${p.n}" aria-label="Buka profil ${esc(p.nama)}">
-      ${avatar(p)}
-      <span class="member-text"><strong class="member-name">${esc(p.nama)}</strong><small class="member-status">${esc(p.role)}</small></span>
-    </button>`).join("");
 
-  // Gallery: 2 foto per orang yang punya.
+  // Gallery: one tile per person, both photos inside. Was 36 identical tiles,
+  // which is a wallpaper, not a gallery. 18 tiles with a face pair reads as people.
   const galeri = PEOPLE.filter(p => p.foto);
-  $("#galleryGrid").innerHTML = galeri.flatMap(p => fotoFull(p).map((src,i) => `
-    <figure class="gallery-item" data-idx="${p.n}" data-slot="${i}" tabindex="0" role="button" aria-label="Perbesar foto ${esc(p.nama)}">
-      <img src="${fotoSet(p)[i]}" alt="${esc(p.nama)}" loading="lazy" decoding="async">
-      <figcaption>${esc(p.nama)}</figcaption>
-    </figure>`)).join("");
+  $("#galleryGrid").innerHTML = galeri.map(p => `
+    <figure class="gallery-item" data-idx="${p.n}">
+      <div class="pair">
+        ${fotoFull(p).map((src,i) => `
+          <button type="button" class="pair-img" data-idx="${p.n}" data-slot="${i}" aria-label="Perbesar foto ${esc(p.nama)}, ${i+1} dari 2">
+            <img src="${fotoSet(p)[i]}" alt="${esc(p.nama)}" loading="lazy" decoding="async">
+          </button>`).join("")}
+      </div>
+      <figcaption><span>${esc(p.nama)}</span><small>${esc(p.role)}</small></figcaption>
+    </figure>`).join("");
 
 // Lightbox: flat list of every full-size photo, prev/next walks it.
   const LB = galeri.flatMap(p => fotoFull(p).map((src,i) => ({src, cap:`${p.nama} · ${p.role}`})));
@@ -695,16 +709,10 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
   });
 
   $("#galleryGrid").addEventListener("click", e => {
-    const fig = e.target.closest(".gallery-item");
-    if (!fig) return;
-    const p = byIdx(+fig.dataset.idx);
-    const at = LB.findIndex(x => x.src === fotoFull(p)[+fig.dataset.slot]);
-    lbShow(at);
-  });
-  $("#galleryGrid").addEventListener("keydown", e => {
-    if (e.key !== "Enter" && e.key !== " ") return;
-    const fig = e.target.closest(".gallery-item");
-    if (fig) { e.preventDefault(); fig.click(); }
+    const btn = e.target.closest(".pair-img");
+    if (!btn) return;
+    const p = byIdx(+btn.dataset.idx);
+    lbShow(LB.findIndex(x => x.src === fotoFull(p)[+btn.dataset.slot]));
   });
 
   profilePhotos.addEventListener("click", e => {
@@ -762,27 +770,16 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
     });
   });
 
-  // Progress rail.
-  const progressTargets = ["home","identity","about","philosophy","principles","members","gallery","ending"];
-  const dots = $$(".dot");
-  const labels = ["Home","Identity","The Name","Philosophy","Principles","Members","Gallery","Ending"];
-  const label = $("#progressLabel");
-  function getSection(id) {
-    return document.getElementById(id);
-  }
+  // Reading progress bar. One element reporting real scroll position.
+  const bar = $("#progressFill");
+  const barWrap = $("#progressBar");
   function updateProgress() {
-    const marker = scrollY + 220;
-    let index = 0;
-    progressTargets.forEach((id,i) => {
-      const s = getSection(id);
-      if (s && marker >= s.offsetTop) index = i;
-    });
-    dots.forEach((d,i) => d.classList.toggle("active",i === index));
-    label.textContent = labels[index];
-    // B6 fix: passive scroll no longer counts as "explored". viewedSections only grows
-    // from real interaction (accordion open, principle click, profile open).
+    const max = document.documentElement.scrollHeight - innerHeight;
+    const pct = max > 0 ? Math.min(100, Math.max(0, (scrollY / max) * 100)) : 0;
+    bar.style.width = pct + "%";
+    barWrap.setAttribute("aria-valuenow", String(Math.round(pct)));
   }
-  // B6 fix: one rAF-throttled handler instead of reading offsetTop on every scroll event.
+  // One rAF-throttled handler for both the bar and the nav state.
   let scrollTick = false;
   addEventListener("scroll", () => {
     if (scrollTick) return;
@@ -790,10 +787,6 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
     requestAnimationFrame(() => { updateProgress(); updateNav(); scrollTick = false; });
   }, {passive:true});
   updateProgress();
-  dots.forEach(dot => dot.addEventListener("click", () => {
-    const s = getSection(dot.dataset.progress);
-    if (s) scrollToSection(s);
-  }));
 
   // Magnetic buttons desktop only.
   if (fine && !reduced) {
@@ -927,32 +920,16 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
     addEventListener("pointerleave", () => glow.classList.remove("on"));
   }
 
-  // Interaction memory / ending state.
+  // Ending note. Driven by real interaction, never by how far the page was scrolled.
+  // The old version also drove a decorative status dot; the dot is gone (banned pattern).
   function updateEndingNote() {
-    const count = state.openedAcronyms.size;
     const note = $("#endingNote");
-    const dot = $("#statusDot");
-    const status = $("#statusText");
-
-    if (!note || !dot || !status) return;
-
-    // B6 fix: state driven by real interaction, not by how far you scrolled.
-    if (state.profileOpened || count >= 3) {
-      note.textContent = "You looked closer.";
-      dot.classList.add("seen");
-      status.textContent = "You are exploring the class";
-    } else if (count > 0) {
-      note.textContent = `${count}/6 identity details explored`;
-      dot.classList.add("seen");
-      status.textContent = "Keep exploring the identity";
-    } else if (state.principlesOpened) {
-      note.textContent = "You read what we stand for.";
-      dot.classList.add("seen");
-      status.textContent = "You are exploring the class";
-    } else {
-      note.textContent = "Keep exploring.";
-      status.textContent = "Your journey starts here";
-    }
+    if (!note) return;
+    const count = state.openedAcronyms.size;
+    if (state.profileOpened || count >= 3) note.textContent = "You looked closer.";
+    else if (count > 0) note.textContent = `${count}/6 identity details explored`;
+    else if (state.principlesOpened) note.textContent = "You read what we stand for.";
+    else note.textContent = "Keep exploring.";
   }
   updateEndingNote();
 
