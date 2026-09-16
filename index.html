@@ -196,6 +196,29 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
 @media(prefers-reduced-motion:reduce){.marquee-track{animation:none}.spot:before{display:none}}
 @media(max-width:650px){.marquee-track{animation-duration:26s}}
 
+/* --- Fase 3: scroll-driven animation (native). Chrome/Edge 115+, Safari 26+. --- */
+/* ponytail: animation-timeline is progressive — browsers without it just show the final state,
+   the existing IntersectionObserver .reveal path stays as the fallback. No polyfill. */
+@supports (animation-timeline: view()){
+  @media(prefers-reduced-motion:no-preference){
+    .rise{animation:riseIn linear both;animation-timeline:view();animation-range:entry 8% cover 34%}
+    @keyframes riseIn{from{opacity:0;transform:translateY(46px) scale(.985)}to{opacity:1;transform:none}}
+    .fade{animation:fadeIn linear both;animation-timeline:view();animation-range:entry 5% cover 30%}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    /* photo strips drift at a slightly different rate -> parallax without JS */
+    .gallery-item,.profile-photo{animation:photoDrift linear both;animation-timeline:view();animation-range:entry 0% cover 100%}
+    @keyframes photoDrift{from{transform:translateY(18px)}to{transform:translateY(-18px)}}
+  }
+}
+
+/* Fase 3: per-word heading reveal. JS splits, CSS staggers. */
+.rw{display:inline-block;overflow:hidden;vertical-align:top}
+.rw>i{display:inline-block;font-style:inherit;transform:translateY(105%);opacity:0;transition:transform .85s var(--ease),opacity .85s var(--ease)}
+.rw.in>i{transform:none;opacity:1}
+/* Fase 3: gentle 3D tilt, desktop only, always set inline by JS. */
+.tilt{transition:transform .35s var(--ease);transform-style:preserve-3d;will-change:transform}
+@media(prefers-reduced-motion:reduce){.rw>i{transform:none;opacity:1}}
+
 .easter{position:fixed;inset:0;z-index:1200;display:grid;place-items:center;background:rgba(4,15,29,.96);opacity:0;visibility:hidden;pointer-events:none;transition:.4s var(--ease)}.easter.show{opacity:1;visibility:visible;pointer-events:auto}.easter-inner{text-align:center}.easter-num{font:120px "Playfair Display",serif;color:var(--gold);line-height:.8}.easter p{margin-top:15px;color:var(--muted);font-size:11px;letter-spacing:.18em;text-transform:uppercase}.easter button{margin-top:28px;padding:10px 14px;background:none;border:1px solid var(--line);color:var(--white);cursor:pointer;font-size:9px;letter-spacing:.12em;text-transform:uppercase}
 
 @media(max-width:950px){.split,.philosophy,.people-head{grid-template-columns:1fr;gap:40px}.seven-section{grid-template-columns:1fr;gap:35px}.principles{grid-template-columns:repeat(2,1fr)}.members{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(3,1fr)}.profile-photos{max-width:100%}}
@@ -799,6 +822,67 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
       }), {threshold:.5});
       counters.forEach(c => cio.observe(c));
     }
+  }
+
+  // Fase 3: per-word reveal on headings. Splits h1/h2 text nodes only — child
+  // elements (<em>, <span>) are rebuilt as whole words so markup survives.
+  function splitWords(el){
+    const out = [];
+    el.childNodes.forEach(node => {
+      if (node.nodeType === 3) {
+        node.textContent.split(/(\s+)/).forEach(tok => {
+          if (!tok.trim()) { out.push(document.createTextNode(tok)); return; }
+          const w = document.createElement("span"); w.className = "rw";
+          const i = document.createElement("i"); i.textContent = tok;
+          w.appendChild(i); out.push(w);
+        });
+      } else if (node.nodeType === 1) {
+        if (node.tagName === "BR") { out.push(node.cloneNode(false)); return; }
+        const w = document.createElement("span"); w.className = "rw";
+        const i = document.createElement("i"); i.appendChild(node.cloneNode(true));
+        w.appendChild(i); out.push(w);
+      }
+    });
+    el.replaceChildren(...out);
+  }
+  if (!reduced) {
+    const headings = $$("h1, h2, .ending h2");
+    headings.forEach(splitWords);
+    const words = $$(".rw");
+    words.forEach((w,i) => { w.querySelector("i").style.transitionDelay = `${Math.min(i%7,6)*70}ms`; });
+    if ("IntersectionObserver" in window) {
+      const wio = new IntersectionObserver((ents,obs) => ents.forEach(en => {
+        if (en.isIntersecting) { en.target.classList.add("in"); obs.unobserve(en.target); }
+      }), {threshold:.25});
+      words.forEach(w => wio.observe(w));
+    } else words.forEach(w => w.classList.add("in"));
+    // hero is above the fold — reveal it immediately on load
+    // (add .in to the .rw spans themselves, not to their parent heading)
+    setTimeout(() => {
+      $$(".hero .rw").forEach(el => el.classList.add("in"));
+    }, 420);
+  }
+
+  // Fase 3: scroll-linked classes for browsers with native scroll timelines.
+  if (CSS.supports?.("animation-timeline","view()")) {
+    $$(".section-head, .copy, .long-copy, .people-side").forEach(el => el.classList.add("fade"));
+    $$(".stat, .principle, .acro-wrap, .person, .member, .section-head h2").forEach(el => el.classList.add("rise"));
+  }
+
+  // Fase 3: 3D tilt on gallery + profile photos, desktop only.
+  if (fine && !reduced) {
+    addEventListener("pointermove", e => {
+      const t = e.target.closest?.(".gallery-item, .profile-photo");
+      if (!t) return;
+      const r = t.getBoundingClientRect();
+      const px = (e.clientX-r.left)/r.width - .5, py = (e.clientY-r.top)/r.height - .5;
+      t.classList.add("tilt");
+      t.style.transform = `perspective(760px) rotateX(${(-py*5).toFixed(2)}deg) rotateY(${(px*5).toFixed(2)}deg) translateZ(6px)`;
+    }, {passive:true});
+    addEventListener("pointerout", e => {
+      const t = e.target.closest?.(".gallery-item, .profile-photo");
+      if (t) t.style.transform = "";
+    }, {passive:true});
   }
 
   // Interaction memory / ending state.
