@@ -370,10 +370,10 @@ footer .back-top,#backTop{min-height:44px;display:inline-flex;align-items:center
   </div>
 
   <div class="hero-faces" aria-hidden="true">
-    <span class="face f1"><img src="img/01a-t.webp" alt="" loading="eager" decoding="async"></span>
-    <span class="face f2"><img src="img/07a-t.webp" alt="" loading="eager" decoding="async"></span>
-    <span class="face f3"><img src="img/13a-t.webp" alt="" loading="eager" decoding="async"></span>
-    <span class="face f4"><img src="img/19a-t.webp" alt="" loading="eager" decoding="async"></span>
+    <span class="face f1"><img src="img/01a-t.webp" srcset="img/01a-t.webp 400w,img/01a-m.webp 800w,img/01a.webp 1125w" sizes="(max-width:650px) 24vw, 18vw" alt="" loading="eager" fetchpriority="high" decoding="async"></span>
+    <span class="face f2"><img src="img/07a-t.webp" srcset="img/07a-t.webp 400w,img/07a-m.webp 800w,img/07a.webp 1125w" sizes="(max-width:650px) 24vw, 18vw" alt="" loading="eager" fetchpriority="high" decoding="async"></span>
+    <span class="face f3"><img src="img/13a-t.webp" srcset="img/13a-t.webp 400w,img/13a-m.webp 800w,img/13a.webp 1125w" sizes="(max-width:650px) 24vw, 18vw" alt="" loading="eager" fetchpriority="high" decoding="async"></span>
+    <span class="face f4"><img src="img/19a-t.webp" srcset="img/19a-t.webp 400w,img/19a-m.webp 800w,img/19a.webp 1125w" sizes="(max-width:650px) 24vw, 18vw" alt="" loading="eager" fetchpriority="high" decoding="async"></span>
   </div>
 </section>
 
@@ -545,13 +545,20 @@ footer .back-top,#backTop{min-height:44px;display:inline-flex;align-items:center
   const inicial = n => n.replace(/^(I|Ni|Gusti)\s+/,"").trim()[0] || "?";
   const fotoSet = (p) => p.foto ? [`img/${p.foto}a-t.webp`,`img/${p.foto}b-t.webp`] : [];
   const fotoFull = (p) => p.foto ? [`img/${p.foto}a.webp`,`img/${p.foto}b.webp`] : [];
+  // <picture>-free srcset: same basename, three widths. sizes mirrors the CSS grids.
+  const srcset = (base) => `${base}-t.webp 400w,${base}-m.webp 800w,${base}.webp 1125w`;
+  const SIZES = {
+    avatar: "48px",
+    pair: "(max-width:650px) 45vw, (max-width:950px) 15vw, 12vw",
+    profile: "(max-width:650px) 90vw, 300px",
+  };
 
   const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
   const avatar = (p, cls="") => {
     const src = fotoSet(p)[0];
     return src
-      ? `<span class="avatar ${esc(cls)}"><img src="${esc(src)}" alt="" loading="lazy" decoding="async"></span>`
+      ? `<span class="avatar ${esc(cls)}"><img src="${esc(src)}" srcset="${srcset(src.replace(/-t\.webp$/,""))}" sizes="${SIZES.avatar}" alt="" loading="lazy" decoding="async"></span>`
       : `<span class="avatar ${esc(cls)}"><span class="avatar-fallback">${esc(inicial(p.nama))}</span></span>`;
   };
 
@@ -658,8 +665,8 @@ footer .back-top,#backTop{min-height:44px;display:inline-flex;align-items:center
     <figure class="gallery-item" data-idx="${p.n}">
       <div class="pair">
         ${fotoFull(p).map((src,i) => `
-          <button type="button" class="pair-img" data-idx="${p.n}" data-slot="${i}" aria-label="Perbesar foto ${esc(p.nama)}, ${i+1} dari 2">
-            <img src="${fotoSet(p)[i]}" alt="${esc(p.nama)}" loading="lazy" decoding="async">
+          <button type="button" class="pair-img" data-idx="${p.n}" data-slot="${i}" aria-label="Perbesar foto, ${i+1} dari 2">
+            <img src="${fotoSet(p)[i]}" srcset="${srcset(`img/${p.foto}${i?"b":"a"}`)}" sizes="${SIZES.pair}" alt="${esc(p.nama)}, foto ${i+1} dari 2" loading="lazy" decoding="async">
           </button>`).join("")}
       </div>
       <figcaption><span>${esc(p.nama)}</span><small>${esc(p.role)}</small></figcaption>
@@ -711,7 +718,7 @@ footer .back-top,#backTop{min-height:44px;display:inline-flex;align-items:center
     metaFoto.textContent = person.foto ? "2 photos" : "No photo yet";
     const full = fotoFull(person);
     profilePhotos.innerHTML = full.length
-      ? full.map((src,i) => `<button class="profile-photo${full.length===1?" solo":""}" data-idx="${person.n}" data-slot="${i}" type="button" aria-label="Perbesar foto"><img src="${src}" alt="${esc(person.nama)}" loading="lazy" decoding="async"></button>`).join("")
+      ? full.map((src,i) => `<button class="profile-photo${full.length===1?" solo":""}" data-idx="${person.n}" data-slot="${i}" type="button" aria-label="Perbesar foto"><img src="${src}" srcset="${srcset(src.replace(/\.webp$/,""))}" sizes="${SIZES.profile}" alt="${esc(person.nama)}" loading="lazy" decoding="async"></button>`).join("")
       : `<div class="profile-photo solo"><span class="avatar-fallback">${inicial(person.nama)}</span></div>`;
     profile.classList.add("open");
     profile.setAttribute("aria-hidden","false");
