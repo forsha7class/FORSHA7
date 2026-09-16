@@ -219,6 +219,25 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
 .tilt{transition:transform .35s var(--ease);transform-style:preserve-3d;will-change:transform}
 @media(prefers-reduced-motion:reduce){.rw>i{transform:none;opacity:1}}
 
+/* --- Fase 4: polish --- */
+/* animated gradient border on the active principle card. @property lets the angle animate. */
+@property --ang{syntax:"<angle>";inherits:false;initial-value:0deg}
+.principle.active{position:relative;border-color:transparent}
+.principle.active:after{content:"";position:absolute;inset:-1px;padding:1px;pointer-events:none;border-radius:inherit;
+  background:conic-gradient(from var(--ang),transparent 0deg,rgba(212,175,55,.85) 70deg,transparent 150deg);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+  animation:spinBorder 4.5s linear infinite}
+@keyframes spinBorder{to{--ang:360deg}}
+/* cursor glow: one fixed blurred disc following the pointer */
+.glow{position:fixed;top:0;left:0;width:420px;height:420px;margin:-210px 0 0 -210px;z-index:1;pointer-events:none;opacity:0;
+  background:radial-gradient(circle,rgba(212,175,55,.13),transparent 62%);filter:blur(40px);
+  transition:opacity .5s var(--ease);will-change:transform}
+.glow.on{opacity:1}
+/* loader gets the wordmark + a real progress line */
+.loader-seven span:first-child{display:block;font-size:15px;letter-spacing:.5em;color:var(--muted);margin-bottom:14px}
+@media(prefers-reduced-motion:reduce){.principle.active:after{animation:none}.glow{display:none}}
+@media(max-width:650px){.glow{display:none}}
+
 .easter{position:fixed;inset:0;z-index:1200;display:grid;place-items:center;background:rgba(4,15,29,.96);opacity:0;visibility:hidden;pointer-events:none;transition:.4s var(--ease)}.easter.show{opacity:1;visibility:visible;pointer-events:auto}.easter-inner{text-align:center}.easter-num{font:120px "Playfair Display",serif;color:var(--gold);line-height:.8}.easter p{margin-top:15px;color:var(--muted);font-size:11px;letter-spacing:.18em;text-transform:uppercase}.easter button{margin-top:28px;padding:10px 14px;background:none;border:1px solid var(--line);color:var(--white);cursor:pointer;font-size:9px;letter-spacing:.12em;text-transform:uppercase}
 
 @media(max-width:950px){.split,.philosophy,.people-head{grid-template-columns:1fr;gap:40px}.seven-section{grid-template-columns:1fr;gap:35px}.principles{grid-template-columns:repeat(2,1fr)}.members{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(3,1fr)}.profile-photos{max-width:100%}}
@@ -230,9 +249,10 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
 <body>
 
 <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="glow" id="glow" aria-hidden="true"></div>
 
 <div class="loader" id="loader" aria-hidden="true">
-  <div class="loader-seven">07<div class="loader-line"><span></span></div></div>
+  <div class="loader-seven"><span>FORSHA 7</span>07<div class="loader-line"><span></span></div></div>
 </div>
 
 <header class="topbar">
@@ -883,6 +903,23 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
       const t = e.target.closest?.(".gallery-item, .profile-photo");
       if (t) t.style.transform = "";
     }, {passive:true});
+  }
+
+  // Fase 4: cursor glow. Same delegated pointermove budget as spotlight/tilt.
+  const glow = $("#glow");
+  if (fine && !reduced && glow) {
+    let gx = 0, gy = 0, gQueued = false;
+    addEventListener("pointermove", e => {
+      gx = e.clientX; gy = e.clientY;
+      if (gQueued) return;
+      gQueued = true;
+      requestAnimationFrame(() => {
+        glow.style.transform = `translate3d(${gx}px,${gy}px,0)`;
+        glow.classList.add("on");
+        gQueued = false;
+      });
+    }, {passive:true});
+    addEventListener("pointerleave", () => glow.classList.remove("on"));
   }
 
   // Interaction memory / ending state.
