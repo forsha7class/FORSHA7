@@ -72,8 +72,9 @@ h1 span,h2 em,.gold{color:var(--gold);font-style:normal}
 .hero-actions{display:flex;gap:24px;align-items:center;margin-top:34px;opacity:0;transform:translateY(20px);animation:up .9s 1.02s var(--ease) forwards}
 .btn{display:inline-flex;align-items:center;gap:15px;padding:14px 18px;background:var(--gold);color:var(--navy);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;transition:.25s var(--ease)}.btn span{font-size:15px}.btn:hover{box-shadow:0 14px 34px rgba(0,0,0,.27)}
 .text-link{color:var(--muted);font-size:10px;letter-spacing:.1em;text-transform:uppercase}.text-link span{color:var(--gold);margin-left:5px}.text-link:hover{color:var(--white)}
-.hero-seven{position:absolute;right:-3vw;bottom:-8vw;font:clamp(280px,48vw,630px)/.68 "Playfair Display",serif;color:rgba(255,255,255,.035);pointer-events:none;user-select:none;will-change:transform}
-.hero-grid{position:absolute;inset:15% 0 0;background-image:linear-gradient(rgba(255,255,255,.026) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.026) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.7),transparent 78%)}
+.hero-seven{position:absolute;right:-3vw;bottom:-8vw;z-index:4;font:clamp(280px,48vw,630px)/.68 "Playfair Display",serif;color:rgba(255,255,255,.035);pointer-events:auto;cursor:pointer;user-select:none;will-change:transform;background:none;border:0;padding:0;font-family:"Playfair Display",serif}
+.hero-seven:focus-visible{outline:1px solid var(--gold);outline-offset:-10px}
+.hero-grid{position:absolute;inset:15% 0 0;z-index:1;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.026) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.026) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.7),transparent 78%)}
 
 .split{display:grid;grid-template-columns:1fr 1fr;gap:8vw}
 .copy{max-width:610px;color:var(--muted);font-size:16px}.copy p+p{margin-top:22px}
@@ -88,7 +89,13 @@ h1 span,h2 em,.gold{color:var(--gold);font-style:normal}
 .acro{width:100%;display:grid;grid-template-columns:78px 1fr 30px;gap:18px;align-items:center;padding:20px 0;border-bottom:1px solid var(--line);background:transparent;text-align:left;cursor:pointer;transition:.35s var(--ease)}
 .acro:hover,.acro.active{padding-left:14px;padding-right:14px;background:rgba(212,175,55,.045)}
 .acro-letter{font:40px "Playfair Display",serif;color:var(--gold)}.acro-title{display:block;font-size:16px;font-weight:600}.acro-sub{color:var(--muted);font-size:12px}.acro-arrow{color:var(--gold);text-align:right;transition:.3s var(--ease);transform:rotate(0deg)}.acro.active .acro-arrow{transform:rotate(45deg)}
-.acro-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s var(--ease);overflow:hidden}.acro-panel.open{grid-template-rows:1fr}.acro-panel-inner{min-height:0;overflow:hidden}.acro-detail{padding:0 0 0 78px}.acro-panel.open .acro-detail{padding-top:18px;padding-bottom:28px}.acro-detail p{max-width:700px;color:var(--muted);font-size:14px}.acro-detail strong{display:block;margin-bottom:7px;color:var(--gold2);font-size:10px;text-transform:uppercase;letter-spacing:.18em}
+.acro-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s var(--ease);overflow:hidden}.acro-panel.open{grid-template-rows:1fr}.acro-panel-inner{min-height:0;overflow:hidden}
+/* ponytail: 0fr grid trick needs Safari 16.4+; max-height fallback below that, tiny tail-end unanimated */
+@supports not (grid-template-rows:0fr){
+  .acro-panel{display:block;max-height:0;transition:max-height .55s var(--ease),opacity .35s var(--ease);opacity:0}
+  .acro-panel.open{max-height:400px;opacity:1}
+  .acro-panel-inner{overflow:visible}
+}.acro-detail{padding:0 0 0 78px}.acro-panel.open .acro-detail{padding-top:18px;padding-bottom:28px}.acro-detail p{max-width:700px;color:var(--muted);font-size:14px}.acro-detail strong{display:block;margin-bottom:7px;color:var(--gold2);font-size:10px;text-transform:uppercase;letter-spacing:.18em}
 
 .philosophy{display:grid;grid-template-columns:1fr 1fr;gap:8vw}.long-copy{max-width:610px;color:var(--muted);font-size:16px}.long-copy p+p{margin-top:22px}
 
@@ -98,11 +105,13 @@ h1 span,h2 em,.gold{color:var(--gold);font-style:normal}
 .principle-detail{min-height:75px;margin-top:22px;padding:18px 20px;border-left:1px solid var(--gold);background:rgba(255,255,255,.018);color:var(--muted)}
 
 .people-head{display:grid;grid-template-columns:1.2fr .8fr;gap:50px;align-items:end}.people-side{border-left:1px solid var(--gold);padding-left:22px;color:var(--muted)}.people-side strong{display:block;color:var(--white);font-size:11px;letter-spacing:.15em}.people-side p{margin-top:5px;font-size:13px}
-.people{border-top:1px solid var(--line);margin-top:55px}.person{display:grid;grid-template-columns:55px 1fr 65px;align-items:center;padding:24px 0;border-bottom:1px solid var(--line);cursor:pointer;transition:.35s var(--ease)}.person:hover{padding-left:14px;padding-right:14px;background:rgba(212,175,55,.045)}
-.index{color:var(--gold);font-size:9px;letter-spacing:.16em}.person h3{font-size:clamp(22px,3vw,31px);line-height:1.1}.role{margin-top:5px;color:var(--muted);font-size:9px;letter-spacing:.16em;text-transform:uppercase}.arrow{color:var(--gold);text-align:right;opacity:.3;transition:.3s var(--ease)}.person:hover .arrow{opacity:1;transform:translateX(4px)}
+.people{border-top:1px solid var(--line);margin-top:55px}.person{display:grid;grid-template-columns:55px 1fr 65px;align-items:center;width:100%;padding:24px 0;border:0;border-bottom:1px solid var(--line);background:transparent;text-align:left;font:inherit;color:inherit;cursor:pointer;transition:.35s var(--ease)}.person:hover{padding-left:14px;padding-right:14px;background:rgba(212,175,55,.045)}
+.person:focus-visible,.member:focus-visible{outline:1px solid var(--gold);outline-offset:-2px}
+.index{color:var(--gold);font-size:9px;letter-spacing:.16em}.person-name{display:block;font-family:"Playfair Display",Georgia,serif;font-weight:700;font-size:clamp(22px,3vw,31px);line-height:1.1}.role{display:block;margin-top:5px;color:var(--muted);font-size:9px;letter-spacing:.16em;text-transform:uppercase}.arrow{color:var(--gold);text-align:right;opacity:.3;transition:.3s var(--ease)}.person:hover .arrow{opacity:1;transform:translateX(4px)}
 .class-label{margin:105px 0 50px}
 .members{display:grid;grid-template-columns:1fr 1fr;gap:0 50px;border-top:1px solid var(--line)}
-.member{display:grid;grid-template-columns:40px 1fr auto;gap:10px;min-height:73px;align-items:center;border-bottom:1px solid var(--line);cursor:pointer;transition:.3s var(--ease)}.member:hover{padding-left:10px;background:rgba(212,175,55,.035)}.member-index{color:var(--gold);font-size:9px}.member-name{font-size:14px;font-weight:600}.member-status{color:var(--muted);font-size:8px;letter-spacing:.13em;text-transform:uppercase}
+.member{display:grid;grid-template-columns:40px 1fr auto;gap:10px;min-height:73px;align-items:center;width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;text-align:left;font:inherit;color:inherit;cursor:pointer;transition:.3s var(--ease)}.member:hover{padding-left:10px;background:rgba(212,175,55,.035)}.member-index{color:var(--gold);font-size:9px}.member-name{font-size:14px;font-weight:600}.member-status{color:var(--muted);font-size:8px;letter-spacing:.13em;text-transform:uppercase}
+.person-text{display:grid;gap:0;min-width:0}
 
 .profile{position:fixed;inset:0;z-index:800;background:rgba(4,15,29,.96);opacity:0;visibility:hidden;pointer-events:none;transition:.45s var(--ease)}.profile.open{opacity:1;visibility:visible;pointer-events:auto}
 .profile-inner{width:min(980px,88vw);min-height:100%;margin:auto;display:flex;flex-direction:column;justify-content:center;padding:100px 0}
@@ -221,7 +230,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
     </div>
   </div>
 
-  <div class="hero-seven" id="heroSeven" aria-hidden="true">7</div>
+  <button class="hero-seven" id="heroSeven" type="button" aria-label="Detail tersembunyi">7</button>
   <div class="hero-grid" aria-hidden="true"></div>
 </section>
 
@@ -403,7 +412,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
   <p class="lightbox-cap" id="lbCap"></p>
 </div>
 
-<div class="easter" id="easter">
+<div class="easter" id="easter" role="dialog" aria-modal="true" aria-label="Detail tersembunyi" aria-hidden="true">
   <div class="easter-inner">
     <div class="easter-num">07</div>
     <p>You found the seventh detail.</p>
@@ -424,11 +433,13 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
   const fotoSet = (p) => p.foto ? [`img/${p.foto}a-t.webp`,`img/${p.foto}b-t.webp`] : [];
   const fotoFull = (p) => p.foto ? [`img/${p.foto}a.webp`,`img/${p.foto}b.webp`] : [];
 
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
   const avatar = (p, cls="") => {
     const src = fotoSet(p)[0];
     return src
-      ? `<span class="avatar ${cls}"><img src="${src}" alt="" loading="lazy" decoding="async"></span>`
-      : `<span class="avatar ${cls}"><span class="avatar-fallback">${inicial(p.nama)}</span></span>`;
+      ? `<span class="avatar ${esc(cls)}"><img src="${esc(src)}" alt="" loading="lazy" decoding="async"></span>`
+      : `<span class="avatar ${esc(cls)}"><span class="avatar-fallback">${esc(inicial(p.nama))}</span></span>`;
   };
 
   const state = {
@@ -503,34 +514,32 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
     });
   });
 
-  // Principles are interactive.
+  // B1 fix: click only, no mouseenter-select (hover preview ≠ committed detail).
   const principleDetail = $("#principleDetail");
   $$(".principle").forEach(card => {
-    const select = () => {
+    card.addEventListener("click", () => {
       $$(".principle").forEach(x => x.classList.remove("active"));
       card.classList.add("active");
       principleDetail.textContent = card.dataset.detail;
       state.viewedSections.add("principles");
+      state.principlesOpened = true;
       updateEndingNote();
-    };
-    card.addEventListener("click", select);
-    if (fine && !reduced) card.addEventListener("mouseenter", select);
+    });
   });
 
   // Render roster from data.
-  const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
   const komite = PEOPLE.slice(0,4), anggota = PEOPLE.slice(4);
   $("#committee").innerHTML = komite.map(p => `
-    <article class="person profile-trigger" data-idx="${p.n}" tabindex="0" role="button" aria-label="Buka profil ${esc(p.nama)}">
+    <button type="button" class="person profile-trigger" data-idx="${p.n}" aria-label="Buka profil ${esc(p.nama)}">
       ${avatar(p)}
-      <div><h3>${esc(p.nama)}</h3><p class="role">${esc(p.role)}</p></div>
-      <span class="arrow">↗</span>
-    </article>`).join("");
+      <span class="person-text"><span class="person-name">${esc(p.nama)}</span><span class="role">${esc(p.role)}</span></span>
+      <span class="arrow" aria-hidden="true">↗</span>
+    </button>`).join("");
   $("#roster").innerHTML = anggota.map(p => `
-    <div class="member profile-trigger" data-idx="${p.n}" tabindex="0" role="button" aria-label="Buka profil ${esc(p.nama)}">
+    <button type="button" class="member profile-trigger" data-idx="${p.n}" aria-label="Buka profil ${esc(p.nama)}">
       ${avatar(p)}
-      <div class="member-text"><strong class="member-name">${esc(p.nama)}</strong><small class="member-status">${esc(p.role)}</small></div>
-    </div>`).join("");
+      <span class="member-text"><strong class="member-name">${esc(p.nama)}</strong><small class="member-status">${esc(p.role)}</small></span>
+    </button>`).join("");
 
   // Gallery: 2 foto per orang yang punya.
   const galeri = PEOPLE.filter(p => p.foto);
@@ -593,14 +602,13 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
     document.body.classList.add("locked");
     state.profileOpened = true;
     updateEndingNote();
-    history.pushState({member:person.n},"",`#member-${String(person.n).padStart(2,"0")}`);
+    // B2 fix: replaceState, not pushState. Back button used to need 2 taps to undo open+close.
+    history.replaceState({member:person.n},"",`#member-${String(person.n).padStart(2,"0")}`);
   }
   const byIdx = n => PEOPLE.find(p => p.n === n);
 
   $$(".profile-trigger").forEach(t => {
-    const go = () => openProfile(byIdx(+t.dataset.idx));
-    t.addEventListener("click", go);
-    t.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+    t.addEventListener("click", () => openProfile(byIdx(+t.dataset.idx)));
   });
 
   $("#galleryGrid").addEventListener("click", e => {
@@ -627,7 +635,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
     profile.classList.remove("open");
     profile.setAttribute("aria-hidden","true");
     document.body.classList.remove("locked");
-    if (push) history.pushState({},"","#members");
+    if (push) history.replaceState({},"","#members");
     setTimeout(() => scrollToPosition(savedScroll), 20);
   }
 
@@ -654,10 +662,8 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
     navSections.forEach(s => { if (marker >= s.offsetTop) current = s.id; });
     navLinks.forEach(n => n.classList.toggle("active", n.dataset.nav === current));
   }
-  addEventListener("scroll", updateNav, {passive:true});
   addEventListener("resize", updateNav);
   updateNav();
-
   function scrollToSection(el) {
     const navH = $(".topbar")?.offsetHeight || 0;
     const top = el.getBoundingClientRect().top + scrollY - navH - 10;
@@ -690,10 +696,16 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
     });
     dots.forEach((d,i) => d.classList.toggle("active",i === index));
     label.textContent = labels[index];
-    state.viewedSections.add(progressTargets[index]);
-    updateEndingNote();
+    // B6 fix: passive scroll no longer counts as "explored". viewedSections only grows
+    // from real interaction (accordion open, principle click, profile open).
   }
-  addEventListener("scroll", updateProgress, {passive:true});
+  // B6 fix: one rAF-throttled handler instead of reading offsetTop on every scroll event.
+  let scrollTick = false;
+  addEventListener("scroll", () => {
+    if (scrollTick) return;
+    scrollTick = true;
+    requestAnimationFrame(() => { updateProgress(); updateNav(); scrollTick = false; });
+  }, {passive:true});
   updateProgress();
   dots.forEach(dot => dot.addEventListener("click", () => {
     const s = getSection(dot.dataset.progress);
@@ -722,13 +734,13 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
   // Interaction memory / ending state.
   function updateEndingNote() {
     const count = state.openedAcronyms.size;
-    const sections = state.viewedSections.size;
     const note = $("#endingNote");
     const dot = $("#statusDot");
     const status = $("#statusText");
 
     if (!note || !dot || !status) return;
 
+    // B6 fix: state driven by real interaction, not by how far you scrolled.
     if (state.profileOpened || count >= 3) {
       note.textContent = "You looked closer.";
       dot.classList.add("seen");
@@ -737,24 +749,37 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
       note.textContent = `${count}/6 identity details explored`;
       dot.classList.add("seen");
       status.textContent = "Keep exploring the identity";
-    } else if (sections >= 3) {
-      note.textContent = "The journey is taking shape.";
-      status.textContent = "You are moving through FORSHA 7";
+    } else if (state.principlesOpened) {
+      note.textContent = "You read what we stand for.";
+      dot.classList.add("seen");
+      status.textContent = "You are exploring the class";
     } else {
       note.textContent = "Keep exploring.";
       status.textContent = "Your journey starts here";
     }
   }
+  updateEndingNote();
 
-  // Easter egg: click the big 7 seven times.
-  hero7?.addEventListener("click", () => {
+  // Easter egg: click the big 7 seven times. B7 fix: was pointer-events:none, unreachable.
+  const hero7El = $("#heroSeven");
+  const easter = $("#easter");
+  hero7El?.addEventListener("click", () => {
     state.sevenClicks++;
     if (state.sevenClicks >= 7) {
-      $("#easter").classList.add("show");
+      easter.classList.add("show");
+      easter.setAttribute("aria-hidden","false");
+      document.body.classList.add("locked");
       state.sevenClicks = 0;
     }
   });
-  $("#easterClose").addEventListener("click", () => $("#easter").classList.remove("show"));
+  const closeEaster = () => {
+    easter.classList.remove("show");
+    easter.setAttribute("aria-hidden","true");
+    document.body.classList.remove("locked");
+  };
+  $("#easterClose").addEventListener("click", closeEaster);
+  easter.addEventListener("click", e => { if (e.target === easter) closeEaster(); });
+  addEventListener("keydown", e => { if (e.key === "Escape" && easter.classList.contains("show")) closeEaster(); });
 
   // Direct deep links: run on first paint AND on later hash changes.
   function applyHash() {
