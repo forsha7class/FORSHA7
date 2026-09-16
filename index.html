@@ -25,10 +25,19 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:90px}
-body{background:
-radial-gradient(circle at 80% 10%,rgba(212,175,55,.10),transparent 26%),
-radial-gradient(circle at 12% 70%,rgba(37,80,125,.18),transparent 30%),
-var(--deep);color:var(--white);font-family:Inter,system-ui,sans-serif;line-height:1.7;overflow-x:hidden}
+body{background:var(--deep);color:var(--white);font-family:Inter,system-ui,sans-serif;line-height:1.7;overflow-x:hidden}
+/* Fase 2: aurora mesh, 3 drifting blobs. Pure CSS, no JS, no dep. */
+.aurora{position:fixed;inset:-20%;z-index:0;pointer-events:none;filter:blur(90px);opacity:.5}
+.aurora i{position:absolute;display:block;border-radius:50%;mix-blend-mode:screen}
+.aurora i:nth-child(1){width:52vw;height:52vw;left:-6vw;top:4vh;background:radial-gradient(circle,rgba(212,175,55,.42),transparent 66%);animation:drift1 26s var(--ease) infinite alternate}
+.aurora i:nth-child(2){width:46vw;height:46vw;right:-4vw;top:26vh;background:radial-gradient(circle,rgba(37,102,165,.44),transparent 66%);animation:drift2 32s var(--ease) infinite alternate}
+.aurora i:nth-child(3){width:40vw;height:40vw;left:32vw;bottom:-6vh;background:radial-gradient(circle,rgba(120,60,180,.3),transparent 68%);animation:drift3 38s var(--ease) infinite alternate}
+@keyframes drift1{to{transform:translate3d(14vw,10vh,0) scale(1.2)}}
+@keyframes drift2{to{transform:translate3d(-16vw,-8vh,0) scale(1.14)}}
+@keyframes drift3{to{transform:translate3d(10vw,-14vh,0) scale(1.24)}}
+body>header,body>main,body>footer,body>aside{position:relative;z-index:2}
+/* ponytail: must out-specify .aurora i:nth-child(n); a media query adds no specificity. */
+@media(prefers-reduced-motion:reduce){.aurora i:nth-child(n){animation:none}}
 body.locked{overflow:hidden}
 a{color:inherit;text-decoration:none}button{font:inherit;color:inherit}
 ::selection{background:rgba(212,175,55,.24)}
@@ -79,8 +88,7 @@ h1 span,h2 em,.gold{color:var(--gold);font-style:normal}
 .split{display:grid;grid-template-columns:1fr 1fr;gap:8vw}
 .copy{max-width:610px;color:var(--muted);font-size:16px}.copy p+p{margin-top:22px}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:35px}
-.stat{padding:24px;border:1px solid var(--line);background:var(--soft);transition:.35s var(--ease)}.stat:hover{transform:translateY(-6px);border-color:rgba(212,175,55,.38)}
-.stat b{display:block;font:44px "Playfair Display",serif;color:var(--gold)}.stat small{color:var(--muted);font-size:9px;letter-spacing:.15em;text-transform:uppercase}
+.stat{padding:24px;border:1px solid var(--line);background:var(--soft);transition:.35s var(--ease)}.stat:hover{transform:translateY(-6px);border-color:rgba(212,175,55,.38)}.stat b{display:block;font:44px "Playfair Display",serif;color:var(--gold)}.stat small{color:var(--muted);font-size:9px;letter-spacing:.15em;text-transform:uppercase}
 
 .seven-section{display:grid;grid-template-columns:.55fr 1.45fr;gap:7vw;align-items:end}.seven-mark{font:clamp(160px,28vw,330px)/.7 "Playfair Display",serif;color:rgba(255,255,255,.045)}.seven-copy blockquote{font-size:clamp(38px,6vw,74px);line-height:1.04;letter-spacing:-.03em}.seven-copy blockquote span{color:var(--gold)}
 
@@ -166,6 +174,28 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
 
 .reveal{opacity:0;transform:translateY(28px);transition:.8s var(--ease)}.reveal.visible{opacity:1;transform:none}
 
+/* --- Fase 2: glass + spotlight, no JS beyond one mousemove delegate --- */
+.stat,.principle,.box,.people-side,.acro-panel-inner{
+  backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3);
+  background-image:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.012));
+}
+/* ponytail: one shared spotlight, coords written to :root. Per-card listeners would be N handlers for the same job. */
+.spot{position:relative;overflow:hidden}
+.spot:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .4s var(--ease);
+  background:radial-gradient(340px circle at var(--mx,50%) var(--my,50%),rgba(212,175,55,.16),transparent 62%)}
+.spot:hover:before{opacity:1}
+
+/* Fase 2: marquee of all 20 names. Duplicated track, CSS-only scroll. */
+.marquee{margin-top:60px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:18px 0;
+  mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.marquee-track{display:flex;gap:34px;width:max-content;animation:slide 42s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.marquee-track span{font:15px "Playfair Display",serif;letter-spacing:.06em;color:var(--muted);white-space:nowrap;display:flex;align-items:center;gap:34px}
+.marquee-track span:after{content:"◆";color:var(--gold);font-size:7px}
+@keyframes slide{to{transform:translate3d(-50%,0,0)}}
+@media(prefers-reduced-motion:reduce){.marquee-track{animation:none}.spot:before{display:none}}
+@media(max-width:650px){.marquee-track{animation-duration:26s}}
+
 .easter{position:fixed;inset:0;z-index:1200;display:grid;place-items:center;background:rgba(4,15,29,.96);opacity:0;visibility:hidden;pointer-events:none;transition:.4s var(--ease)}.easter.show{opacity:1;visibility:visible;pointer-events:auto}.easter-inner{text-align:center}.easter-num{font:120px "Playfair Display",serif;color:var(--gold);line-height:.8}.easter p{margin-top:15px;color:var(--muted);font-size:11px;letter-spacing:.18em;text-transform:uppercase}.easter button{margin-top:28px;padding:10px 14px;background:none;border:1px solid var(--line);color:var(--white);cursor:pointer;font-size:9px;letter-spacing:.12em;text-transform:uppercase}
 
 @media(max-width:950px){.split,.philosophy,.people-head{grid-template-columns:1fr;gap:40px}.seven-section{grid-template-columns:1fr;gap:35px}.principles{grid-template-columns:repeat(2,1fr)}.members{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(3,1fr)}.profile-photos{max-width:100%}}
@@ -175,6 +205,8 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
 </head>
 
 <body>
+
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
 
 <div class="loader" id="loader" aria-hidden="true">
   <div class="loader-seven">07<div class="loader-line"><span></span></div></div>
@@ -247,9 +279,9 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
         <p>This space is designed to be explored rather than simply read: every name, letter, principle, and movement connects back to the same identity.</p>
       </div>
       <div class="stats">
-        <article class="stat"><b>20</b><small>People</small></article>
-        <article class="stat"><b>01</b><small>Identity</small></article>
-        <article class="stat"><b>07</b><small>Class</small></article>
+        <article class="stat spot"><b data-to="20" data-pad="2">00</b><small>People</small></article>
+        <article class="stat spot"><b data-to="1" data-pad="2">00</b><small>Identity</small></article>
+        <article class="stat spot"><b data-to="7" data-pad="2">00</b><small>Class</small></article>
       </div>
       <div class="interaction" id="interactionStatus"><span class="mini-dot seen" id="statusDot"></span><span class="seen-note" id="statusText">Your journey starts here</span></div>
     </div>
@@ -337,11 +369,11 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
   </div>
 
   <div class="principles">
-    <article class="principle active" data-detail="Respect — How we communicate, collaborate, and treat every person around us."><span class="principle-index">01</span><h3>Respect</h3><p>People first.</p></article>
-    <article class="principle" data-detail="Solidarity — Different strengths become more useful when the team stays connected."><span class="principle-index">02</span><h3>Solidarity</h3><p>We move together.</p></article>
-    <article class="principle" data-detail="Discipline — Consistency turns expectations into habits and habits into standards."><span class="principle-index">03</span><h3>Discipline</h3><p>Standards matter.</p></article>
-    <article class="principle" data-detail="Excellence — Small details compound. Good work is rarely accidental."><span class="principle-index">04</span><h3>Excellence</h3><p>Details define.</p></article>
-    <article class="principle" data-detail="Growth — Every challenge is another chance to become more capable than yesterday."><span class="principle-index">05</span><h3>Growth</h3><p>Keep moving.</p></article>
+    <article class="principle spot active" data-detail="Respect — How we communicate, collaborate, and treat every person around us."><span class="principle-index">01</span><h3>Respect</h3><p>People first.</p></article>
+    <article class="principle spot" data-detail="Solidarity — Different strengths become more useful when the team stays connected."><span class="principle-index">02</span><h3>Solidarity</h3><p>We move together.</p></article>
+    <article class="principle spot" data-detail="Discipline — Consistency turns expectations into habits and habits into standards."><span class="principle-index">03</span><h3>Discipline</h3><p>Standards matter.</p></article>
+    <article class="principle spot" data-detail="Excellence — Small details compound. Good work is rarely accidental."><span class="principle-index">04</span><h3>Excellence</h3><p>Details define.</p></article>
+    <article class="principle spot" data-detail="Growth — Every challenge is another chance to become more capable than yesterday."><span class="principle-index">05</span><h3>Growth</h3><p>Keep moving.</p></article>
   </div>
   <div class="principle-detail" id="principleDetail">Respect — How we communicate, collaborate, and treat every person around us.</div>
 </section>
@@ -353,6 +385,8 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
   </div>
 
   <div class="people" id="committee"></div>
+
+  <div class="marquee" aria-hidden="true"><div class="marquee-track" id="marqueeTrack"></div></div>
 
   <div class="class-label">
     <p class="kicker">07 — The Class</p>
@@ -395,9 +429,9 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
     <h2 class="profile-name" id="profileName"></h2>
     <p class="profile-role" id="profileRole"></p>
     <div class="profile-meta">
-      <div class="box"><small>Position</small><strong id="metaRole"></strong></div>
-      <div class="box"><small>Photos</small><strong id="metaFoto">—</strong></div>
-      <div class="box"><small>Class</small><strong>Bali Crystal College</strong></div>
+      <div class="box spot"><small>Position</small><strong id="metaRole"></strong></div>
+      <div class="box spot"><small>Photos</small><strong id="metaFoto">—</strong></div>
+      <div class="box spot"><small>Class</small><strong>Bali Crystal College</strong></div>
     </div>
     <div class="profile-photos" id="profilePhotos"></div>
     <button class="profile-back" id="profileBack" type="button"><span>←</span> Back to the class</button>
@@ -730,6 +764,42 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
     scrollTo({top:0,behavior:reduced ? "auto" : "smooth"});
     history.replaceState(null,"","#home");
   });
+
+  // Fase 2: spotlight — one delegated listener, coords on the card itself.
+  if (fine && !reduced) {
+    addEventListener("pointermove", e => {
+      const c = e.target.closest?.(".spot");
+      if (!c) return;
+      const r = c.getBoundingClientRect();
+      c.style.setProperty("--mx", `${e.clientX-r.left}px`);
+      c.style.setProperty("--my", `${e.clientY-r.top}px`);
+    }, {passive:true});
+  }
+
+  // Fase 2: marquee — every name, twice (track duplicated for seamless loop).
+  const marqueeSrc = PEOPLE.map(p => `<span>${esc(p.nama)}</span>`).join("");
+  $("#marqueeTrack").innerHTML = marqueeSrc + marqueeSrc;
+
+  // Fase 2: stat counters — count up once, on first viewport entry.
+  if (!reduced) {
+    const counters = $$(".stat b");
+    if ("IntersectionObserver" in window) {
+      const cio = new IntersectionObserver((ents,obs) => ents.forEach(en => {
+        if (!en.isIntersecting) return;
+        const el = en.target, to = +el.dataset.to || 0;
+        let t0 = null;
+        const step = ts => {
+          if (!t0) t0 = ts;
+          const k = Math.min((ts-t0)/700, 1);
+          el.textContent = String(Math.round(to * (1-Math.pow(1-k,3)))).padStart(el.dataset.pad || 0, "0");
+          if (k < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+        obs.unobserve(el);
+      }), {threshold:.5});
+      counters.forEach(c => cio.observe(c));
+    }
+  }
 
   // Interaction memory / ending state.
   function updateEndingNote() {
