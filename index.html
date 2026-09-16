@@ -23,12 +23,20 @@
   --accent:#c9a227;--gold:#c9a227;--gold2:#e2c14b;
   --text:#f4f5f7;--white:#f4f5f7;--muted:#93a0b4;--line:rgba(255,255,255,.10);--soft:rgba(255,255,255,.04);
   --ease:cubic-bezier(.16,1,.3,1);--ease-soft:cubic-bezier(.22,.7,.2,1);
+  /* z-index scale. Every layer context gets a name; no bare integers in rules. */
+  --z-bg:0;        /* aurora */
+  --z-content:1;   /* page content above the aurora */
+  --z-sticky:10;   /* topbar, in-page sticky headers */
+  --z-progress:20; /* reading progress bar */
+  --z-overlay:30;  /* profile */
+  --z-modal:40;    /* lightbox */
+  --z-loader:50;   /* first-paint loader, above everything */
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:90px}
 body{background:var(--ink);color:var(--text);font-family:Outfit,system-ui,sans-serif;line-height:1.65;overflow-x:hidden;font-variant-numeric:tabular-nums}
 /* Fase 2: aurora mesh, 3 drifting blobs. Pure CSS, no JS, no dep. */
-.aurora{position:fixed;inset:-20%;z-index:0;pointer-events:none;filter:blur(90px);opacity:.5}
+.aurora{position:fixed;inset:-20%;z-index:var(--z-bg);pointer-events:none;filter:blur(90px);opacity:.5}
 .aurora i{position:absolute;display:block;border-radius:50%;mix-blend-mode:screen}
 .aurora i:nth-child(1){width:52vw;height:52vw;left:-6vw;top:4vh;background:radial-gradient(circle,rgba(212,175,55,.42),transparent 66%);animation:drift1 26s var(--ease) infinite alternate}
 .aurora i:nth-child(2){width:46vw;height:46vw;right:-4vw;top:26vh;background:radial-gradient(circle,rgba(37,102,165,.44),transparent 66%);animation:drift2 32s var(--ease) infinite alternate}
@@ -36,14 +44,14 @@ body{background:var(--ink);color:var(--text);font-family:Outfit,system-ui,sans-s
 @keyframes drift1{to{transform:translate3d(14vw,10vh,0) scale(1.2)}}
 @keyframes drift2{to{transform:translate3d(-16vw,-8vh,0) scale(1.14)}}
 @keyframes drift3{to{transform:translate3d(10vw,-14vh,0) scale(1.24)}}
-body>header,body>main,body>footer,body>aside{position:relative;z-index:2}
+body>header,body>main,body>footer{position:relative;z-index:var(--z-content)}
 /* ponytail: must out-specify .aurora i:nth-child(n); a media query adds no specificity. */
 @media(prefers-reduced-motion:reduce){.aurora i:nth-child(n){animation:none}}
 body.locked{overflow:hidden}
 a{color:inherit;text-decoration:none}button{font:inherit;color:inherit}
 ::selection{background:rgba(212,175,55,.24)}
 
-.loader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:var(--deep);transition:.5s var(--ease)}
+.loader{position:fixed;inset:0;z-index:var(--z-loader);display:grid;place-items:center;background:var(--deep);transition:.5s var(--ease)}
 .loader.done{opacity:0;visibility:hidden;pointer-events:none}
 .loader-seven{font:48px Outfit,sans-serif;color:var(--gold);text-align:center}
 .loader-line{width:130px;height:1px;margin:15px auto;background:rgba(255,255,255,.12);overflow:hidden}
@@ -51,7 +59,7 @@ a{color:inherit;text-decoration:none}button{font:inherit;color:inherit}
 @keyframes load{to{width:100%}}
 @keyframes up{to{opacity:1;transform:none}}
 
-.topbar{position:fixed;top:0;left:0;width:100%;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:18px 6vw;background:rgba(7,26,49,.78);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.05)}
+.topbar{position:fixed;top:0;left:0;width:100%;z-index:var(--z-sticky);display:flex;justify-content:space-between;align-items:center;padding:18px 6vw;background:rgba(7,26,49,.78);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.05)}
 .brand{display:flex;align-items:center;gap:12px}
 .brand-mark{width:37px;height:37px;display:grid;place-items:center;border:1px solid var(--gold);color:var(--gold);font:19px Outfit,sans-serif}
 .brand-text{display:grid;line-height:1.05}.brand-text strong{font-size:12px;letter-spacing:.09em}.brand-text small{margin-top:5px;color:var(--muted);font-size:8px;letter-spacing:.18em}
@@ -59,7 +67,7 @@ a{color:inherit;text-decoration:none}button{font:inherit;color:inherit}
 
 /* Reading progress. Was a rail of 8 decorative dots; now one bar that reports
    real scroll position instead of decorating the margin. */
-.progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:600;background:transparent;pointer-events:none}
+.progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:var(--z-progress);background:transparent;pointer-events:none}
 .progress span.bar{display:block;height:100%;width:0;background:var(--accent);transform-origin:0 50%}
 .progress-label{position:absolute;right:17px;top:50%;transform:translateY(-50%);padding:5px 8px;border:1px solid var(--line);background:rgba(4,15,29,.92);color:var(--muted);font-size:8px;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;opacity:0;pointer-events:none;transition:.25s ease}
 .progress:hover .progress-label{opacity:1}
@@ -78,7 +86,7 @@ h1 span,h2 em,.gold{color:var(--gold);font-style:normal}
    about twenty people, so the hero shows people instead of a decorative raft of
    numerals. min-height uses dvh, not vh, to survive the iOS Safari URL bar. */
 .hero{position:relative;min-height:100dvh;display:grid;grid-template-columns:1.15fr .85fr;gap:5vw;align-items:center;overflow:hidden;padding:88px 0 48px}
-.hero-content{position:relative;z-index:3;max-width:660px}
+.hero-content{position:relative;z-index:calc(var(--z-content) + 1);max-width:660px}
 .hero-faces{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .face{position:relative;display:block;aspect-ratio:3/4;overflow:hidden;background:#0c1520;border:1px solid var(--line)}
 .face img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.92) contrast(1.03)}
@@ -142,7 +150,7 @@ h1 span,h2 em,.gold{color:var(--gold);font-style:normal}
 .arrow{color:var(--accent);text-align:right;opacity:.35;transition:.3s var(--ease)}
 .person:hover .arrow{opacity:1;transform:translateX(4px)}
 
-.profile{position:fixed;inset:0;z-index:800;background:rgba(4,15,29,.96);opacity:0;visibility:hidden;pointer-events:none;transition:.45s var(--ease);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.profile{position:fixed;inset:0;z-index:var(--z-overlay);background:rgba(4,15,29,.96);opacity:0;visibility:hidden;pointer-events:none;transition:.45s var(--ease);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 .profile.open{opacity:1;visibility:visible;pointer-events:auto}
 /* ponytail: min-height 100% + center keeps short profiles centered; long ones scroll.
    flex-shrink:0 on children so they don't compress when content overflows. */
@@ -195,7 +203,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
 .gallery-item figcaption small{color:var(--muted);font-size:10px;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
 
 /* lightbox */
-.lightbox{position:fixed;inset:0;z-index:1100;display:grid;place-items:center;background:rgba(4,15,29,.97);opacity:0;visibility:hidden;pointer-events:none;transition:.35s var(--ease)}
+.lightbox{position:fixed;inset:0;z-index:var(--z-modal);display:grid;place-items:center;background:rgba(4,15,29,.97);opacity:0;visibility:hidden;pointer-events:none;transition:.35s var(--ease)}
 .lightbox.show{opacity:1;visibility:visible;pointer-events:auto}
 .lightbox img{max-width:92vw;max-height:82vh;object-fit:contain}
 .lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;display:grid;place-items:center;background:rgba(7,26,49,.75);border:1px solid var(--line);color:var(--gold);font-size:17px;cursor:pointer}
@@ -273,8 +281,15 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
 
 @media(max-width:950px){.split,.philosophy{grid-template-columns:1fr;gap:40px}.principles{grid-template-columns:repeat(2,1fr)}.people{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(3,1fr)}.profile-photos{max-width:100%}}
 @media(max-width:650px){
+/* Hero collapses to one column. The faces stay, as a 4-across strip under the
+   copy, because a 102px-wide photo column is decoration, not a portrait. */
+.hero{grid-template-columns:1fr;gap:34px;padding:84px 0 44px;min-height:0}
+.hero-faces{grid-template-columns:repeat(4,1fr);gap:8px;order:2}
+.face{aspect-ratio:3/4}
+.face.f1,.face.f2,.face.f3,.face.f4{transform:none}
+.hero-content{order:1}
 .topbar{padding:14px 5vw}.brand-text small{display:none}
-.nav{gap:14px}.nav a{font-size:11px;letter-spacing:.06em;padding:8px 0}
+.nav{gap:12px}.nav a{font-size:11px;letter-spacing:.06em;padding:14px 0;min-height:44px;display:inline-flex;align-items:center}
 main{width:90vw}
 .section{padding:78px 0}
 .hero{min-height:100dvh}
@@ -296,6 +311,11 @@ main{width:90vw}
 .stat{border-right:0;border-bottom:1px solid var(--line);padding:18px 0}
 .stat:last-child{border-bottom:0}
 footer{flex-direction:column;gap:8px}
+footer .back-top,#backTop{min-height:44px;display:inline-flex;align-items:center}
+.brand{min-height:44px}
+.person{padding:16px 0}
+.profile-back,.profile-close{min-height:44px}
+.wordmark-letter{padding:6px 2px}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.001ms!important;transition-duration:.001ms!important}.reveal{opacity:1;transform:none}}
 </style>
