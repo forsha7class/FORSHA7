@@ -722,7 +722,7 @@ footer .back-top,#backTop{min-height:44px;display:inline-flex;align-items:center
     metaFoto.textContent = person.foto ? "2 photos" : "No photo yet";
     const full = fotoFull(person);
     profilePhotos.innerHTML = full.length
-      ? full.map((src,i) => `<button class="profile-photo${full.length===1?" solo":""}" data-idx="${person.n}" data-slot="${i}" type="button" aria-label="Perbesar foto"><img src="${src}" srcset="${srcset(src.replace(/\.webp$/,""))}" sizes="${SIZES.profile}" alt="${esc(person.nama)}" loading="lazy" decoding="async"></button>`).join("")
+      ? full.map((src,i) => `<button class="profile-photo${full.length===1?" solo":""}" data-idx="${person.n}" data-slot="${i}" type="button" aria-label="Perbesar foto, ${i+1} dari ${full.length}"><img src="${src}" srcset="${srcset(src.replace(/\.webp$/,""))}" sizes="${SIZES.profile}" alt="${esc(person.nama)}, foto ${i+1} dari ${full.length}" loading="lazy" decoding="async"></button>`).join("")
       : `<div class="profile-photo solo"><span class="avatar-fallback">${inicial(person.nama)}</span></div>`;
     profile.classList.add("open");
     profile.setAttribute("aria-hidden","false");
