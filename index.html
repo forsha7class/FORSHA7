@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="FORSHA 7 — Rise Together. Bali Crystal College.">
 <title>FORSHA 7 — Rise Together</title>
+<link rel="canonical" href="https://forsha7.example/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="FORSHA 7 — Rise Together">
+<meta property="og:description" content="Front Office · Housekeeping. Satu kelas, dua disiplin, satu arah.">
+<meta property="og:image" content="img/01a.webp">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23071a31'/%3E%3Ctext x='16' y='23' font-size='20' font-family='serif' fill='%23d4af37' text-anchor='middle'%3E7%3C/text%3E%3C/svg%3E">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,7 +33,7 @@ body.locked{overflow:hidden}
 a{color:inherit;text-decoration:none}button{font:inherit;color:inherit}
 ::selection{background:rgba(212,175,55,.24)}
 
-.loader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:var(--deep);transition:.7s var(--ease)}
+.loader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:var(--deep);transition:.5s var(--ease)}
 .loader.done{opacity:0;visibility:hidden;pointer-events:none}
 .loader-seven{font:48px "Playfair Display",serif;color:var(--gold);text-align:center}
 .loader-line{width:130px;height:1px;margin:15px auto;background:rgba(255,255,255,.12);overflow:hidden}
@@ -111,12 +118,49 @@ h1 span,h2 em,.gold{color:var(--gold);font-style:normal}
 
 footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px;border-top:1px solid var(--line);color:var(--muted);font-size:10px}footer strong{color:var(--white);letter-spacing:.08em}.back-top{cursor:pointer}.back-top:hover{color:var(--white)}
 
+/* --- photos --- */
+.avatar{position:relative;overflow:hidden;background:linear-gradient(145deg,#12294a,#071a31);flex:none}
+.avatar img{width:100%;height:100%;object-fit:cover;display:block;transition:.5s var(--ease)}
+.avatar-fallback{position:absolute;inset:0;display:grid;place-items:center;font-family:"Playfair Display",serif;color:var(--gold);opacity:.55}
+.person{grid-template-columns:60px 1fr 65px}
+.person .avatar{width:52px;height:52px;border-radius:50%;border:1px solid rgba(212,175,55,.35)}
+.person:hover .avatar img{transform:scale(1.06)}
+.member{grid-template-columns:60px 1fr auto;min-height:88px}
+.member .avatar{width:48px;height:48px;border-radius:50%;border:1px solid var(--line)}
+.member:hover .avatar{border-color:rgba(212,175,55,.5)}
+.member-text{display:grid;gap:3px;min-width:0}
+
+.profile-photos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:42px;max-width:640px}
+.profile-photo{position:relative;aspect-ratio:3/4;border:1px solid var(--line);overflow:hidden;cursor:zoom-in;background:#0a1b31}
+.profile-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:.5s var(--ease)}
+.profile-photo:hover img{transform:scale(1.04)}
+.profile-photo.solo{grid-column:span 2;aspect-ratio:16/9}
+.profile-photo .avatar-fallback{font-size:38px}
+
+/* gallery */
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:50px}
+.gallery-item{position:relative;aspect-ratio:3/4;overflow:hidden;cursor:zoom-in;border:1px solid var(--line);background:#0a1b31}
+.gallery-item img{width:100%;height:100%;object-fit:cover;display:block;transition:.55s var(--ease)}
+.gallery-item:hover img{transform:scale(1.05)}
+.gallery-item figcaption{position:absolute;left:0;right:0;bottom:0;padding:26px 12px 10px;background:linear-gradient(transparent,rgba(4,15,29,.92));font-size:10px;letter-spacing:.06em;opacity:0;transition:.35s var(--ease)}
+.gallery-item:hover figcaption{opacity:1}
+
+/* lightbox */
+.lightbox{position:fixed;inset:0;z-index:1100;display:grid;place-items:center;background:rgba(4,15,29,.97);opacity:0;visibility:hidden;pointer-events:none;transition:.35s var(--ease)}
+.lightbox.show{opacity:1;visibility:visible;pointer-events:auto}
+.lightbox img{max-width:92vw;max-height:82vh;object-fit:contain}
+.lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;display:grid;place-items:center;background:rgba(7,26,49,.75);border:1px solid var(--line);color:var(--gold);font-size:17px;cursor:pointer}
+.lightbox-nav:hover{border-color:rgba(212,175,55,.5)}
+.lightbox-prev{left:3vw}.lightbox-next{right:3vw}
+.lightbox-close{position:absolute;top:22px;right:3vw;width:44px;height:44px;background:rgba(7,26,49,.75);border:1px solid var(--line);color:var(--white);font-size:19px;cursor:pointer}
+.lightbox-cap{position:absolute;bottom:26px;left:0;right:0;text-align:center;color:var(--muted);font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+
 .reveal{opacity:0;transform:translateY(28px);transition:.8s var(--ease)}.reveal.visible{opacity:1;transform:none}
 
 .easter{position:fixed;inset:0;z-index:1200;display:grid;place-items:center;background:rgba(4,15,29,.96);opacity:0;visibility:hidden;pointer-events:none;transition:.4s var(--ease)}.easter.show{opacity:1;visibility:visible;pointer-events:auto}.easter-inner{text-align:center}.easter-num{font:120px "Playfair Display",serif;color:var(--gold);line-height:.8}.easter p{margin-top:15px;color:var(--muted);font-size:11px;letter-spacing:.18em;text-transform:uppercase}.easter button{margin-top:28px;padding:10px 14px;background:none;border:1px solid var(--line);color:var(--white);cursor:pointer;font-size:9px;letter-spacing:.12em;text-transform:uppercase}
 
-@media(max-width:950px){.split,.philosophy,.people-head{grid-template-columns:1fr;gap:40px}.seven-section{grid-template-columns:1fr;gap:35px}.principles{grid-template-columns:repeat(2,1fr)}.members{grid-template-columns:1fr}}
-@media(max-width:650px){.topbar{padding:15px 5vw}.brand-text small{display:none}.nav{gap:11px}.nav a{font-size:8px;letter-spacing:.05em}main{width:88vw}.section{padding:90px 0}.hero{min-height:90vh}.hero-seven{right:-10vw}.hero-actions{flex-wrap:wrap}.stats,.profile-meta{grid-template-columns:1fr}.principles{grid-template-columns:1fr}.progress{display:none}.acro{grid-template-columns:55px 1fr 24px}.acro-detail{padding-left:55px}.person{grid-template-columns:38px 1fr 25px}.person h3{font-size:21px}.members{grid-template-columns:1fr}.member{grid-template-columns:34px 1fr}.member-status{grid-column:2;margin-top:-12px}footer{flex-direction:column}}
+@media(max-width:950px){.split,.philosophy,.people-head{grid-template-columns:1fr;gap:40px}.seven-section{grid-template-columns:1fr;gap:35px}.principles{grid-template-columns:repeat(2,1fr)}.members{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(3,1fr)}.profile-photos{max-width:100%}}
+@media(max-width:650px){.topbar{padding:15px 5vw}.brand-text small{display:none}.nav{gap:11px}.nav a{font-size:8px;letter-spacing:.05em}main{width:88vw}.section{padding:90px 0}.hero{min-height:90vh}.hero-seven{right:-10vw}.hero-actions{flex-wrap:wrap}.stats,.profile-meta{grid-template-columns:1fr}.principles{grid-template-columns:1fr}.progress{display:none}.acro{grid-template-columns:55px 1fr 24px}.acro-detail{padding-left:55px}.person{grid-template-columns:58px 1fr 25px}.person h3{font-size:21px}.person .avatar{width:48px;height:48px}.members{grid-template-columns:1fr}.member{grid-template-columns:58px 1fr}.gallery{grid-template-columns:repeat(2,1fr);gap:8px}.profile-photos{grid-template-columns:1fr}.profile-photo.solo{grid-column:span 1;aspect-ratio:3/4}footer{flex-direction:column}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.001ms!important;transition-duration:.001ms!important}.reveal{opacity:1;transform:none}}
 </style>
 </head>
@@ -136,6 +180,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
     <a href="#home" data-nav="home" class="active">Home</a>
     <a href="#about" data-nav="about">About</a>
     <a href="#members" data-nav="members">Members</a>
+    <a href="#gallery" data-nav="gallery">Gallery</a>
   </nav>
 </header>
 
@@ -147,6 +192,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
   <span class="dot" data-progress="philosophy"></span>
   <span class="dot" data-progress="principles"></span>
   <span class="dot" data-progress="members"></span>
+  <span class="dot" data-progress="gallery"></span>
   <span class="dot" data-progress="ending"></span>
 </aside>
 
@@ -297,36 +343,22 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
     <div class="people-side"><strong>CLASS COMMITTEE</strong><p>Four roles. One direction.</p></div>
   </div>
 
-  <div class="people">
-    <article class="person profile-trigger" data-name="I Made Sukra Mahardika" data-role="Korti" data-index="01"><span class="index">01</span><div><h3>I Made Sukra Mahardika</h3><p class="role">Korti</p></div><span class="arrow">↗</span></article>
-    <article class="person profile-trigger" data-name="Ni Putu Linda Purnama Dewi" data-role="Wakil" data-index="02"><span class="index">02</span><div><h3>Ni Putu Linda Purnama Dewi</h3><p class="role">Wakil</p></div><span class="arrow">↗</span></article>
-    <article class="person profile-trigger" data-name="I Putu Aditya Yuda Saputra" data-role="Bendahara" data-index="03"><span class="index">03</span><div><h3>I Putu Aditya Yuda Saputra</h3><p class="role">Bendahara</p></div><span class="arrow">↗</span></article>
-    <article class="person profile-trigger" data-name="Ni Luh Putu Novitasari" data-role="Sekretaris" data-index="04"><span class="index">04</span><div><h3>Ni Luh Putu Novitasari</h3><p class="role">Sekretaris</p></div><span class="arrow">↗</span></article>
-  </div>
+  <div class="people" id="committee"></div>
 
   <div class="class-label">
     <p class="kicker">07 — The Class</p>
     <h2>Twenty names.<br><em>One identity.</em></h2>
   </div>
 
-  <div class="members">
-    <div class="member profile-trigger" data-name="Ni Made Depi Yulia Lestari" data-role="Member" data-index="05"><span class="member-index">05</span><strong class="member-name">Ni Made Depi Yulia Lestari</strong><small class="member-status">Member</small></div>
-    <div class="member profile-trigger" data-name="Ni Putu Cinta Lestari Dewi" data-role="Member" data-index="06"><span class="member-index">06</span><strong class="member-name">Ni Putu Cinta Lestari Dewi</strong><small class="member-status">Member</small></div>
-    <div class="member profile-trigger" data-name="Ni Putu Nitadewi" data-role="Member" data-index="07"><span class="member-index">07</span><strong class="member-name">Ni Putu Nitadewi</strong><small class="member-status">Member</small></div>
-    <div class="member profile-trigger" data-name="I Putu Yoga Aditya Pratama" data-role="Member" data-index="08"><span class="member-index">08</span><strong class="member-name">I Putu Yoga Aditya Pratama</strong><small class="member-status">Member</small></div>
-    <div class="member profile-trigger" data-name="Ni Putu Bunga Mentari" data-role="Member" data-index="09"><span class="member-index">09</span><strong class="member-name">Ni Putu Bunga Mentari</strong><small class="member-status">Member</small></div>
-    <div class="member profile-trigger" data-name="I Wayan Gede Surya Atmaja" data-role="Member" data-index="10"><span class="member-index">10</span><strong class="member-name">I Wayan Gede Surya Atmaja</strong><small class="member-status">Member</small></div>
-    <div class="member profile-trigger" data-name="I Wayan Mahesa Putra" data-role="Member" data-index="11"><span class="member-index">11</span><strong class="member-name">I Wayan Mahesa Putra</strong><small class="member-status">Member</small></div>
-    <div class="member profile-trigger" data-name="I Made Yogi Tresna" data-role="Member" data-index="12"><span class="member-index">12</span><strong class="member-name">I Made Yogi Tresna</strong><small class="member-status">Member</small></div>
-    <div class="member profile-trigger" data-name="I Nyoman Doni Saputra" data-role="Member" data-index="13"><span class="member-index">13</span><strong class="member-name">I Nyoman Doni Saputra</strong><small class="member-status">Member</small></div>
-    <div class="member profile-trigger" data-name="I Nyoman Giong Arismawan" data-role="Member" data-index="14"><span class="member-index">14</span><strong class="member-name">I Nyoman Giong Arismawan</strong><small class="member-status">Member</small></div>
-    <div class="member profile-trigger" data-name="I Putu Andika" data-role="Member" data-index="15"><span class="member-index">15</span><strong class="member-name">I Putu Andika</strong><small class="member-status">Member</small></div>
-    <div class="member profile-trigger" data-name="I Putu Andika Putra" data-role="Member" data-index="16"><span class="member-index">16</span><strong class="member-name">I Putu Andika Putra</strong><small class="member-status">Member</small></div>
-    <div class="member profile-trigger" data-name="I Putu Pradita Wiguna" data-role="Member" data-index="17"><span class="member-index">17</span><strong class="member-name">I Putu Pradita Wiguna</strong><small class="member-status">Member</small></div>
-    <div class="member profile-trigger" data-name="I Putu Rispan Pratama" data-role="Member" data-index="18"><span class="member-index">18</span><strong class="member-name">I Putu Rispan Pratama</strong><small class="member-status">Member</small></div>
-    <div class="member profile-trigger" data-name="Gusti Made Sujana Putra" data-role="Member" data-index="19"><span class="member-index">19</span><strong class="member-name">Gusti Made Sujana Putra</strong><small class="member-status">Member</small></div>
-    <div class="member profile-trigger" data-name="I Kadek Dwi Adnyana" data-role="Member" data-index="20"><span class="member-index">20</span><strong class="member-name">I Kadek Dwi Adnyana</strong><small class="member-status">Member</small></div>
+  <div class="members" id="roster"></div>
+</section>
+
+<section id="gallery" class="section reveal section-target">
+  <div class="section-head">
+    <p class="kicker">08 — Gallery</p>
+    <h2>Twenty people.<br><em>Two frames each.</em></h2>
   </div>
+  <div class="gallery" id="galleryGrid"></div>
 </section>
 
 <section id="ending" class="ending reveal section-target">
@@ -355,11 +387,20 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
     <p class="profile-role" id="profileRole"></p>
     <div class="profile-meta">
       <div class="box"><small>Position</small><strong id="metaRole"></strong></div>
-      <div class="box"><small>Identity</small><strong>FORSHA 7</strong></div>
+      <div class="box"><small>Photos</small><strong id="metaFoto">—</strong></div>
       <div class="box"><small>Class</small><strong>Bali Crystal College</strong></div>
     </div>
+    <div class="profile-photos" id="profilePhotos"></div>
     <button class="profile-back" id="profileBack" type="button"><span>←</span> Back to the class</button>
   </div>
+</div>
+
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <button class="lightbox-close" id="lbClose" type="button" aria-label="Close">×</button>
+  <button class="lightbox-nav lightbox-prev" id="lbPrev" type="button" aria-label="Previous photo">←</button>
+  <img id="lbImg" alt="">
+  <button class="lightbox-nav lightbox-next" id="lbNext" type="button" aria-label="Next photo">→</button>
+  <p class="lightbox-cap" id="lbCap"></p>
 </div>
 
 <div class="easter" id="easter">
@@ -377,6 +418,19 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
   const $ = (s,root=document) => root.querySelector(s);
   const $$ = (s,root=document) => [...root.querySelectorAll(s)];
 
+  // ponytail: data inline, no fetch/no json file. 20 rows, never paginated.
+  const PEOPLE = [{"n":1,"nama":"I Made Sukra Mahardika","role":"Korti","foto":"01"},{"n":2,"nama":"Ni Putu Linda Purnama Dewi","role":"Wakil Korti","foto":"02"},{"n":3,"nama":"I Putu Aditya Yuda Saputra","role":"Bendahara","foto":"03"},{"n":4,"nama":"Ni Luh Putu Novitasari","role":"Sekretaris","foto":"04"},{"n":5,"nama":"Ni Made Depi Yulia Lestari","role":"Anggota","foto":"05"},{"n":6,"nama":"Ni Putu Cinta Lestari Dewi","role":"Anggota","foto":"06"},{"n":7,"nama":"Ni Putu Nitadewi","role":"Anggota","foto":"07"},{"n":8,"nama":"I Putu Yoga Aditya Pratama","role":"Anggota","foto":"08"},{"n":9,"nama":"Ni Putu Bunga Mentari","role":"Anggota","foto":"09"},{"n":10,"nama":"I Wayan Gede Surya Atmaja","role":"Anggota","foto":"10"},{"n":11,"nama":"I Wayan Mahesa Putra","role":"Anggota","foto":"11"},{"n":12,"nama":"I Made Yogi Tresna","role":"Anggota","foto":null},{"n":13,"nama":"I Nyoman Doni Saputra","role":"Anggota","foto":"13"},{"n":14,"nama":"I Nyoman Giong Arismawan","role":"Anggota","foto":null},{"n":15,"nama":"I Putu Andika","role":"Anggota","foto":"15"},{"n":16,"nama":"I Putu Andika Putra","role":"Anggota","foto":"16"},{"n":17,"nama":"I Putu Pradita Wiguna","role":"Anggota","foto":"17"},{"n":18,"nama":"I Putu Rispan Pratama","role":"Anggota","foto":"18"},{"n":19,"nama":"Gusti Made Sujana Putra","role":"Anggota","foto":"19"},{"n":20,"nama":"I Kadek Dwi Adnyana","role":"Anggota","foto":"20"}];;
+  const inicial = n => n.replace(/^(I|Ni|Gusti)\s+/,"").trim()[0] || "?";
+  const fotoSet = (p) => p.foto ? [`img/${p.foto}a-t.webp`,`img/${p.foto}b-t.webp`] : [];
+  const fotoFull = (p) => p.foto ? [`img/${p.foto}a.webp`,`img/${p.foto}b.webp`] : [];
+
+  const avatar = (p, cls="") => {
+    const src = fotoSet(p)[0];
+    return src
+      ? `<span class="avatar ${cls}"><img src="${src}" alt="" loading="lazy" decoding="async"></span>`
+      : `<span class="avatar ${cls}"><span class="avatar-fallback">${inicial(p.nama)}</span></span>`;
+  };
+
   const state = {
     viewedSections: new Set(["home"]),
     openedAcronyms: new Set(),
@@ -386,8 +440,8 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
 
   const loader = $("#loader");
   const hideLoader = () => loader?.classList.add("done");
-  addEventListener("load", () => setTimeout(hideLoader, 950), {once:true});
-  setTimeout(hideLoader, 3000);
+  addEventListener("load", () => setTimeout(hideLoader, 320), {once:true});
+  setTimeout(hideLoader, 1400);
 
   // Reveal-on-scroll.
   const revealEls = $$(".reveal");
@@ -463,25 +517,111 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
     if (fine && !reduced) card.addEventListener("mouseenter", select);
   });
 
+  // Render roster from data.
+  const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const komite = PEOPLE.slice(0,4), anggota = PEOPLE.slice(4);
+  $("#committee").innerHTML = komite.map(p => `
+    <article class="person profile-trigger" data-idx="${p.n}" tabindex="0" role="button" aria-label="Buka profil ${esc(p.nama)}">
+      ${avatar(p)}
+      <div><h3>${esc(p.nama)}</h3><p class="role">${esc(p.role)}</p></div>
+      <span class="arrow">↗</span>
+    </article>`).join("");
+  $("#roster").innerHTML = anggota.map(p => `
+    <div class="member profile-trigger" data-idx="${p.n}" tabindex="0" role="button" aria-label="Buka profil ${esc(p.nama)}">
+      ${avatar(p)}
+      <div class="member-text"><strong class="member-name">${esc(p.nama)}</strong><small class="member-status">${esc(p.role)}</small></div>
+    </div>`).join("");
+
+  // Gallery: 2 foto per orang yang punya.
+  const galeri = PEOPLE.filter(p => p.foto);
+  $("#galleryGrid").innerHTML = galeri.flatMap(p => fotoFull(p).map((src,i) => `
+    <figure class="gallery-item" data-idx="${p.n}" data-slot="${i}" tabindex="0" role="button" aria-label="Perbesar foto ${esc(p.nama)}">
+      <img src="${fotoSet(p)[i]}" alt="${esc(p.nama)}" loading="lazy" decoding="async">
+      <figcaption>${esc(p.nama)}</figcaption>
+    </figure>`)).join("");
+
+// Lightbox: flat list of every full-size photo, prev/next walks it.
+  const LB = galeri.flatMap(p => fotoFull(p).map((src,i) => ({src, cap:`${p.nama} · ${p.role}`})));
+  const lb = $("#lightbox"), lbImg = $("#lbImg"), lbCap = $("#lbCap");
+  let lbAt = 0;
+  const lbShow = i => {
+    lbAt = (i + LB.length) % LB.length;
+    lbImg.src = LB[lbAt].src;
+    lbImg.alt = LB[lbAt].cap;
+    lbCap.textContent = LB[lbAt].cap;
+    lb.classList.add("show");
+    lb.setAttribute("aria-hidden","false");
+    document.body.classList.add("locked");
+  };
+  const lbHide = () => {
+    lb.classList.remove("show");
+    lb.setAttribute("aria-hidden","true");
+    document.body.classList.remove("locked");
+  };
+  $("#lbClose").addEventListener("click", lbHide);
+  $("#lbPrev").addEventListener("click", () => lbShow(lbAt-1));
+  $("#lbNext").addEventListener("click", () => lbShow(lbAt+1));
+  lb.addEventListener("click", e => { if (e.target === lb) lbHide(); });
+  addEventListener("keydown", e => {
+    if (!lb.classList.contains("show")) return;
+    if (e.key === "ArrowRight") lbShow(lbAt+1);
+    if (e.key === "ArrowLeft") lbShow(lbAt-1);
+    if (e.key === "Escape") lbHide();
+  });
+
   // Profile system with saved scroll position.
   const profile = $("#profileOverlay");
   const profileName = $("#profileName");
   const profileRole = $("#profileRole");
   const metaRole = $("#metaRole");
+  const metaFoto = $("#metaFoto");
+  const profilePhotos = $("#profilePhotos");
   let savedScroll = 0;
 
-  function openProfile(trigger) {
+  function openProfile(person) {
     savedScroll = scrollY;
-    profileName.textContent = trigger.dataset.name;
-    profileRole.textContent = trigger.dataset.role;
-    metaRole.textContent = trigger.dataset.role;
+    profileName.textContent = person.nama;
+    profileRole.textContent = person.role;
+    metaRole.textContent = person.role;
+    metaFoto.textContent = person.foto ? "2 photos" : "No photo yet";
+    const full = fotoFull(person);
+    profilePhotos.innerHTML = full.length
+      ? full.map((src,i) => `<button class="profile-photo${full.length===1?" solo":""}" data-idx="${person.n}" data-slot="${i}" type="button" aria-label="Perbesar foto"><img src="${src}" alt="${esc(person.nama)}" loading="lazy" decoding="async"></button>`).join("")
+      : `<div class="profile-photo solo"><span class="avatar-fallback">${inicial(person.nama)}</span></div>`;
     profile.classList.add("open");
     profile.setAttribute("aria-hidden","false");
     document.body.classList.add("locked");
     state.profileOpened = true;
     updateEndingNote();
-    history.pushState({member:trigger.dataset.index},"",`#member-${trigger.dataset.index}`);
+    history.pushState({member:person.n},"",`#member-${String(person.n).padStart(2,"0")}`);
   }
+  const byIdx = n => PEOPLE.find(p => p.n === n);
+
+  $$(".profile-trigger").forEach(t => {
+    const go = () => openProfile(byIdx(+t.dataset.idx));
+    t.addEventListener("click", go);
+    t.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+  });
+
+  $("#galleryGrid").addEventListener("click", e => {
+    const fig = e.target.closest(".gallery-item");
+    if (!fig) return;
+    const p = byIdx(+fig.dataset.idx);
+    const at = LB.findIndex(x => x.src === fotoFull(p)[+fig.dataset.slot]);
+    lbShow(at);
+  });
+  $("#galleryGrid").addEventListener("keydown", e => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const fig = e.target.closest(".gallery-item");
+    if (fig) { e.preventDefault(); fig.click(); }
+  });
+
+  profilePhotos.addEventListener("click", e => {
+    const btn = e.target.closest(".profile-photo[data-idx]");
+    if (!btn) return;
+    const p = byIdx(+btn.dataset.idx);
+    lbShow(LB.findIndex(x => x.src === fotoFull(p)[+btn.dataset.slot]));
+  });
 
   function closeProfile(push=true) {
     profile.classList.remove("open");
@@ -495,9 +635,8 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
     window.scrollTo({top,behavior:"auto"});
   }
 
-  $$(".profile-trigger").forEach(t => t.addEventListener("click", () => openProfile(t)));
-  $("#profileClose").addEventListener("click", () => closeProfile());
   $("#profileBack").addEventListener("click", () => closeProfile());
+  $("#profileClose").addEventListener("click", () => closeProfile());
   profile.addEventListener("click", e => { if (e.target === profile) closeProfile(); });
   addEventListener("popstate", () => {
     if (profile.classList.contains("open")) closeProfile(false);
@@ -508,7 +647,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
 
   // Navigation state.
   const navLinks = $$(".nav a");
-  const navSections = ["home","about","members"].map(id => document.getElementById(id)).filter(Boolean);
+  const navSections = ["home","about","members","gallery"].map(id => document.getElementById(id)).filter(Boolean);
   function updateNav() {
     const marker = scrollY + 160;
     let current = "home";
@@ -535,9 +674,9 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
   });
 
   // Progress rail.
-  const progressTargets = ["home","identity","about","philosophy","principles","members","ending"];
+  const progressTargets = ["home","identity","about","philosophy","principles","members","gallery","ending"];
   const dots = $$(".dot");
-  const labels = ["Home","Identity","The Name","Philosophy","Principles","Members","Ending"];
+  const labels = ["Home","Identity","The Name","Philosophy","Principles","Members","Gallery","Ending"];
   const label = $("#progressLabel");
   function getSection(id) {
     return document.getElementById(id);
@@ -617,19 +756,21 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
   });
   $("#easterClose").addEventListener("click", () => $("#easter").classList.remove("show"));
 
-  // Direct deep links.
-  addEventListener("load", () => {
+  // Direct deep links: run on first paint AND on later hash changes.
+  function applyHash() {
     const hash = location.hash;
     if (!hash) return;
     if (hash.startsWith("#member-")) {
-      const index = hash.replace("#member-","");
-      const trigger = $(`.profile-trigger[data-index="${index}"]`);
-      if (trigger) setTimeout(() => openProfile(trigger),100);
+      const person = byIdx(parseInt(hash.replace("#member-",""),10));
+      if (person) openProfile(person);
       return;
     }
     const target = $(hash);
-    if (target) setTimeout(() => scrollToSection(target),100);
-  }, {once:true});
+    if (target) scrollToSection(target);
+  }
+  if (document.readyState === "complete") applyHash();
+  else addEventListener("load", applyHash, {once:true});
+  addEventListener("hashchange", () => { if (!profile.classList.contains("open")) applyHash(); });
 })();
 </script>
 
