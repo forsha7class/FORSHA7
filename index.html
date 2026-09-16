@@ -322,9 +322,9 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
         <p>This space is designed to be explored rather than simply read: every name, letter, principle, and movement connects back to the same identity.</p>
       </div>
       <div class="stats">
-        <article class="stat spot"><b data-to="20" data-pad="2">00</b><small>People</small></article>
-        <article class="stat spot"><b data-to="1" data-pad="2">00</b><small>Identity</small></article>
-        <article class="stat spot"><b data-to="7" data-pad="2">00</b><small>Class</small></article>
+        <article class="stat spot"><b data-to="20" data-pad="2">20</b><small>People</small></article>
+        <article class="stat spot"><b data-to="1" data-pad="2">01</b><small>Identity</small></article>
+        <article class="stat spot"><b data-to="7" data-pad="2">07</b><small>Class</small></article>
       </div>
       <div class="interaction" id="interactionStatus"><span class="mini-dot seen" id="statusDot"></span><span class="seen-note" id="statusText">Your journey starts here</span></div>
     </div>
@@ -824,10 +824,10 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
   $("#marqueeTrack").innerHTML = marqueeSrc + marqueeSrc;
 
   // Fase 2: stat counters — count up once, on first viewport entry.
-  if (!reduced) {
+  if (!reduced && "IntersectionObserver" in window) {
     const counters = $$(".stat b");
-    if ("IntersectionObserver" in window) {
-      const cio = new IntersectionObserver((ents,obs) => ents.forEach(en => {
+    counters.forEach(c => c.textContent = "0".repeat(Math.max(1, +(c.dataset.pad||1))));
+    const cio = new IntersectionObserver((ents,obs) => ents.forEach(en => {
         if (!en.isIntersecting) return;
         const el = en.target, to = +el.dataset.to || 0;
         let t0 = null;
@@ -840,8 +840,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
         requestAnimationFrame(step);
         obs.unobserve(el);
       }), {threshold:.5});
-      counters.forEach(c => cio.observe(c));
-    }
+    counters.forEach(c => cio.observe(c));
   }
 
   // Fase 3: per-word reveal on headings. Splits h1/h2 text nodes only — child
@@ -884,7 +883,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px
   }
 
   // Fase 3: scroll-linked classes for browsers with native scroll timelines.
-  if (CSS.supports?.("animation-timeline","view()")) {
+  if (!reduced && CSS.supports?.("animation-timeline","view()")) {
     $$(".section-head, .copy, .long-copy, .people-side").forEach(el => el.classList.add("fade"));
     $$(".stat, .principle, .acro-wrap, .person, .member, .section-head h2").forEach(el => el.classList.add("rise"));
   }
