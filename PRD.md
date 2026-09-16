@@ -1,8 +1,8 @@
 # PRD — FORSHA 7 v2
 
 Status: approved, not started.
-Baseline: commit `df75c50`. `index.html` 974 lines / 57KB, `DESIGN.md` 133 lines,
-`img/` 1.31 MB across 72 files. Zero dependencies, no build step.
+Baseline: commit `df75c50`. `index.html` 975 lines / 57KB, `DESIGN.md` 133 lines,
+`img/` 1.5 MB across 72 files. Zero dependencies, no build step.
 
 Read `DESIGN.md` first. It holds the design contract (dials, palette, banned
 patterns, accessibility floor). This document holds the work, not the taste.
@@ -23,10 +23,10 @@ of things the page currently gets wrong or leaves unfinished.
 
 | Metric | Now | Target |
 |---|---|---|
-| Image bytes downloaded on first paint (mobile 375px) | ~330 KB (4 hero full-size) | < 90 KB |
-| Images with `srcset` | 0 of 59 | 100% of content images |
+| Hero images on first paint (mobile 375px) | 42 KB (4 hero thumbs, 525x700) | < 90 KB |
+| Content images with `srcset` | 0 | 100% except `#lbImg` (single `src` by design) |
 | Console errors | 0 | 0 |
-| Desktop height | 15.1 screens | ≤ 15.1 (must not grow) |
+| Desktop height | unmeasured (no baseline tool) | must not grow |
 | Tap targets under 44px | 0 | 0 |
 | Placeholder metadata | canonical + og:image + og:url | all real |
 
@@ -47,12 +47,12 @@ absence, so no code changes.
 
 Photos are 1125x1500 full and 525x700 thumbnail. A 375px viewport needs roughly
 340px, so every phone currently downloads more pixels than it can display, in
-views where 4 to 36 photos are on screen at once.
+views where 4 to 32 photos are on screen at once.
 
 Add intermediate widths and let the browser pick:
 
 - `-t` files stay as the small end but are regenerated at 400w
-- new `-m` variant at 800w
+- new `-m` variant at 800w (new files: 72 -> 144, `img/` ~1.5 MB -> ~2.4 MB)
 - full file stays 1125w
 
 Wire `srcset` and `sizes` on every content image. The hero gets
@@ -69,6 +69,7 @@ the same one the browser would have chosen.
 ### P4 — Metadata
 
 - `canonical` and `og:url`: `https://forsha7class.github.io/FORSHA7/`
+  (canonical currently points at the wrong host: `https://forsha7.example/`)
 - `og:image`: absolute URL to a real 1200x630 crop, not a relative path to a
   3:4 portrait. Generate the crop once and commit it.
 - `twitter:image` alongside `twitter:card`
@@ -80,8 +81,10 @@ preview card.
 
 ### P5 — Alt text
 
-Gallery pairs currently carry the same `alt` on both frames of a person, so a
-screen reader reads the identical string twice in a row. Number them. The list
+A gallery frame has both a wrapper `aria-label` ("Perbesar foto X, 1 dari 2") and
+an `img alt="X"`, so the name is announced twice per frame, twice per person.
+Drop the name from the wrapper label (keep "Perbesar foto, 1 dari 2"); number the
+image alt ("X, foto 1 dari 2"). The list
 avatars keep `alt=""` (correct: the name is adjacent text, otherwise it is read
 twice), and the hero faces keep `alt=""` (decorative, parent is `aria-hidden`).
 
@@ -94,8 +97,10 @@ never fires and the animation clock stays at 0. The CSS is correct (proven by
 `getAnimations().finish()` landing on the right end state) but "correct CSS" and
 "the user sees motion" are different claims.
 
-Fix by running a real render: `xvfb-run` with a headed Chromium, or the user
-opens the page and reports. Until one of those happens, treat this as open.
+Fix by running a real render: `xvfb-run` with a headed Chromium. `xvfb-run` is
+present on the target box; `chromium` is NOT installed, so installing it is a
+prerequisite of this phase. Otherwise the user opens the page and reports.
+Until one of those happens, treat this as open.
 
 ### P7 — Gallery count claim
 
