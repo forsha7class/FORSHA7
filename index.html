@@ -121,9 +121,14 @@ h1 span,h2 em,.gold{color:var(--gold);font-style:normal}
 .member{display:grid;grid-template-columns:40px 1fr auto;gap:10px;min-height:73px;align-items:center;width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;text-align:left;font:inherit;color:inherit;cursor:pointer;transition:.3s var(--ease)}.member:hover{padding-left:10px;background:rgba(212,175,55,.035)}.member-index{color:var(--gold);font-size:9px}.member-name{font-size:14px;font-weight:600}.member-status{color:var(--muted);font-size:8px;letter-spacing:.13em;text-transform:uppercase}
 .person-text{display:grid;gap:0;min-width:0}
 
-.profile{position:fixed;inset:0;z-index:800;background:rgba(4,15,29,.96);opacity:0;visibility:hidden;pointer-events:none;transition:.45s var(--ease)}.profile.open{opacity:1;visibility:visible;pointer-events:auto}
-.profile-inner{width:min(980px,88vw);min-height:100%;margin:auto;display:flex;flex-direction:column;justify-content:center;padding:100px 0}
-.profile-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:45px}.profile-kicker{color:var(--gold);font-size:9px;letter-spacing:.2em}
+.profile{position:fixed;inset:0;z-index:800;background:rgba(4,15,29,.96);opacity:0;visibility:hidden;pointer-events:none;transition:.45s var(--ease);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.profile.open{opacity:1;visibility:visible;pointer-events:auto}
+/* ponytail: min-height 100% + center keeps short profiles centered; long ones scroll.
+   flex-shrink:0 on children so they don't compress when content overflows. */
+.profile-inner{width:min(980px,88vw);min-height:100%;margin:auto;display:flex;flex-direction:column;justify-content:center;padding:100px 0 40px}
+.profile-inner>*{flex:none}
+.profile-back{margin-bottom:0}
+.profile-top{position:sticky;top:0;z-index:2;display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:45px;padding:14px 0;background:linear-gradient(rgba(4,15,29,.97),rgba(4,15,29,.82));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}.profile-kicker{color:var(--gold);font-size:9px;letter-spacing:.2em}
 .profile-close{width:42px;height:42px;display:grid;place-items:center;background:transparent;border:1px solid var(--line);cursor:pointer;color:var(--muted);font-size:18px}.profile-close:hover{color:var(--white);border-color:rgba(212,175,55,.4)}
 .profile-name{font-size:clamp(48px,9vw,105px);line-height:.9}.profile-role{margin-top:17px;color:var(--gold2);font-size:10px;letter-spacing:.2em;text-transform:uppercase}
 .profile-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:60px}.box{padding:20px;border:1px solid var(--line);background:var(--soft)}.box small{color:var(--gold);font-size:8px;letter-spacing:.16em;text-transform:uppercase}.box strong{display:block;margin-top:7px;font-size:14px}
