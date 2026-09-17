@@ -1,6 +1,10 @@
 # PRD — FORSHA 7 v2
 
-Status: approved, not started.
+Status: phases 1-5 done on branch `v2`. P1 and P6 remain open.
+
+Verified by `tools/verify_motion.py` (18 checks, PASS): hero payload measured 30.2 KB,
+desktop height 9.88 screens, 0 tap targets under 44px at 375, 0 console errors,
+58 of 59 rendered images have srcset (the 59th is `#lbImg` by design).
 Baseline: commit `df75c50`. `index.html` 975 lines / 57KB, `DESIGN.md` 133 lines,
 `img/` 1.5 MB across 72 files. Zero dependencies, no build step.
 
@@ -88,7 +92,15 @@ image alt ("X, foto 1 dari 2"). The list
 avatars keep `alt=""` (correct: the name is adjacent text, otherwise it is read
 twice), and the hero faces keep `alt=""` (decorative, parent is `aria-hidden`).
 
-### P6 — Verify the motion actually runs (blocked on a visible browser)
+### P6 — Verify the motion actually runs — DONE
+
+Resolved with Playwright (fresh venv, no repo dependency) driving the bundled
+Chromium under `xvfb-run`. `tools/verify_motion.py` is the check; it exits
+non-zero if any claim fails. Photo drift was sampled at two instants
+(`translateY(18px)` -> `translateY(-12.14px)`), scroll reveals fire, 29 animations
+run. Two checker bugs were found by running it and are noted in the commit.
+
+### P6 (original write-up, kept for context)
 
 Per-word heading reveal, `animation-timeline` scroll reveals, photo drift, the
 counter, the marquee, and hero face drift have never been observed moving. The
@@ -155,6 +167,6 @@ others. Nothing here is allowed to increase page height.
 
 ## Open
 
-- P1 is blocked on the user supplying two photos.
-- P6 is blocked on a renderer that paints.
-- Everything else is unblocked and can start immediately.
+- P1 is blocked on the user supplying two photos. Every other item is done.
+- Verify after any change: `PLAYWRIGHT_BROWSERS_PATH=/root/.cache/ms-playwright \
+  xvfb-run -a /tmp/pwv/bin/python tools/verify_motion.py`
