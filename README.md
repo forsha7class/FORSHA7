@@ -1,8 +1,8 @@
 # FORSHA 7
 
 Halaman identitas kelas FORSHA 7, Bali Crystal College. Satu halaman statis:
-`index.html`, plus foto di `img/`. Tanpa framework, tanpa bundler, tanpa npm,
-tanpa langkah build.
+`index.html`, plus foto di `img/`, GSAP dan font Outfit di `vendor/`. Tanpa
+framework, tanpa bundler, tanpa langkah build, tanpa permintaan ke pihak ketiga.
 
 ## Menjalankan lokal
 
@@ -10,15 +10,14 @@ tanpa langkah build.
 python3 -m http.server 8000
 ```
 
-Buka <http://localhost:8000>. Membuka `index.html` langsung sebagai `file://`
-juga jalan, tapi server lokal lebih akurat (beberapa browser membatasi hal-hal
-kecil pada `file://`).
+Buka <http://localhost:8000>. Jangan pakai `file://`: GSAP dan beberapa browser
+membatasi pemuatan berkas lokal.
 
 ## Isi halaman
 
 Seluruh daftar orang ada di `index.html`, di dalam array `PEOPLE`. Satu baris per
-orang, satu sumber kebenaran. Halaman merender daftar, galeri, dan lightbox dari
-array itu; tidak ada daftar kedua di HTML.
+orang, satu sumber kebenaran. Dinding kelas, galeri, pencarian, profil, dan
+formasi penutup semuanya dirender dari array itu.
 
 ```js
 {"n":1,"nama":"I Made Sukra Mahardika","role":"Korti","foto":"01"}
@@ -29,8 +28,17 @@ array itu; tidak ada daftar kedua di HTML.
 - `foto` kode berkas dua digit, atau `null` bila fotonya belum ada; baris tanpa
   foto tetap tampil, dengan inisial nama di tempat foto
 
-Mengubah nama atau peran cukup di sini. Tidak ada tempat lain yang perlu
-disunting.
+Mengubah nama atau peran cukup di sini.
+
+## Struktur halaman
+
+- **Hero / The Corridor** — koridor potret, class pass, judul, CTA.
+- **The Wall** — 20 kartu, filter Everyone / Committee / Members, hover flip,
+  klik membuka profil. Pencarian nama lewat tombol "Find your name" atau `/`.
+- **Disciplines** — Front Office dan Housekeeping.
+- **Plates** — dua baris marquee 36 foto, klik membuka lightbox.
+- **About** — konteks kelas dan angka.
+- **Close** — 20 kartu menyusun angka 7, lalu penutup.
 
 ## Menambah atau mengganti foto
 
@@ -43,7 +51,7 @@ python3 tools/thumbs.py
 ```
 
 Skrip itu menulis ulang turunan `-t` (400w) dan `-m` (800w) untuk semua foto.
-Turunan boleh dihapus kapan saja, sumbernya berkas penuh. Konvensi nama:
+Konvensi nama:
 
 ```
 img/12a.webp      1125w  sumber
@@ -56,11 +64,40 @@ isi `"foto":"12"` dan `"foto":"14"` di array `PEOPLE`. Tidak ada perubahan kode
 lain yang diperlukan.
 
 `img/og-cover.jpg` (1200x630) adalah gambar preview saat tautan dibagikan.
-Ganti bila foto sampulnya berubah.
+
+## Animasi
+
+GSAP 3.13 (core + ScrollTrigger) dan font Outfit di-vendor di `vendor/`, tanpa
+CDN, jadi halaman tetap jalan offline. `prefers-reduced-motion` menghapus semua
+pergerakan (termasuk marquee) dan menampilkan versi statis yang lengkap.
+
+Catatan penting: jangan menambahkan `scroll-behavior: smooth` di CSS. Itu
+mengacaukan pengukuran ScrollTrigger. Smooth scroll untuk anchor sudah diatur
+lewat JavaScript.
+
+## Verifikasi
+
+`tools/verify_motion.py` menguji klaim halaman di browser sungguhan: 56
+pemeriksaan untuk gerak (GSAP/ScrollTrigger), gambar, aksesibilitas, formasi
+penutup, reduced motion, dan overflow di 320/390/820/1440 px. Skrip mencetak
+laporan `ok`/`FAIL` dan keluar dengan kode non-nol bila ada yang gagal.
+
+```
+python3 -m pip install playwright
+python3 -m playwright install chromium
+python3 tools/verify_motion.py
+```
+
+Skrip menjalankan server pratinjau sendiri yang threaded. Untuk pratinjau manual
+pakai juga server threaded: `python3 -m http.server` melayani satu permintaan
+sekaligus, dan halaman ini membuka puluhan gambar sekaligus saat first paint.
 
 ## Berkas lain
 
-- `DESIGN.md` kontrak desain (dials, palet, aturan yang dilarang, lantai
-  aksesibilitas). Baca ini sebelum mengubah tampilan.
-- `PRD.md` daftar pekerjaan v2 beserta metriknya.
+- `DESIGN.md` kontrak desain v3 (konsep, token, motion, aksesibilitas).
+- `PRD.md` catatan pekerjaan v2; sebagian metrik visualnya sudah digantikan v3.
 - `404.html` halaman yang disajikan GitHub Pages untuk alamat salah.
+- `vendor/` GSAP, ScrollTrigger, dan font Outfit (self-hosted).
+- `vendor/fonts/outfit.css` subset CSS dari Google Fonts (lisensi SIL OFL 1.1);
+  dua berkas woff2 menutup lima bobot, latin dan latin-ext.
+- `tools/` skrip bantu: `thumbs.py` (turunan gambar) dan `verify_motion.py`.

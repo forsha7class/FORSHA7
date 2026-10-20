@@ -1,133 +1,156 @@
-# DESIGN.md — FORSHA 7
+# DESIGN.md — FORSHA 7 v3
 
-Source of truth for this page. Built with the `design-taste-frontend` (anti-slop)
-skill, which enforces a specific premium aesthetic instead of defaulting to the
-LLM's usual output. Anything not listed here is a free choice.
+Source of truth for the current page. Read this before changing the look.
 
 ## 0. Design read
 
-> Reading this as: a class-identity page for classmates and their families, with a
-> dark editorial language, leaning toward native CSS (no framework, no build step)
-> plus variable fonts and scroll-driven reveals.
+A class keepsake for twenty people at Bali Crystal College, class of 2026. The
+audience opens it on a phone, looks for their own name, and sends it to their
+parents. The page has to feel like an event, but finding a name has to stay
+instant.
 
-Audience picks the aesthetic. This is not a B2B product page and not a design
-portfolio. It is a keepsake: people will open it on a phone, look for their own
-name and their own photo, and send it to their parents. That means it has to be
-fast, legible at arm's length, and it has to make each person feel individually
-seen. Ceremony over density.
+v3 is a deliberate move away from the quiet editorial v2. The reference is the
+dark cinematic template language of 21st.dev's gallery (Mosa-style): one big
+scene, layered detail, glass controls, real faces, one gold accent. The scene is
+built from the class's own portraits, not stock photography.
 
-## 1. Dials
+## 1. Concept: The Corridor
 
-| Dial | Value | Why |
-|---|---|---|
-| `DESIGN_VARIANCE` | 8 | Asymmetric layouts. Twenty people is not a symmetric set; forcing symmetry makes them look like a spreadsheet. |
-| `MOTION_INTENSITY` | 6 | Fluid CSS motion. Enough to feel alive, not enough to get in the way of finding your own name. |
-| `VISUAL_DENSITY` | 4 | 36 photos need room. Every photo is someone's face, not a data point. |
+Front Office and Housekeeping are hospitality disciplines. A hotel corridor is
+their world. The hero is a dark corridor lined with framed class portraits,
+ending in a glowing class pass. The pass is the door into the wall.
 
-Redesign-overhaul mode: the content and names stay, the visual language is replaced.
+- One dominant scene, then layered details. Not a field of unrelated widgets.
+- Every face on the page is a real classmate. No stock people, no invented data.
+- Gold is the one accent: the pass edge, the active state, the action.
+- Cream cards are the photo's own white background turned into an object.
 
-## 2. Stack
-
-- One `index.html`. No framework, no bundler, no npm, no build step.
-- No animation library. `MOTION_INTENSITY: 6` is the "fluid CSS" band, so CSS
-  transitions, `animation-timeline: view()`, and `IntersectionObserver` cover it.
-  Framer Motion / GSAP are for stacks that already ship a JS runtime; adding one
-  here would cost a network round trip for what a `cubic-bezier` does for free.
-- Fonts: Google Fonts `<link>` with `preconnect`. Self-hosting would be better for
-  production, but this page has no build step to run `next/font` in.
-
-## 3. Typography
-
-| Role | Font | Notes |
-|---|---|---|
-| Display | Outfit 600/700 | Sans display. The skill bans reaching for a serif just because the page is creative. |
-| Body | Outfit 400/500 | One family, weight-driven hierarchy. |
-| Numerals | `font-variant-numeric: tabular-nums` | Names and counts line up. |
-
-Banned here: `Inter` (the default nobody chose), `Fraunces` and `Instrument Serif`
-(the two LLM-favourite display serifs), `Times New Roman`, `Georgia`.
-
-Rules:
-- Negative tracking on large display text, positive tracking on small labels.
-- Emphasis is italic or bold of the *same* family. Never a serif word dropped into
-  a sans headline.
-- Body max-width 65ch.
-- Body text never below 14px, labels never below 11px.
-- `text-wrap: balance` on headings to kill orphaned last words.
-
-## 4. Color
-
-One accent. Everything else is neutral.
+## 2. Tokens
 
 | Token | Value | Role |
 |---|---|---|
-| `--ink` | `#04070d` | Page background. Off-black, never `#000000`. |
-| `--surface` | `#0a1424` | Raised surfaces, nav. |
-| `--line` | `rgba(255,255,255,.10)` | Hairlines, borders. |
-| `--text` | `#f4f5f7` | Primary text. Off-white, never `#ffffff`. |
-| `--muted` | `#93a0b4` | Secondary text. |
-| `--accent` | `#c9a227` | The single accent: gold. Saturation ~72%, under the 80% ceiling. |
+| `--ink` | `#04070d` | Page ground |
+| `--navy` | `#071a31` | Panels, nav |
+| `--navy-3` | `#0d2444` | Raised panel |
+| `--gold` | `#c9a227` | Accent, active, key word |
+| `--gold-2` | `#e8cd7a` | Hover, small highlights |
+| `--text` | `#f4f5f7` | Primary text |
+| `--muted` | `#93a0b4` | Secondary text |
+| `--card` | `#f2eddf` | Portrait cards, class pass |
+| `--card-ink` | `#0a1524` | Text on cream |
 
-The gold is the one luxury signal on the page, so it is rationed: one word per
-heading, active states, and nothing else. If gold is on every element, it stops
-meaning anything.
+Surfaces are separated by tone, not by visible borders. Glass is used for
+controls over the scene (nav pill, buttons, finder); it is not used to decorate
+plain sections.
 
-Banned: a second accent, purple/blue "AI gradient" glow, neon outer glows,
-oversaturated accents, mixing warm and cool greys.
+## 3. Type
 
-## 5. Layout
+- Outfit only, weights 300–700. One family, weight and scale do the work.
+- Display: `clamp(36px, 4.8vw, 68px)` section heads; hero `clamp(46px, 7vw, 104px)`.
+- Body: 15–19px, line-height 1.55–1.65.
+- Names on cards: 15–19px, sentence case, real spelling.
+- Small functional labels: 9–11px, uppercase, only for metadata (roles, card
+  numbers, section kickers). Never as a decorative eyebrow above every heading.
+- No second typeface. No serif accent word.
 
-- Asymmetric. Variance 8 means the page does not repeat one column rhythm.
-- No three-equal-cards row.
-- No split-header ("big headline left, small explainer paragraph right"). If a
-  section needs both, the headline goes on top and the paragraph goes under it.
-- At least four different layout families across the sections.
-- Section padding varies by weight. Not every section is 120px.
-- Shadows tinted to the background hue, never black at low opacity.
-- Shapes: this page is deliberately square (radius 0) because the gold-hairline
-  rectangle is the identity. That is the "documented rule" the shape-consistency
-  lock allows. Do not add rounded corners to one element.
+## 4. Layout
 
-## 6. Motion
+- One 1320px frame, 90vw on small screens.
+- Sections: hero, wall, disciplines, plates, about, close.
+- The wall is a 5 / 4 / 3 / 2 column grid. Cards are equal height per row; the
+  foot sits at the bottom.
+- Plates are two full-bleed marquee rows, opposite directions. This is the one
+  intentionally loud section.
+- The close assembles twenty mini cards into a seven. That is the page's
+  signature scroll moment.
+- Mobile is its own composition: corridor hidden, blurred portrait field behind
+  the copy, the pass above the title, two-column wall, single-column plates.
 
-Motion must be motivated. Every animation on this page answers one question:
+## 5. Motion
 
-| Animation | Communicates |
+GSAP 3.13 (core + ScrollTrigger) and the Outfit woff2 files are vendored in
+`vendor/`. No build step, no CDN, no third-party request.
+
+| Moment | What it does |
 |---|---|
-| Per-word heading reveal | Hierarchy: this is the headline, read it first. |
-| Card rise on scroll | Storytelling: the page is a sequence, not a wall. |
-| Photo drift | Depth: the gallery is a plane, not a grid. |
-| Stat count-up | Feedback: the number arrived, it is real. |
-| Card tilt on hover | Feedback: this is interactive, it opens. |
+| Hero load | corridor lights up, pass settles, title lines rise, nav/chips stagger |
+| Hero exit | camera push, copy fades, pass lifts |
+| Headings | per-word reveal on first view |
+| Wall | cards assemble on scroll |
+| Counters | 20 / 02 / 36 / 01 count once on view |
+| Close | twenty cards converge into the number 7 |
+| Micro | pass tilt, card tilt + spotlight, magnetic CTAs, cursor glow, marquees |
 
-No animation "because it looked cool". No `window.addEventListener('scroll')`
-doing layout reads. `transform` and `opacity` only. `prefers-reduced-motion`
-collapses everything to static, no exceptions.
+Rules:
+- Transform and opacity only.
+- Nothing essential is hidden if GSAP fails.
+- No CSS `scroll-behavior: smooth` — it breaks ScrollTrigger measurement. Anchor
+  smoothness comes from `scrollTo({behavior:"smooth"})`.
+- `prefers-reduced-motion: reduce` removes all travel: static hero, no marquee
+  movement (hero, menu and gallery rows), the 7 already formed, all content
+  visible.
+- No sound, no scroll hijack on touch, no custom cursor on touch.
 
-## 7. Content
+## 6. Interaction
 
-- Numbers here are real: 20 people, class 7, 2 photos each. Nothing invented.
-  There is no "99.98% UPTIME" on this page and there never will be.
-- Names are real classmates. No placeholder names, no stock avatars.
-- Copy register is plain and warm. No "Elevate", "Seamless", "Unleash", "Next-Gen".
-- Zero em-dashes. Yes, zero. Use a hyphen, a comma, or two sentences.
-- No section-number eyebrows (`01 - Identity`), no `Label // Year`, no decorative
-  status dots, no scroll cues, no version stamps.
-- Max one eyebrow per three sections.
+- **Find your name**: command palette (`/` or the nav button). Type, arrow,
+  Enter. This is the utility the page exists for.
+- **Wall card**: hover flips to the second portrait; click opens the profile.
+  On touch, tap opens the profile; the profile shows both portraits.
+- **Profile**: dialog with focus trap, Esc, a sticky close on mobile, two
+  portrait thumbnails, next classmate.
+- **Plates**: full-image lightbox with arrows and Esc.
+- **Filters**: Everyone / Committee / Members, live count, `aria-pressed`.
 
-## 8. Accessibility (non-negotiable)
+## 7. Accessibility
 
-- Interactive elements are real `<button>` / `<a>`, not `<div role="button">`.
-- Tap targets at least 44px on mobile.
-- Visible `:focus-visible` ring on everything interactive.
-- `min-h: 100dvh`, never `100vh`, so iOS Safari does not jump.
-- Every image has real alt text.
-- Reduced motion is honoured. Reduced transparency gets a solid fallback.
-- Contrast: AA for body, AAA target for hero copy.
+- Real `<button>` / `<a>` elements, visible `:focus-visible`.
+- Dialogs use `role="dialog"`, `aria-modal`, `aria-labelledby`, focus trap,
+  `inert` on the page behind, and focus restoration.
+- Images have alt text; decorative scene images are empty alt inside
+  `aria-hidden` containers.
+- Every reachable control has an accessible name. The icon-only find button
+  carries `aria-label="Find your name"` because its visible label is hidden
+  under 960px.
+- Every visible target is at least 24x24 CSS px (WCAG 2.5.8); primary actions
+  are 40–48px tall. Measured at 375px, the smallest is 29px.
+- Contrast: body text on dark is ≥ 7:1; cream cards use navy ink.
+- The page works without JS above the fold; the wall, plates and close are
+  rendered from `PEOPLE` (same decision as v2, documented in PRD).
 
-## 9. If someone edits this
+## 8. Performance
 
-Read section 0 first. The aesthetic is derived from who opens this page and why,
-not from a style trend. If a change serves the reader who just wants to find their
-own name and show their mother, it is probably right. If it makes the page more
-impressive to a designer, it is probably wrong.
+- 36 portrait files, `srcset` with 400/800/1125 widths, `loading="lazy"` below
+  the fold.
+- Hero corridor images are `fetchpriority="low"`; the pass and title lead.
+- Full-size photos load only in the profile and lightbox.
+- Everything is same-origin: GSAP, ScrollTrigger, the font and every image.
+  Nothing is fetched from a third party, so the page works offline.
+- Measured on a cold cache:
+  - 1440x900: 480 KB total, 250 KB of images, 36 unique files.
+  - 390x844: 455 KB total, 224 KB of images, 32 files; lazy loading still defers
+    14 images that only load on scroll.
+- No console errors, no failed requests.
+- The font is a preloaded 32 KB woff2 (latin) plus a 15 KB latin-ext fallback.
+
+## 9. Verification
+
+`tools/verify_motion.py` re-asserts the claims above in a real browser: motion
+(GSAP/ScrollTrigger land where they should), image weights and candidate
+selection, accessible names and target sizes, the closing formation, reduced
+motion, horizontal overflow at 320/390/820/1440, and third-party requests. 58
+checks, exits non-zero on failure. Run it before shipping a change.
+
+## 10. Content rules
+
+- Real names, real roles, real numbers. Two classmates have no photos yet; they
+  render as initial cards, and the copy never apologises for it.
+- No invented quotes, statistics, clients or reviews.
+- English UI copy; Indonesian role names stay as they are (`Korti`, `Anggota`).
+- No em-dashes in page copy.
+
+## 11. If someone edits this
+
+Keep the corridor scene and the wall. If a change makes the page more impressive
+but slower to find a name, it is wrong. If it makes a classmate feel seen, it is
+probably right.

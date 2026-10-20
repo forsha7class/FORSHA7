@@ -1,5 +1,10 @@
 # PRD — FORSHA 7 v2
 
+> **v3 note (current):** the visual layer has been rebuilt as *The Corridor*
+> (see `DESIGN.md`). The v2 metrics below are historical; page height, layout and
+> motion are now owned by the v3 design. P1 (the two missing photos) is still the
+> one open content item.
+
 Status: phases 1-5 done on branch `v2`. P1 and P6 remain open.
 
 Verified by `tools/verify_motion.py` (18 checks, PASS): hero payload measured 30.2 KB,

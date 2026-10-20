@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="FORSHA 7 - Rise Together. Bali Crystal College.">
+<meta name="theme-color" content="#04070d">
+<meta name="description" content="FORSHA 7 - Rise Together. Twenty people, two disciplines, one class. A keepsake for Bali Crystal College, class of 2026.">
 <title>FORSHA 7 - Rise Together</title>
 <link rel="canonical" href="https://forsha7class.github.io/FORSHA7/">
 <meta property="og:type" content="website">
@@ -15,971 +16,1647 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://forsha7class.github.io/FORSHA7/img/og-cover.jpg">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23071a31'/%3E%3Ctext x='16' y='23' font-size='20' font-family='serif' fill='%23d4af37' text-anchor='middle'%3E7%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23071a31'/%3E%3Ctext x='16' y='23' font-size='20' font-family='serif' fill='%23c9a227' text-anchor='middle'%3E7%3C/text%3E%3C/svg%3E">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+<link rel="preload" href="vendor/fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="vendor/fonts/outfit.css">
 <style>
+/* ============================================================
+   FORSHA 7 — The Corridor
+   Dark cinematic class keepsake. One file, no build.
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box}
 :root{
-  --ink:#04070d;--surface:#0a1424;--deep:#04070d;--navy:#0a1424;
-  --accent:#c9a227;--gold:#c9a227;--gold2:#e2c14b;
-  --text:#f4f5f7;--white:#f4f5f7;--muted:#93a0b4;--line:rgba(255,255,255,.10);--soft:rgba(255,255,255,.04);
-  --ease:cubic-bezier(.16,1,.3,1);--ease-soft:cubic-bezier(.22,.7,.2,1);
-  /* z-index scale. Every layer context gets a name; no bare integers in rules. */
-  --z-bg:0;        /* aurora */
-  --z-content:1;   /* page content above the aurora */
-  --z-sticky:10;   /* topbar, in-page sticky headers */
-  --z-progress:20; /* reading progress bar */
-  --z-overlay:30;  /* profile */
-  --z-modal:40;    /* lightbox */
-  --z-loader:50;   /* first-paint loader, above everything */
+  --ink:#04070d;
+  --navy:#071a31;
+  --navy-2:#0a1c36;
+  --navy-3:#0d2444;
+  --gold:#c9a227;
+  --gold-2:#e8cd7a;
+  --gold-soft:rgba(201,162,39,.16);
+  --text:#f4f5f7;
+  --muted:#93a0b4;
+  --line:rgba(255,255,255,.12);
+  --line-soft:rgba(255,255,255,.07);
+  --glass:rgba(255,255,255,.06);
+  --glass-2:rgba(255,255,255,.1);
+  --card:#f2eddf;
+  --card-2:#e8e1cf;
+  --card-ink:#0a1524;
+  --font:"Outfit",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --nav-h:78px;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:90px}
-body{background:var(--ink);color:var(--text);font-family:Outfit,system-ui,sans-serif;line-height:1.65;overflow-x:hidden;font-variant-numeric:tabular-nums}
-/* Fase 2: aurora mesh, 3 drifting blobs. Pure CSS, no JS, no dep. */
-.aurora{position:fixed;inset:-20%;z-index:var(--z-bg);pointer-events:none;filter:blur(90px);opacity:.5}
-.aurora i{position:absolute;display:block;border-radius:50%;mix-blend-mode:screen}
-.aurora i:nth-child(1){width:52vw;height:52vw;left:-6vw;top:4vh;background:radial-gradient(circle,rgba(212,175,55,.42),transparent 66%);animation:drift1 26s var(--ease) infinite alternate}
-.aurora i:nth-child(2){width:46vw;height:46vw;right:-4vw;top:26vh;background:radial-gradient(circle,rgba(37,102,165,.44),transparent 66%);animation:drift2 32s var(--ease) infinite alternate}
-.aurora i:nth-child(3){width:40vw;height:40vw;left:32vw;bottom:-6vh;background:radial-gradient(circle,rgba(120,60,180,.3),transparent 68%);animation:drift3 38s var(--ease) infinite alternate}
-@keyframes drift1{to{transform:translate3d(14vw,10vh,0) scale(1.2)}}
-@keyframes drift2{to{transform:translate3d(-16vw,-8vh,0) scale(1.14)}}
-@keyframes drift3{to{transform:translate3d(10vw,-14vh,0) scale(1.24)}}
-body>header,body>main,body>footer{position:relative;z-index:var(--z-content)}
-/* ponytail: must out-specify .aurora i:nth-child(n); a media query adds no specificity. */
-@media(prefers-reduced-motion:reduce){.aurora i:nth-child(n){animation:none}}
+body{
+  margin:0;background:var(--ink);color:var(--text);font-family:var(--font);
+  font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
 body.locked{overflow:hidden}
-a{color:inherit;text-decoration:none}button{font:inherit;color:inherit}
-::selection{background:rgba(212,175,55,.24)}
+img{max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+::selection{background:var(--gold);color:var(--ink)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+h1,h2,h3,p,figure{margin:0}
+ul{margin:0;padding:0;list-style:none}
+.wrap{width:min(1320px,90vw);margin:0 auto}
+.skip{
+  position:fixed;left:16px;top:-60px;z-index:300;background:var(--gold);color:var(--ink);
+  padding:12px 18px;border-radius:10px;font-weight:600;transition:top .2s;
+}
+.skip:focus{top:14px}
 
-.loader{position:fixed;inset:0;z-index:var(--z-loader);display:grid;place-items:center;background:var(--deep);transition:.5s var(--ease)}
-.loader.done{opacity:0;visibility:hidden;pointer-events:none}
-.loader-seven{font:48px Outfit,sans-serif;color:var(--gold);text-align:center}
-.loader-line{width:130px;height:1px;margin:15px auto;background:rgba(255,255,255,.12);overflow:hidden}
-.loader-line span{display:block;width:0;height:100%;background:var(--gold);animation:load 1s var(--ease) forwards}
-@keyframes load{to{width:100%}}
-@keyframes up{to{opacity:1;transform:none}}
+/* ---------- atmosphere ---------- */
+.grain{
+  position:fixed;inset:-50%;z-index:95;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 8s steps(6) infinite;
+}
+@keyframes grain{
+  0%,100%{transform:translate(0,0)}
+  16%{transform:translate(-2%,1%)}
+  33%{transform:translate(1%,-2%)}
+  50%{transform:translate(-1%,2%)}
+  66%{transform:translate(2%,1%)}
+  83%{transform:translate(-2%,-1%)}
+}
+.cursor-glow{
+  position:fixed;left:0;top:0;width:420px;height:420px;z-index:1;pointer-events:none;
+  border-radius:50%;opacity:0;transform:translate(-50%,-50%);
+  background:radial-gradient(circle,rgba(201,162,39,.12),rgba(201,162,39,0) 62%);
+  transition:opacity .4s ease;
+}
+.progress{position:fixed;left:0;right:0;top:0;height:2px;z-index:120;pointer-events:none}
+.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-2))}
+.ear{
+  position:fixed;right:18px;top:50%;z-index:50;transform:translateY(-50%);
+  writing-mode:vertical-rl;font-size:10px;letter-spacing:.34em;text-transform:uppercase;
+  color:rgba(255,255,255,.35);pointer-events:none;
+}
+.ear b{color:var(--gold);font-weight:500}
 
-.topbar{position:fixed;top:0;left:0;width:100%;z-index:var(--z-sticky);display:flex;justify-content:space-between;align-items:center;padding:18px 6vw;background:rgba(7,26,49,.78);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.05)}
-.brand{display:flex;align-items:center;gap:12px}
-.brand-mark{width:37px;height:37px;display:grid;place-items:center;border:1px solid var(--gold);color:var(--gold);font:19px Outfit,sans-serif}
-.brand-text{display:grid;line-height:1.05}.brand-text strong{font-size:12px;letter-spacing:.09em}.brand-text small{margin-top:5px;color:var(--muted);font-size:8px;letter-spacing:.18em}
-.nav{display:flex;gap:26px}.nav a{position:relative;color:var(--muted);font-size:10px;letter-spacing:.11em;text-transform:uppercase;padding:5px 0}.nav a:after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--gold);transition:.35s var(--ease)}.nav a:hover,.nav a.active{color:var(--white)}.nav a:hover:after,.nav a.active:after{width:100%}
+/* ---------- nav ---------- */
+.nav{
+  position:fixed;left:0;right:0;top:0;z-index:70;display:flex;align-items:center;
+  justify-content:space-between;gap:20px;height:var(--nav-h);padding:0 4vw;
+  transition:height .35s var(--ease),background .35s ease,border-color .35s ease;
+  border-bottom:1px solid transparent;
+}
+.nav.scrolled{
+  height:64px;background:rgba(4,7,13,.72);backdrop-filter:blur(20px) saturate(140%);
+  -webkit-backdrop-filter:blur(20px) saturate(140%);border-bottom-color:var(--line-soft);
+}
+.brand{display:flex;align-items:center;gap:12px;flex:none}
+.brand-mark{
+  display:grid;place-items:center;width:34px;height:34px;border:1px solid rgba(201,162,39,.65);
+  border-radius:9px;color:var(--gold);font-weight:600;font-size:17px;letter-spacing:.02em;
+  background:rgba(201,162,39,.06);
+}
+.brand-text{display:flex;flex-direction:column;line-height:1.05}
+.brand-text strong{font-size:12px;letter-spacing:.24em;font-weight:600}
+.brand-text small{font-size:8px;letter-spacing:.18em;color:var(--muted);margin-top:4px}
+.nav-links{
+  display:flex;align-items:center;gap:2px;padding:5px;border:1px solid var(--line-soft);
+  border-radius:999px;background:rgba(255,255,255,.04);backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+.nav-links a{
+  padding:9px 16px;border-radius:999px;font-size:12px;letter-spacing:.02em;color:var(--muted);
+  transition:color .2s,background .2s;
+}
+.nav-links a:hover,.nav-links a.active{color:var(--text);background:rgba(255,255,255,.08)}
+.nav-right{display:flex;align-items:center;gap:10px}
+.find-btn{
+  display:inline-flex;align-items:center;gap:10px;height:40px;padding:0 8px 0 16px;
+  border-radius:999px;border:1px solid rgba(201,162,39,.45);color:var(--gold-2);
+  background:rgba(201,162,39,.08);transition:background .25s,border-color .25s,transform .25s;
+}
+.find-btn:hover{background:rgba(201,162,39,.18);border-color:var(--gold);transform:translateY(-1px)}
+.find-btn svg{width:15px;height:15px}
+.find-btn .kbd{
+  display:grid;place-items:center;min-width:24px;height:24px;padding:0 5px;border-radius:6px;
+  border:1px solid rgba(255,255,255,.16);background:rgba(0,0,0,.22);font-size:11px;color:var(--muted);
+}
+.menu-btn{
+  display:none;width:42px;height:42px;border:1px solid var(--line);border-radius:10px;
+  place-items:center;background:rgba(255,255,255,.04);
+}
+.menu-btn span{display:block;width:18px;height:1.5px;background:var(--text);position:relative}
+.menu-btn span::before,.menu-btn span::after{
+  content:"";position:absolute;left:0;width:18px;height:1.5px;background:var(--text);
+}
+.menu-btn span::before{top:-5px}.menu-btn span::after{top:5px}
 
-/* Reading progress. Was a rail of 8 decorative dots; now one bar that reports
-   real scroll position instead of decorating the margin. */
-.progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:var(--z-progress);background:transparent;pointer-events:none}
-.progress span.bar{display:block;height:100%;width:0;background:var(--accent);transform-origin:0 50%}
-.progress-label{position:absolute;right:17px;top:50%;transform:translateY(-50%);padding:5px 8px;border:1px solid var(--line);background:rgba(4,15,29,.92);color:var(--muted);font-size:8px;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;opacity:0;pointer-events:none;transition:.25s ease}
-.progress:hover .progress-label{opacity:1}
+/* ---------- hero ---------- */
+.hero{
+  position:relative;min-height:100svh;overflow:hidden;isolation:isolate;
+  background:
+    radial-gradient(900px 600px at 60% 42%,rgba(201,162,39,.10),transparent 65%),
+    radial-gradient(1100px 700px at 10% 100%,rgba(20,60,90,.28),transparent 70%),
+    linear-gradient(180deg,#050b14 0%,#061324 55%,#04070d 100%);
+}
+.hero::after{
+  content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:
+    radial-gradient(55% 55% at 58% 44%,transparent 0%,rgba(4,7,13,.32) 58%,rgba(4,7,13,.86) 100%),
+    linear-gradient(180deg,rgba(4,7,13,.68) 0%,transparent 26%,transparent 68%,rgba(4,7,13,.92) 100%);
+}
+.corridor{
+  position:absolute;inset:-8% -2%;z-index:1;perspective:1100px;perspective-origin:50% 46%;
+  pointer-events:none;transform-style:preserve-3d;
+}
+.corridor-wall{
+  position:absolute;top:-14%;bottom:-14%;width:44%;display:grid;
+  grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:16px;
+  transform-style:preserve-3d;will-change:transform;
+}
+.corridor-wall.left{left:-9%;transform:rotateY(38deg) translateZ(-40px);transform-origin:left center;
+  -webkit-mask-image:linear-gradient(90deg,#000 30%,rgba(0,0,0,.75) 62%,transparent 100%);
+  mask-image:linear-gradient(90deg,#000 30%,rgba(0,0,0,.75) 62%,transparent 100%);
+}
+.corridor-wall.right{right:-9%;transform:rotateY(-38deg) translateZ(-40px);transform-origin:right center;
+  -webkit-mask-image:linear-gradient(270deg,#000 30%,rgba(0,0,0,.75) 62%,transparent 100%);
+  mask-image:linear-gradient(270deg,#000 30%,rgba(0,0,0,.75) 62%,transparent 100%);
+}
+.corridor-card{
+  position:relative;overflow:hidden;border-radius:12px;border:1px solid rgba(201,162,39,.28);
+  background:#0a1424;box-shadow:0 24px 60px -30px #000;
+}
+.corridor-card:nth-child(3n+2){transform:translateY(14px)}
+.corridor-card:nth-child(3n){transform:translateY(-10px)}
+.corridor-card img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  filter:brightness(.52) saturate(.65) contrast(1.05);opacity:.9;
+}
+.corridor-card::after{
+  content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(4,7,13,.65));
+}
+.mobile-faces{display:none}
+.pass-wrap{
+  position:absolute;z-index:3;left:63%;top:47%;width:296px;
+  transform:translate(-50%,-50%);transform-style:preserve-3d;pointer-events:none;
+}
+.pass{
+  position:relative;border-radius:20px;padding:16px 16px 14px;color:var(--card-ink);
+  background:linear-gradient(158deg,#fbf7ec 0%,#efe8d7 62%,#e3dac4 100%);
+  box-shadow:0 50px 120px -30px rgba(201,162,39,.5),0 30px 80px -20px rgba(0,0,0,.8),inset 0 0 0 1px rgba(255,255,255,.7);
+  transform-style:preserve-3d;
+}
+.pass::before{
+  content:"";position:absolute;inset:6px;border:1px solid rgba(150,112,18,.22);border-radius:15px;pointer-events:none;
+}
+.pass-hole{
+  position:absolute;left:50%;top:10px;width:34px;height:9px;transform:translateX(-50%);
+  border-radius:99px;background:#0a1524;box-shadow:inset 0 2px 4px rgba(0,0,0,.6);
+}
+.pass-clip{
+  position:absolute;left:50%;top:-22px;width:44px;height:26px;transform:translateX(-50%);
+  border:1px solid rgba(201,162,39,.65);border-bottom:0;border-radius:12px 12px 0 0;background:#0a1524;
+}
+.pass-head{display:flex;align-items:center;gap:10px;margin:8px 0 12px}
+.pass-mark{
+  display:grid;place-items:center;width:34px;height:34px;border-radius:9px;background:var(--navy);
+  color:var(--gold);font-weight:600;font-size:18px;
+}
+.pass-head b{display:block;font-size:12px;letter-spacing:.26em;line-height:1}
+.pass-head span span{display:block;font-size:7px;letter-spacing:.2em;color:#6a6353;margin-top:5px}
+.pass-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.pass-grid img{
+  width:100%;aspect-ratio:3/4;object-fit:cover;display:block;border-radius:7px;
+  mix-blend-mode:multiply;background:#fff;
+}
+.pass-foot{display:flex;align-items:flex-end;justify-content:space-between;margin-top:11px}
+.pass-foot b{font-size:9px;letter-spacing:.18em}
+.pass-foot small{display:block;font-size:6.5px;letter-spacing:.14em;color:#6a6353;margin-top:3px}
+.pass-code{
+  width:64px;height:18px;opacity:.75;
+  background:repeating-linear-gradient(90deg,#0a1524 0 2px,transparent 2px 4px,#0a1524 4px 5px,transparent 5px 8px);
+}
+.pass-glow{
+  position:absolute;left:50%;top:52%;width:520px;height:520px;transform:translate(-50%,-50%);
+  background:radial-gradient(circle,rgba(201,162,39,.20),rgba(201,162,39,.05) 45%,transparent 70%);
+  z-index:-1;filter:blur(6px);pointer-events:none;
+}
+.hero-inner{
+  position:relative;z-index:4;width:min(1320px,90vw);margin:0 auto;min-height:100svh;
+  display:flex;flex-direction:column;justify-content:flex-end;padding:120px 0 128px;
+}
+.hero-copy{max-width:760px}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:9px;margin-bottom:22px;padding:7px 13px;border-radius:999px;
+  border:1px solid var(--line);background:rgba(255,255,255,.045);backdrop-filter:blur(12px);
+  font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#c8d1dd;
+}
+.eyebrow i{width:5px;height:5px;border-radius:50%;background:var(--gold);display:block}
+.hero h1{
+  font-size:clamp(46px,7vw,104px);line-height:.93;letter-spacing:-.05em;font-weight:600;
+  text-wrap:balance;margin:0 0 24px;
+}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.line{display:block;overflow:hidden;padding-bottom:.06em;margin-bottom:-.06em}
+.line>span{display:block}
+.hero-sub{
+  max-width:46ch;color:#bcc6d3;font-size:clamp(15px,1.4vw,18px);line-height:1.55;margin-bottom:30px;
+}
+.hero-sub b{color:var(--text);font-weight:500}
+.hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 24px;
+  border-radius:11px;font-size:13px;font-weight:500;letter-spacing:.02em;white-space:nowrap;
+  transition:transform .25s var(--ease),background .25s,box-shadow .25s,border-color .25s;
+}
+.btn svg{width:15px;height:15px}
+.btn.solid{background:var(--text);color:var(--ink);box-shadow:0 18px 40px -18px rgba(255,255,255,.45)}
+.btn.solid:hover{transform:translateY(-2px);box-shadow:0 24px 50px -18px rgba(255,255,255,.5)}
+.btn.glass{
+  background:rgba(255,255,255,.07);border:1px solid var(--line);color:var(--text);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+}
+.btn.glass:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25);transform:translateY(-2px)}
+.hero-chips{
+  position:absolute;z-index:4;right:4vw;top:33%;display:flex;flex-direction:column;align-items:flex-end;gap:8px;
+}
+.hero-chips span{
+  display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;
+  border:1px solid var(--line-soft);background:rgba(8,20,36,.5);backdrop-filter:blur(14px);
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#c3ccd8;
+}
+.hero-chips b{color:var(--gold-2);font-weight:600}
+.hero-marquee{
+  position:absolute;left:0;right:0;bottom:0;z-index:4;height:54px;display:flex;align-items:center;
+  border-top:1px solid var(--line-soft);background:rgba(4,7,13,.35);backdrop-filter:blur(10px);
+  overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+}
+.marquee-track{display:flex;align-items:center;gap:34px;width:max-content;animation:scrollx 48s linear infinite}
+.marquee-track span{
+  display:inline-flex;align-items:center;gap:16px;font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:rgba(255,255,255,.55);white-space:nowrap;
+}
+.marquee-track span::after{content:"";width:4px;height:4px;border-radius:50%;background:rgba(201,162,39,.7)}
+@keyframes scrollx{to{transform:translate3d(-50%,0,0)}}
+.scroll-cue{
+  position:absolute;right:4vw;bottom:74px;z-index:4;display:flex;align-items:center;gap:12px;
+  font-size:9.5px;letter-spacing:.26em;text-transform:uppercase;color:rgba(255,255,255,.45);
+}
+.scroll-cue i{display:block;width:48px;height:1px;background:linear-gradient(90deg,var(--gold),transparent);position:relative;overflow:hidden}
+.scroll-cue i::after{content:"";position:absolute;left:0;top:0;width:14px;height:1px;background:var(--gold-2);animation:cue 2.4s var(--ease) infinite}
+@keyframes cue{0%{transform:translateX(-16px)}60%,100%{transform:translateX(52px)}}
 
-main{width:min(1180px,86vw);margin:auto}
-section{scroll-margin-top:90px}
-.section{padding:120px 0;border-top:1px solid var(--line)}
-.eyebrow{display:inline-block;margin:0 0 22px;padding:5px 12px;border:1px solid var(--line);color:var(--accent);text-transform:uppercase;letter-spacing:.20em;font-size:11px;font-weight:500}
-.profile-kicker{color:var(--accent);font-size:11px;letter-spacing:.18em}
-h1,h2,h3,blockquote{font-family:Outfit,sans-serif;font-weight:700}
-h1{font-size:clamp(52px,8.5vw,104px);line-height:.9;letter-spacing:-.04em}
-h2{font-size:clamp(46px,7vw,86px);line-height:.96;letter-spacing:-.035em}
-h1 span,h2 em,.gold{color:var(--gold);font-style:normal}
+/* ---------- section furniture ---------- */
+.section{position:relative;padding:clamp(90px,11vw,150px) 0}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;margin-bottom:clamp(38px,5vw,58px)}
+.kicker{
+  display:inline-flex;align-items:center;gap:10px;margin-bottom:16px;color:var(--gold);
+  font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+}
+.kicker::before{content:"";width:22px;height:1px;background:var(--gold)}
+h2{
+  font-size:clamp(36px,4.8vw,68px);line-height:.98;letter-spacing:-.045em;font-weight:600;
+  text-wrap:balance;
+}
+h2 em{font-style:normal;color:var(--gold)}
+.lede{max-width:48ch;color:#aeb9c8;font-size:16px;line-height:1.65}
+.mini-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em;margin-bottom:-.08em}
+.w>i{display:inline-block;font-style:inherit}
+svg.ic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+[hidden]{display:none!important}
 
-/* Hero: asymmetric split. Text left, a column of real faces right. The page is
-   about twenty people, so the hero shows people instead of a decorative raft of
-   numerals. min-height uses dvh, not vh, to survive the iOS Safari URL bar. */
-.hero{position:relative;min-height:100dvh;display:grid;grid-template-columns:1.15fr .85fr;gap:5vw;align-items:center;overflow:hidden;padding:88px 0 48px}
-.hero-content{position:relative;z-index:calc(var(--z-content) + 1);max-width:660px}
-.hero-faces{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.face{position:relative;display:block;aspect-ratio:3/4;overflow:hidden;background:#0c1520;border:1px solid var(--line)}
-.face img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.92) contrast(1.03)}
-.face.f1{transform:translateY(-26px)}
-.face.f2{transform:translateY(14px)}
-.face.f3{transform:translateY(-10px)}
-.face.f4{transform:translateY(30px)}
-.hero-title{opacity:0;transform:translateY(28px);animation:up 1s .55s var(--ease) forwards}
-.wordmark{display:flex;gap:5px;margin-top:16px;font:14px Outfit,sans-serif;letter-spacing:.42em;color:var(--muted)}
-.wordmark-letter{cursor:pointer;transition:.3s var(--ease)}.wordmark-letter:hover{color:var(--gold);transform:translateY(-4px)}
-.wordmark-info{min-height:21px;margin-top:7px;color:var(--gold2);font-size:9px;letter-spacing:.17em;text-transform:uppercase}
-.hero-description{max-width:560px;margin-top:22px;color:var(--muted);font-size:clamp(16px,2vw,20px);opacity:0;transform:translateY(20px);animation:up .9s .82s var(--ease) forwards}.hero-description strong{color:var(--white)}
-.hero-actions{display:flex;gap:22px;align-items:center;margin-top:28px;opacity:0;transform:translateY(20px);animation:up .9s 1.02s var(--ease) forwards}
-.btn{display:inline-flex;align-items:center;gap:15px;padding:14px 18px;background:var(--gold);color:var(--navy);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;transition:.25s var(--ease)}.btn span{font-size:15px}.btn:hover{box-shadow:0 14px 34px rgba(0,0,0,.27)}
-.text-link{color:var(--muted);font-size:10px;letter-spacing:.1em;text-transform:uppercase}.text-link span{color:var(--gold);margin-left:5px}.text-link:hover{color:var(--white)}
+/* ---------- wall ---------- */
+#wall:focus{outline:none}
+.wall{background:linear-gradient(180deg,#04070d 0%,#061120 30%,#071a31 70%,#04070d 100%)}
+.wall-head{display:flex;align-items:flex-end;justify-content:space-between;gap:36px;margin-bottom:34px}
+.wall-head .lede{margin-top:18px}
+.wall-tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.filters{display:flex;gap:4px;padding:4px;border:1px solid var(--line-soft);border-radius:999px;background:rgba(255,255,255,.035)}
+.filter{padding:8px 14px;border-radius:999px;font-size:11px;letter-spacing:.04em;color:var(--muted);transition:.2s}
+.filter:hover{color:var(--text)}
+.filter.active{background:var(--gold);color:var(--ink);font-weight:500}
+.search-open{
+  display:inline-flex;align-items:center;gap:9px;height:40px;padding:0 15px;border-radius:999px;
+  border:1px solid var(--line);background:rgba(255,255,255,.04);font-size:11.5px;color:#d5dce6;
+  transition:.2s;
+}
+.search-open:hover{border-color:rgba(201,162,39,.55);background:rgba(201,162,39,.08)}
+.search-open svg{width:14px;height:14px;color:var(--gold)}
+.wall-grid{
+  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;
+  perspective:1400px;
+}
+.pcard{
+  position:relative;display:block;height:100%;padding:0;text-align:left;border-radius:16px;
+  transform:perspective(1000px) rotateX(var(--tx,0deg)) rotateY(var(--ty,0deg));
+  transform-style:preserve-3d;transition:transform .45s var(--ease),box-shadow .45s var(--ease);
+  will-change:transform;
+}
+.pcard-inner{
+  display:flex;flex-direction:column;height:100%;position:relative;transform-style:preserve-3d;
+  transition:transform .9s var(--ease);border-radius:16px;
+}
+.pcard:hover .pcard-inner,.pcard:focus-visible .pcard-inner{transform:rotateY(180deg)}
+.pcard-face{
+  display:flex;flex-direction:column;height:100%;position:relative;overflow:hidden;border-radius:16px;background:var(--card);color:var(--card-ink);
+  border:1px solid rgba(201,162,39,.28);
+  -webkit-backface-visibility:hidden;backface-visibility:hidden;
+  box-shadow:0 22px 50px -28px rgba(0,0,0,.9);
+}
+.pcard:hover .pcard-face{box-shadow:0 34px 80px -26px rgba(201,162,39,.32),0 20px 50px -24px rgba(0,0,0,.9)}
+.pcard-front::after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;
+  background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.5),transparent 62%);
+  mix-blend-mode:soft-light;
+}
+.pcard:hover .pcard-front::after{opacity:1}
+.pcard-photo{position:relative;display:block;flex:none;background:var(--card)}
+.pcard-photo img{
+  display:block;width:100%;aspect-ratio:3/4;object-fit:cover;mix-blend-mode:multiply;
+  transition:transform .8s var(--ease);
+}
+.pcard-fallback{
+  display:grid;place-items:center;width:100%;aspect-ratio:3/4;
+  background:linear-gradient(160deg,#efe8d7,#ddd3bd);color:#8a6a12;
+}
+.pcard-fallback b{font-size:64px;font-weight:600;letter-spacing:-.04em}
+.pcard:hover .pcard-photo img{transform:scale(1.035)}
+.pcard-num{
+  position:absolute;left:10px;top:10px;z-index:2;padding:4px 7px;border-radius:6px;
+  background:rgba(10,21,36,.72);color:#f4f5f7;font-size:9px;letter-spacing:.14em;
+  backdrop-filter:blur(8px);
+}
+.pcard-body{display:flex;flex-direction:column;flex:1;padding:12px 13px 14px;position:relative}
+.pcard-name{display:block;font-size:clamp(15px,1.25vw,19px);line-height:1.12;font-weight:600;letter-spacing:-.02em}
+.pcard-role{display:block;margin-top:6px;margin-bottom:10px;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#7d6a37}
+.pcard-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:9px;border-top:1px solid rgba(10,21,36,.12)}
+.pcard-foot small{font-size:7.5px;letter-spacing:.14em;text-transform:uppercase;color:#8b8471}
+.pcard-foot b{font-size:8px;color:#8a6a12;font-weight:600;letter-spacing:.1em}
+.pcard-back{
+  position:absolute;inset:0;transform:rotateY(180deg);
+  display:flex;flex-direction:column;justify-content:flex-end;padding:16px;
+  background:var(--navy-2);color:var(--text);border:1px solid rgba(201,162,39,.4);
+}
+.pcard-back>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55;filter:saturate(.85)}
+.pcard-back::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,7,13,.1),rgba(4,7,13,.9))}
+.pcard-back .back-text{display:block;position:relative;z-index:1}
+.pcard-back b{display:block;font-size:19px;line-height:1.1;font-weight:600}
+.pcard-back span{display:inline-flex;align-items:center;gap:7px;margin-top:10px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-2)}
+.pcard-back em{position:absolute;right:14px;top:14px;z-index:1;font-style:normal;font-size:9px;letter-spacing:.16em;color:rgba(255,255,255,.6)}
+.wall-note{display:flex;justify-content:space-between;gap:20px;margin-top:22px;color:rgba(255,255,255,.4);font-size:10.5px;letter-spacing:.06em}
 
-.split{display:grid;grid-template-columns:1fr 1fr;gap:8vw}
-.copy{max-width:610px;color:var(--muted);font-size:16px}.copy p+p{margin-top:22px}
-/* ponytail: was a 3-equal-card row, the single most generic layout. Figures sit in one
-   hairline strip instead; no boxes, no equal columns. */
-.stats{display:flex;flex-wrap:wrap;gap:0;margin-top:40px;border-top:1px solid var(--line)}
-.stat{flex:1 1 160px;padding:22px 24px 22px 0;border-right:1px solid var(--line);transition:border-color .35s var(--ease)}
-.stat:last-child{border-right:0}
-.stat:hover{border-color:rgba(255,255,255,.22)}
-.stat b{display:block;font:300 46px/1 Outfit,sans-serif;color:var(--text);letter-spacing:-.03em}
-.stat small{display:block;margin-top:8px;color:var(--muted);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+/* ---------- disciplines ---------- */
+.disciplines{background:linear-gradient(180deg,#04070d,#071427 40%,#04070d)}
+.disc-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.disc{
+  position:relative;overflow:hidden;border-radius:26px;padding:36px;min-height:560px;
+  display:flex;flex-direction:column;justify-content:space-between;isolation:isolate;
+  border:1px solid var(--line-soft);background:linear-gradient(155deg,#0d2444 0%,#071427 60%,#050d18 100%);
+}
+.disc::before{
+  content:attr(data-num);position:absolute;right:-12px;bottom:-46px;z-index:-1;
+  font-size:clamp(180px,24vw,330px);font-weight:700;line-height:.8;letter-spacing:-.08em;
+  color:rgba(255,255,255,.035);
+}
+.disc-glow{position:absolute;z-index:-1;width:420px;height:420px;border-radius:50%;filter:blur(60px);opacity:.35}
+.disc-fo .disc-glow{right:-120px;top:-80px;background:rgba(201,162,39,.28)}
+.disc-hk .disc-glow{left:-120px;top:-80px;background:rgba(40,110,150,.3)}
+.disc-top{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.disc-top span{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.disc-top small{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35)}
+.disc h3{font-size:clamp(34px,3.6vw,54px);line-height:.98;letter-spacing:-.04em;font-weight:600;margin:28px 0 16px}
+.disc h3 em{font-style:normal;color:var(--gold)}
+.disc p{max-width:44ch;color:#a9b6c7;font-size:15.5px;line-height:1.65}
+.disc-strip{display:flex;align-items:flex-end;gap:12px;margin-top:34px}
+.disc-strip span{
+  display:block;width:92px;aspect-ratio:3/4;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.12);
+  background:#0a1424;transform:rotate(var(--r,0deg));transition:transform .5s var(--ease);
+}
+.disc:hover .disc-strip span{transform:rotate(0deg) translateY(-6px)}
+.disc-strip img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.85)}
+.disc-foot{display:flex;justify-content:space-between;align-items:center;margin-top:28px;padding-top:18px;border-top:1px solid var(--line-soft)}
+.disc-foot b{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.55)}
 
-.section-head{margin-bottom:50px}
-.acronym{border-top:1px solid var(--line)}
-.acro{width:100%;display:grid;grid-template-columns:78px 1fr 30px;gap:18px;align-items:center;padding:20px 0;border-bottom:1px solid var(--line);background:transparent;text-align:left;cursor:pointer;transition:.35s var(--ease)}
-.acro:hover,.acro.active{padding-left:14px;padding-right:14px;background:rgba(212,175,55,.045)}
-.acro-letter{font:40px Outfit,sans-serif;color:var(--gold)}.acro-title{display:block;font-size:16px;font-weight:600}.acro-sub{color:var(--muted);font-size:12px}.acro-arrow{color:var(--gold);text-align:right;transition:.3s var(--ease);transform:rotate(0deg)}.acro.active .acro-arrow{transform:rotate(45deg)}
-.acro-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s var(--ease);overflow:hidden}.acro-panel.open{grid-template-rows:1fr}.acro-panel-inner{min-height:0;overflow:hidden}
-/* ponytail: 0fr grid trick needs Safari 16.4+; max-height fallback below that, tiny tail-end unanimated */
-@supports not (grid-template-rows:0fr){
-  .acro-panel{display:block;max-height:0;transition:max-height .55s var(--ease),opacity .35s var(--ease);opacity:0}
-  .acro-panel.open{max-height:400px;opacity:1}
-  .acro-panel-inner{overflow:visible}
-}.acro-detail{padding:0 0 0 78px}.acro-panel.open .acro-detail{padding-top:18px;padding-bottom:28px}.acro-detail p{max-width:700px;color:var(--muted);font-size:14px}.acro-detail strong{display:block;margin-bottom:7px;color:var(--gold2);font-size:10px;text-transform:uppercase;letter-spacing:.18em}
+/* ---------- plates ---------- */
+.plates{background:#04070d;overflow:hidden;padding-bottom:clamp(60px,8vw,100px)}
+.plates-head{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;margin-bottom:42px}
+.marquee-row{overflow:hidden;margin-top:12px;padding:6px 0}
+.marquee-row .track{
+  display:flex;gap:12px;width:max-content;animation:scrollx 90s linear infinite;
+}
+.marquee-row.rev .track{animation-direction:reverse;animation-duration:110s}
+.marquee-row:hover .track{animation-play-state:paused}
+.plate{
+  position:relative;display:block;width:clamp(150px,15vw,225px);aspect-ratio:3/4;border-radius:12px;
+  overflow:hidden;background:#0a1424;flex:none;border:1px solid var(--line-soft);
+}
+.plate img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s var(--ease),filter .5s}
+.plate::after{
+  content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 48%,rgba(4,7,13,.85));
+  opacity:0;transition:opacity .35s;
+}
+.plate span{
+  position:absolute;left:12px;right:12px;bottom:10px;z-index:1;font-size:11px;line-height:1.2;
+  letter-spacing:.02em;color:#fff;opacity:0;transform:translateY(6px);transition:.35s;
+}
+.plate:hover img{transform:scale(1.06)}
+.plate:hover::after,.plate:hover span{opacity:1;transform:none}
+.plates-note{display:flex;justify-content:space-between;gap:20px;margin-top:26px;color:rgba(255,255,255,.4);font-size:10.5px}
+.plates-note b{color:var(--gold);font-weight:500}
 
-.philosophy{display:grid;grid-template-columns:1fr 1fr;gap:8vw}.long-copy{max-width:610px;color:var(--muted);font-size:16px}.long-copy p+p{margin-top:22px}
+/* ---------- about ---------- */
+.about{background:linear-gradient(180deg,#04070d,#061120 55%,#04070d)}
+.about-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(40px,7vw,110px);align-items:start}
+.about-sticky{position:sticky;top:120px}
+.about-sticky h2{margin-bottom:22px}
+.about-copy{display:grid;gap:26px}
+.about-copy p{color:#c2ccd9;font-size:clamp(17px,1.7vw,21px);line-height:1.6;max-width:56ch}
+.about-copy p b{color:var(--text);font-weight:500}
+.about-quote{
+  margin:12px 0;padding:26px 0 26px 26px;border-left:1px solid rgba(201,162,39,.45);
+  font-size:clamp(20px,2.2vw,28px);line-height:1.35;letter-spacing:-.02em;color:var(--text);
+}
+.about-quote span{display:block;margin-top:14px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.about-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:44px;padding-top:28px;border-top:1px solid var(--line-soft)}
+.about-stats div{display:flex;flex-direction:column;gap:6px}
+.about-stats b{font-size:clamp(30px,3.4vw,46px);line-height:1;letter-spacing:-.04em;font-weight:600;color:var(--gold)}
+.about-stats small{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 
-.principles{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
-.principle{min-height:220px;padding:23px;border:1px solid var(--line);background:var(--soft);cursor:pointer;transition:.35s var(--ease)}.principle:hover,.principle.active{transform:translateY(-7px);border-color:rgba(212,175,55,.42);background:rgba(212,175,55,.055)}
-.principle-index{color:var(--gold);font-size:9px;letter-spacing:.18em}.principle h3{margin-top:48px;font-size:22px}.principle p{margin-top:7px;color:var(--muted);font-size:12px}
-.principle-detail{min-height:75px;margin-top:22px;padding:18px 20px;border-left:1px solid var(--gold);background:rgba(255,255,255,.018);color:var(--muted)}
+/* ---------- close + formation ---------- */
+.close{
+  position:relative;overflow:hidden;padding:clamp(90px,10vw,140px) 0 0;
+  background:
+    radial-gradient(700px 500px at 50% 38%,rgba(201,162,39,.12),transparent 68%),
+    linear-gradient(180deg,#04070d,#06101d 60%,#04070d);
+}
+.seven-stage{position:relative;width:min(520px,74vw);aspect-ratio:1;margin:0 auto 30px}
+.seven-stage .mini{
+  position:absolute;left:0;top:0;width:52px;height:70px;border-radius:8px;overflow:hidden;
+  background:var(--card);border:1px solid rgba(201,162,39,.42);
+  box-shadow:0 18px 40px -22px rgba(0,0,0,.9);will-change:transform;
+}
+.seven-stage .mini img{width:100%;height:100%;object-fit:cover;display:block;mix-blend-mode:multiply}
+.seven-stage .mini b{
+  position:absolute;inset:0;display:grid;place-items:center;font-size:20px;color:#8a6a12;
+}
+.close-copy{text-align:center;position:relative;z-index:2;padding:0 5vw}
+.close-copy h2{font-size:clamp(54px,8.4vw,122px);letter-spacing:-.055em;line-height:.92}
+.close-copy h2 em{color:var(--gold)}
+.close-copy p{max-width:46ch;margin:22px auto 0;color:#aeb9c8;font-size:16px;line-height:1.6}
+.close-actions{display:flex;justify-content:center;gap:12px;margin-top:30px;flex-wrap:wrap}
+.footer{
+  margin-top:clamp(70px,9vw,110px);border-top:1px solid var(--line-soft);
+  padding:28px 0 34px;font-size:11px;color:rgba(255,255,255,.45);
+}
+.footer-in{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.footer .brand-text small{display:block}
+.footer-links{display:flex;gap:18px}
+.footer-links a{padding:6px 0}
+.footer a{transition:color .2s}
+.footer a:hover{color:var(--gold-2)}
 
-.names-head{margin-bottom:52px}
-/* One list. No card boxes: a hairline between rows is all the separation it needs. */
-/* Two columns on wide screens: 20 full-width rows was 4400px of scrolling for
-   a list you scan, not read. */
-.people{display:grid;grid-template-columns:1fr 1fr;gap:0 54px;border-top:1px solid var(--line);margin-top:52px}
-.person{display:grid;grid-template-columns:34px 52px 1fr auto 26px;gap:14px;align-items:center;width:100%;padding:14px 0;border:0;border-bottom:1px solid var(--line);background:transparent;text-align:left;font:inherit;color:inherit;cursor:pointer;transition:padding .35s var(--ease),background .35s var(--ease)}
-.person:hover,.person:focus-visible{padding-left:12px;padding-right:12px;background:rgba(255,255,255,.028)}
-.person:focus-visible{outline:1px solid var(--accent);outline-offset:-2px}
-.person-index{color:var(--muted);font-size:11px;letter-spacing:.14em;font-variant-numeric:tabular-nums}
-.person-name{display:block;font-weight:600;font-size:clamp(17px,2.2vw,22px);line-height:1.15;letter-spacing:-.01em}
-.role{display:block;margin-top:4px;color:var(--muted);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
-.person-text{display:grid;gap:0;min-width:0}
-.badge{align-self:center;padding:4px 9px;border:1px solid var(--line);color:var(--accent);font-size:10px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
-.arrow{color:var(--accent);text-align:right;opacity:.35;transition:.3s var(--ease)}
-.person:hover .arrow{opacity:1;transform:translateX(4px)}
+/* ---------- overlays ---------- */
+.overlay{
+  position:fixed;inset:0;z-index:100;visibility:hidden;opacity:0;pointer-events:none;
+  transition:opacity .35s ease,visibility 0s linear .35s;
+}
+.overlay.open{visibility:visible;opacity:1;pointer-events:auto;transition:opacity .35s ease,visibility 0s linear 0s}
+.overlay-bg{position:absolute;inset:0;background:rgba(4,7,13,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.overlay-close{
+  display:grid;place-items:center;width:44px;height:44px;border-radius:10px;
+  border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--text);
+  transition:background .2s,transform .2s;
+}
+.overlay-close:hover{background:rgba(255,255,255,.12);transform:rotate(90deg)}
+.overlay-close svg{width:16px;height:16px}
 
-.profile{position:fixed;inset:0;z-index:var(--z-overlay);background:rgba(4,15,29,.96);opacity:0;visibility:hidden;pointer-events:none;transition:.45s var(--ease);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
-.profile.open{opacity:1;visibility:visible;pointer-events:auto}
-/* ponytail: min-height 100% + center keeps short profiles centered; long ones scroll.
-   flex-shrink:0 on children so they don't compress when content overflows. */
-.profile-inner{width:min(980px,88vw);min-height:100%;margin:auto;display:flex;flex-direction:column;justify-content:center;padding:100px 0 40px}
-.profile-inner>*{flex:none}
-.profile-back{margin-bottom:0}
-.profile-top{position:sticky;top:0;z-index:2;display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:45px;padding:14px 0;background:linear-gradient(rgba(4,15,29,.97),rgba(4,15,29,.82));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}.profile-kicker{color:var(--gold);font-size:9px;letter-spacing:.2em}
-.profile-close{width:42px;height:42px;display:grid;place-items:center;background:transparent;border:1px solid var(--line);cursor:pointer;color:var(--muted);font-size:18px}.profile-close:hover{color:var(--white);border-color:rgba(212,175,55,.4)}
-.profile-name{font-size:clamp(48px,9vw,105px);line-height:.9}.profile-role{margin-top:17px;color:var(--gold2);font-size:10px;letter-spacing:.2em;text-transform:uppercase}
-.profile-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:60px}.box{padding:20px;border:1px solid var(--line);background:var(--soft)}.box small{color:var(--gold);font-size:8px;letter-spacing:.16em;text-transform:uppercase}.box strong{display:block;margin-top:7px;font-size:14px}
-.profile-back{margin-top:40px;background:none;border:0;cursor:pointer;color:var(--muted);font-size:10px;letter-spacing:.1em;text-transform:uppercase}.profile-back span{color:var(--gold);margin-right:5px}
-
-.ending{text-align:center;padding:155px 0 170px}.ending small{color:var(--muted);text-transform:uppercase;letter-spacing:.25em;font-size:9px}.ending h2{margin-top:18px;font-size:clamp(56px,10vw,118px)}.ending-line{width:min(400px,70vw);height:1px;margin:35px auto;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-.ending-note{min-height:22px;margin-top:18px;color:var(--gold2);font-size:9px;letter-spacing:.15em;text-transform:uppercase}
-
-footer{display:flex;justify-content:space-between;gap:20px;padding:30px 7vw 38px;border-top:1px solid var(--line);color:var(--muted);font-size:10px}footer strong{color:var(--white);letter-spacing:.08em}.back-top{cursor:pointer}.back-top:hover{color:var(--white)}
-
-/* --- photos --- */
-.avatar{position:relative;overflow:hidden;background:linear-gradient(145deg,#12294a,#071a31);flex:none}
-.avatar img{width:100%;height:100%;object-fit:cover;display:block;transition:.5s var(--ease)}
-.avatar-fallback{position:absolute;inset:0;display:grid;place-items:center;font-family:Outfit,sans-serif;color:var(--gold);opacity:.55}
-.person{grid-template-columns:60px 1fr 65px}
-.person .avatar{width:48px;height:48px;border:1px solid var(--line)}
-.person:hover .avatar img{transform:scale(1.06)}
-.member{grid-template-columns:60px 1fr auto;min-height:88px}
-.member .avatar{width:48px;height:48px;border-radius:50%;border:1px solid var(--line)}
-.member:hover .avatar{border-color:rgba(212,175,55,.5)}
-.member-text{display:grid;gap:3px;min-width:0}
-
-.profile-photos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:42px;max-width:640px}
-.profile-photo{position:relative;aspect-ratio:3/4;border:1px solid var(--line);overflow:hidden;cursor:zoom-in;background:#0a1b31}
-.profile-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:.5s var(--ease)}
-.profile-photo:hover img{transform:scale(1.04)}
-.profile-photo.solo{grid-column:span 2;aspect-ratio:16/9}
-.profile-photo .avatar-fallback{font-size:38px}
-
-/* gallery: one tile per person, two frames side by side. Caption sits under the
-   photo, never overlaid on it. */
-.gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:52px}
-.gallery-item{margin:0}
-.pair{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.pair-img{position:relative;display:block;width:100%;aspect-ratio:3/4;padding:0;border:0;overflow:hidden;background:#0c1520;cursor:zoom-in}
-.pair-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .55s var(--ease)}
-.pair-img:hover img,.pair-img:focus-visible img{transform:scale(1.045)}
-.pair-img:focus-visible{outline:1px solid var(--accent);outline-offset:-2px}
-/* Caption aligned on a shared baseline. The name truncates, the role holds its
-   width, so roles line up down the column instead of drifting. */
-.gallery-item figcaption{display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:12px;margin-top:11px;padding-top:9px;border-top:1px solid var(--line);min-height:32px}
-.gallery-item figcaption span{display:block;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;font-weight:500}
-.gallery-item figcaption small{color:var(--muted);font-size:10px;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+/* profile */
+.profile{overflow:auto;overscroll-behavior:contain}
+.profile-card{
+  position:relative;z-index:1;width:min(1120px,92vw);margin:6vh auto 7vh;border-radius:26px;overflow:hidden;
+  display:grid;grid-template-columns:1.06fr .94fr;background:var(--card);color:var(--card-ink);
+  box-shadow:0 60px 140px -40px rgba(0,0,0,.9);
+  transform:translateY(30px) scale(.97);opacity:0;
+  transition:transform .55s var(--ease),opacity .45s ease;
+}
+.overlay.open .profile-card{transform:none;opacity:1}
+.profile-media{position:relative;min-height:min(74vh,720px);background:#e7e0cf;overflow:hidden}
+.profile-media img{width:100%;height:100%;object-fit:cover;display:block;mix-blend-mode:multiply}
+.profile-media .ph-fallback{position:absolute;inset:0;display:grid;place-items:center;font-size:120px;color:#b59a4a;font-weight:600}
+.profile-media .flip-btn{
+  position:absolute;left:18px;bottom:18px;z-index:2;display:inline-flex;align-items:center;gap:8px;
+  padding:9px 13px;border-radius:999px;background:rgba(10,21,36,.8);color:#fff;font-size:10px;
+  letter-spacing:.12em;text-transform:uppercase;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.18);
+}
+.profile-media .flip-btn:hover{background:rgba(10,21,36,.95)}
+.profile-media .flip-btn svg{width:13px;height:13px;color:var(--gold)}
+.profile-body{position:relative;display:flex;flex-direction:column;padding:clamp(28px,4vw,48px)}
+.profile-card>.overlay-close{position:absolute;right:18px;top:18px;z-index:4;color:#fff;border-color:rgba(255,255,255,.22);background:rgba(10,21,36,.55);backdrop-filter:blur(12px)}
+.profile-card>.overlay-close:hover{background:rgba(10,21,36,.8)}
+.profile-kicker{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#8a6a12;margin-bottom:18px}
+.profile-name{font-size:clamp(34px,4.4vw,58px);line-height:.98;letter-spacing:-.045em;font-weight:600;max-width:12ch}
+.profile-role{margin-top:12px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#6c6553}
+.profile-meta{display:grid;grid-template-columns:1fr 1fr;gap:1px;margin:28px 0;background:rgba(10,21,36,.14);border:1px solid rgba(10,21,36,.14);border-radius:14px;overflow:hidden}
+.profile-meta div{background:var(--card);padding:14px 16px}
+.profile-meta small{display:block;font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:#7c7461}
+.profile-meta b{display:block;margin-top:5px;font-size:13px;font-weight:500;color:var(--card-ink)}
+.profile-note{color:#5f5a4b;font-size:13px;line-height:1.6;margin-bottom:22px}
+.profile-thumbs{display:flex;gap:8px;margin:0 0 26px}
+.profile-thumbs button{
+  position:relative;display:block;width:60px;height:76px;border-radius:8px;overflow:hidden;
+  border:1px solid rgba(10,21,36,.18);background:#e7e0cf;transition:border-color .2s,transform .2s;
+}
+.profile-thumbs button:hover{transform:translateY(-2px)}
+.profile-thumbs button[aria-current="true"]{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
+.profile-thumbs img{width:100%;height:100%;object-fit:cover;display:block;mix-blend-mode:multiply}
+.profile-nav{margin-top:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.profile-nav button,.profile-nav a{
+  display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 16px;border-radius:10px;
+  font-size:11.5px;letter-spacing:.04em;transition:.2s;
+}
+.profile-nav .primary{background:var(--navy);color:#fff}
+.profile-nav .primary:hover{background:var(--navy-3)}
+.profile-nav .ghost{border:1px solid rgba(10,21,36,.2);color:var(--card-ink)}
+.profile-nav .ghost:hover{background:rgba(10,21,36,.06)}
+.profile-nav svg{width:14px;height:14px}
 
 /* lightbox */
-.lightbox{position:fixed;inset:0;z-index:var(--z-modal);display:grid;place-items:center;background:rgba(4,15,29,.97);opacity:0;visibility:hidden;pointer-events:none;transition:.35s var(--ease)}
-.lightbox.show{opacity:1;visibility:visible;pointer-events:auto}
-.lightbox img{max-width:92vw;max-height:82vh;object-fit:contain}
-.lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;display:grid;place-items:center;background:rgba(7,26,49,.75);border:1px solid var(--line);color:var(--gold);font-size:17px;cursor:pointer}
-.lightbox-nav:hover{border-color:rgba(212,175,55,.5)}
-.lightbox-prev{left:3vw}.lightbox-next{right:3vw}
-.lightbox-close{position:absolute;top:22px;right:3vw;width:44px;height:44px;background:rgba(7,26,49,.75);border:1px solid var(--line);color:var(--white);font-size:19px;cursor:pointer}
-.lightbox-cap{position:absolute;bottom:26px;left:0;right:0;text-align:center;color:var(--muted);font-size:10px;letter-spacing:.14em;text-transform:uppercase}
-
-.reveal{opacity:0;transform:translateY(28px);transition:.8s var(--ease)}.reveal.visible{opacity:1;transform:none}
-
-/* --- Fase 2: glass + spotlight, no JS beyond one mousemove delegate --- */
-.stat,.principle,.box,.people-side,.acro-panel-inner{
-  backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3);
-  background-image:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.012));
+.lightbox{display:grid;place-items:center;z-index:110}
+.lightbox .lb-stage{position:relative;z-index:1;width:min(94vw,1000px);display:flex;flex-direction:column;align-items:center;gap:14px}
+.lightbox img{max-width:100%;max-height:78vh;object-fit:contain;border-radius:8px;box-shadow:0 40px 100px -30px #000}
+.lb-cap{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.lb-close{position:absolute;right:3vw;top:3vh;z-index:2}
+.lb-prev,.lb-next{
+  position:absolute;top:50%;z-index:2;display:grid;place-items:center;width:48px;height:48px;border-radius:50%;
+  border:1px solid var(--line);background:rgba(255,255,255,.06);transform:translateY(-50%);
+  backdrop-filter:blur(12px);transition:.2s;
 }
-/* ponytail: one shared spotlight, coords written to :root. Per-card listeners would be N handlers for the same job. */
-.spot{position:relative;overflow:hidden}
-.spot:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .4s var(--ease);
-  background:radial-gradient(340px circle at var(--mx,50%) var(--my,50%),rgba(212,175,55,.16),transparent 62%)}
-.spot:hover:before{opacity:1}
+.lb-prev:hover,.lb-next:hover{background:rgba(255,255,255,.14)}
+.lb-prev{left:2.5vw}.lb-next{right:2.5vw}
+.lb-prev svg,.lb-next svg{width:18px;height:18px}
 
-/* Fase 2: marquee of all 20 names. Duplicated track, CSS-only scroll. */
-.marquee{margin-top:60px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:18px 0;
-  mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
-.marquee-track{display:flex;gap:34px;width:max-content;animation:slide 42s linear infinite}
-.marquee:hover .marquee-track{animation-play-state:paused}
-.marquee-track span{font:15px Outfit,sans-serif;letter-spacing:.06em;color:var(--muted);white-space:nowrap;display:flex;align-items:center;gap:34px}
-.marquee-track span:after{content:"◆";color:var(--gold);font-size:7px}
-@keyframes slide{to{transform:translate3d(-50%,0,0)}}
-@media(prefers-reduced-motion:reduce){.marquee-track{animation:none}.spot:before{display:none}}
-@media(max-width:650px){.marquee-track{animation-duration:26s}}
+/* finder */
+.finder{display:flex;justify-content:center;align-items:flex-start;padding:12vh 4vw 4vh;z-index:120}
+.finder-box{
+  position:relative;z-index:1;width:min(620px,100%);border-radius:18px;overflow:hidden;
+  border:1px solid rgba(255,255,255,.14);background:rgba(9,20,36,.96);
+  box-shadow:0 50px 120px -30px #000;transform:translateY(-14px) scale(.98);opacity:0;
+  transition:transform .35s var(--ease),opacity .3s;
+}
+.finder.open .finder-box{transform:none;opacity:1}
+.finder-input{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line-soft)}
+.finder-input svg{width:18px;height:18px;color:var(--gold);flex:none}
+.finder-input input{
+  flex:1;background:none;border:0;outline:0;color:var(--text);font:inherit;font-size:16px;
+}
+.finder-input input::placeholder{color:#6d7a8c}
+.finder-input kbd{
+  padding:3px 7px;border-radius:5px;border:1px solid var(--line);background:rgba(255,255,255,.05);
+  font-size:10px;color:var(--muted);font-family:inherit;
+}
+.finder-list{max-height:50vh;overflow:auto;padding:8px;scrollbar-width:thin}
+.finder-item{
+  display:flex;align-items:center;gap:12px;width:100%;padding:9px 10px;border-radius:10px;text-align:left;
+  transition:background .15s;
+}
+.finder-item:hover,.finder-item[aria-selected="true"]{background:rgba(201,162,39,.12)}
+.finder-item .fi-avatar{
+  width:34px;height:34px;border-radius:8px;overflow:hidden;flex:none;background:var(--card);
+  display:grid;place-items:center;color:#8a6a12;font-weight:600;font-size:13px;
+}
+.finder-item .fi-avatar img{width:100%;height:100%;object-fit:cover;mix-blend-mode:multiply}
+.finder-item .fi-text{min-width:0;flex:1}
+.finder-item b{display:block;font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.finder-item small{display:block;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+.finder-item .fi-num{font-size:10px;color:var(--gold);letter-spacing:.1em}
+.finder-empty{padding:26px 18px;text-align:center;color:var(--muted);font-size:13px}
+.finder-foot{display:flex;justify-content:space-between;gap:14px;padding:10px 16px;border-top:1px solid var(--line-soft);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#6d7a8c}
+.finder-foot b{color:#aab6c6;font-weight:500}
 
-/* --- Fase 3: scroll-driven animation (native). Chrome/Edge 115+, Safari 26+. --- */
-/* ponytail: animation-timeline is progressive — browsers without it just show the final state,
-   the existing IntersectionObserver .reveal path stays as the fallback. No polyfill. */
-@supports (animation-timeline: view()){
-  @media(prefers-reduced-motion:no-preference){
-    .rise{animation:riseIn linear both;animation-timeline:view();animation-range:entry 8% cover 34%}
-    @keyframes riseIn{from{opacity:0;transform:translateY(46px) scale(.985)}to{opacity:1;transform:none}}
-    .fade{animation:fadeIn linear both;animation-timeline:view();animation-range:entry 5% cover 30%}
-    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-    /* photo strips drift at a slightly different rate -> parallax without JS */
-    .gallery-item,.profile-photo{animation:photoDrift linear both;animation-timeline:view();animation-range:entry 0% cover 100%}
-    @keyframes photoDrift{from{transform:translateY(18px)}to{transform:translateY(-18px)}}
+/* menu */
+.menu{z-index:115;background:rgba(4,7,13,.97)}
+.menu .overlay-bg{background:radial-gradient(700px 500px at 80% 0%,rgba(201,162,39,.12),transparent 60%)}
+.menu-in{position:relative;z-index:1;width:min(1320px,90vw);margin:0 auto;padding:22px 0 40px;min-height:100dvh;display:flex;flex-direction:column}
+.menu-top{display:flex;align-items:center;justify-content:space-between}
+.menu-links{display:flex;flex-direction:column;gap:2px;margin:auto 0}
+.menu-links a{
+  display:flex;align-items:baseline;gap:18px;padding:8px 0;font-size:clamp(38px,8vw,72px);
+  line-height:1;letter-spacing:-.045em;font-weight:600;transition:color .2s,transform .35s var(--ease);
+}
+.menu-links a small{font-size:10px;letter-spacing:.16em;color:var(--gold);font-weight:400}
+.menu-links a:hover{color:var(--gold);transform:translateX(8px)}
+.menu-foot{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-top:24px;border-top:1px solid var(--line-soft);color:rgba(255,255,255,.45);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+.menu-foot button{display:inline-flex;flex:none;align-items:center;gap:8px;height:42px;padding:0 16px;border-radius:999px;border:1px solid rgba(201,162,39,.45);color:var(--gold-2);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+.menu-ticker{overflow:hidden;margin-top:22px;border-top:1px solid var(--line-soft);padding-top:18px}
+.menu-ticker .marquee-track{animation-duration:60s}
+
+/* ---------- responsive ---------- */
+@media(max-width:1180px){
+  .wall-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .pass-wrap{left:62%;width:270px}
+  .hero-copy{max-width:640px}
+}
+@media(max-width:960px){
+  .nav-links{display:none}
+  .menu-btn{display:grid}
+  .find-btn .find-label{display:none}
+  .find-btn{padding:0 10px}
+  .find-btn .kbd{display:none}
+  .hero-chips{display:none}
+  .pass-wrap{left:auto;right:6vw;top:15%;width:214px;transform:none}
+  .hero-inner{padding-top:200px;justify-content:flex-end}
+  .hero-copy{max-width:620px}
+  .wall-head,.section-head,.plates-head{flex-direction:column;align-items:flex-start;gap:22px}
+  .wall-tools{justify-content:flex-start}
+  .disc-grid{grid-template-columns:1fr}
+  .disc{min-height:480px}
+  .about-grid{grid-template-columns:1fr;gap:40px}
+  .about-sticky{position:static}
+  .profile-card{grid-template-columns:1fr;margin:3vh auto 5vh}
+  .profile-media{min-height:58vh}
+  .ear{display:none}
+  .seven-stage .mini{width:44px;height:60px}
+}
+@media(max-width:700px){
+  :root{--nav-h:64px}
+  .brand-text small{display:none}
+  .hero{min-height:100svh}
+  .corridor-wall{display:none}
+  .mobile-faces{
+    display:grid;position:absolute;inset:-6% -8% 20%;z-index:1;
+    grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;gap:6px;
+    opacity:.42;filter:blur(2.5px) brightness(.38) saturate(.6);transform:rotate(-4deg);
+    pointer-events:none;
+    -webkit-mask-image:radial-gradient(72% 68% at 50% 34%,#000 20%,transparent 82%);
+    mask-image:radial-gradient(72% 68% at 50% 34%,#000 20%,transparent 82%);
   }
+  .mobile-faces img{width:100%;height:100%;object-fit:cover;border-radius:6px;display:block}
+  .pass-wrap{right:50%;top:17%;width:186px;transform:translateX(50%)}
+  .pass{padding:10px}
+  .pass-head b{font-size:9px}
+  .pass-head span span{font-size:6px}
+  .pass-mark{width:26px;height:26px;font-size:14px}
+  .pass-foot b{font-size:7px}
+  .pass-foot small{font-size:5.5px}
+  .pass-code{width:44px;height:12px}
+  .hero-inner{padding:0 0 104px;justify-content:flex-end;min-height:100svh}
+  .hero-copy{max-width:100%}
+  .eyebrow{font-size:9px;margin-bottom:16px;padding:6px 11px}
+  .hero h1{font-size:clamp(40px,12vw,58px);margin-bottom:18px}
+  .hero-sub{font-size:14px;margin-bottom:24px;max-width:100%}
+  .hero-actions{gap:9px}
+  .btn{height:48px;padding:0 18px;font-size:12px}
+  .hero-marquee{height:46px}
+  .scroll-cue{display:none}
+  .section{padding:78px 0}
+  .wall-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .pcard-name{font-size:14px}
+  .pcard-body{padding:10px 10px 12px}
+  .pcard:hover .pcard-inner{transform:none}
+  .filters{overflow-x:auto;max-width:100%}
+  .filter{white-space:nowrap}
+  .disc{padding:26px;min-height:440px}
+  .disc h3{font-size:36px}
+  .disc-strip{gap:9px}
+  .disc-strip span{width:68px}
+  .plate{width:132px;border-radius:10px}
+  .plates-note{font-size:9px}
+  .about-stats{grid-template-columns:1fr 1fr;gap:20px}
+  .seven-stage .mini{width:32px;height:44px;border-radius:6px}
+  .close-copy h2{font-size:clamp(46px,14vw,72px)}
+  .footer-in{flex-direction:column;align-items:flex-start;gap:14px}
+  .profile-media{min-height:52vh}
+  .profile-media img{object-position:center 16%}
+  .profile-card>.overlay-close{position:fixed;top:14px;right:14px}
+  .profile-body{padding:24px}
+  .profile-name{font-size:38px}
+  .lb-prev{left:10px}.lb-next{right:10px}
+  .lb-prev,.lb-next{width:40px;height:40px}
+  .finder{padding-top:8vh}
+  .finder-item b{font-size:12px}
 }
-
-/* Fase 3: per-word heading reveal. JS splits, CSS staggers. */
-.rw{display:inline-block;overflow:hidden;vertical-align:top}
-.rw>i{display:inline-block;font-style:inherit;transform:translateY(105%);opacity:0;transition:transform .85s var(--ease),opacity .85s var(--ease)}
-.rw.in>i{transform:none;opacity:1}
-/* Fase 3: gentle 3D tilt, desktop only, always set inline by JS. */
-.tilt{transition:transform .35s var(--ease);transform-style:preserve-3d;will-change:transform}
-@media(prefers-reduced-motion:reduce){.rw>i{transform:none;opacity:1}}
-
-/* --- Fase 4: polish --- */
-/* animated gradient border on the active principle card. @property lets the angle animate. */
-@property --ang{syntax:"<angle>";inherits:false;initial-value:0deg}
-.principle.active{position:relative;border-color:transparent}
-.principle.active:after{content:"";position:absolute;inset:-1px;padding:1px;pointer-events:none;border-radius:inherit;
-  background:conic-gradient(from var(--ang),transparent 0deg,rgba(212,175,55,.85) 70deg,transparent 150deg);
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
-  animation:spinBorder 4.5s linear infinite}
-@keyframes spinBorder{to{--ang:360deg}}
-/* cursor glow: one fixed blurred disc following the pointer */
-.glow{position:fixed;top:0;left:0;width:420px;height:420px;margin:-210px 0 0 -210px;z-index:1;pointer-events:none;opacity:0;
-  background:radial-gradient(circle,rgba(212,175,55,.13),transparent 62%);filter:blur(40px);
-  transition:opacity .5s var(--ease);will-change:transform}
-.glow.on{opacity:1}
-/* loader gets the wordmark + a real progress line */
-.loader-seven span:first-child{display:block;font-size:15px;letter-spacing:.5em;color:var(--muted);margin-bottom:14px}
-@media(prefers-reduced-motion:reduce){.principle.active:after{animation:none}.glow{display:none}}
-@media(max-width:650px){.glow{display:none}}
-
-
-@media(max-width:950px){.split,.philosophy{grid-template-columns:1fr;gap:40px}.principles{grid-template-columns:repeat(2,1fr)}.people{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(3,1fr)}.profile-photos{max-width:100%}}
-@media(max-width:650px){
-/* Hero collapses to one column. The faces stay, as a 4-across strip under the
-   copy, because a 102px-wide photo column is decoration, not a portrait. */
-.hero{grid-template-columns:1fr;gap:34px;padding:84px 0 44px;min-height:0}
-.hero-faces{grid-template-columns:repeat(4,1fr);gap:8px;order:2}
-.face{aspect-ratio:3/4}
-.face.f1,.face.f2,.face.f3,.face.f4{transform:none}
-.hero-content{order:1}
-.topbar{padding:14px 5vw}.brand-text small{display:none}
-.nav{gap:12px}.nav a{font-size:11px;letter-spacing:.06em;padding:14px 0;min-height:44px;display:inline-flex;align-items:center}
-main{width:90vw}
-.section{padding:78px 0}
-.hero{min-height:100dvh}
-.hero-actions{flex-wrap:wrap;gap:18px}
-/* tap targets: 44px minimum */
-.btn{padding:15px 20px;min-height:44px}
-.text-link{min-height:44px;display:inline-flex;align-items:center}
-.principles{grid-template-columns:1fr;gap:10px}
-.profile-meta{grid-template-columns:1fr}
-.acro{grid-template-columns:46px 1fr 24px;gap:12px;padding:18px 0;min-height:44px}
-.acro-detail{padding-left:46px}
-.person{grid-template-columns:28px 46px 1fr 24px;gap:12px}
-.person .avatar{width:44px;height:44px}
-.badge{display:none}
-.gallery{grid-template-columns:1fr;gap:24px}
-.profile-photos{grid-template-columns:1fr}
-.profile-photo.solo{grid-column:span 1;aspect-ratio:3/4}
-.stats{flex-direction:column}
-.stat{border-right:0;border-bottom:1px solid var(--line);padding:18px 0}
-.stat:last-child{border-bottom:0}
-footer{flex-direction:column;gap:8px}
-footer .back-top,#backTop{min-height:44px;display:inline-flex;align-items:center}
-.brand{min-height:44px}
-.person{padding:16px 0}
-.profile-back,.profile-close{min-height:44px}
-.wordmark-letter{padding:6px 2px}
+@media(max-width:380px){
+  .brand-text strong{font-size:10px}
+  .hero h1{font-size:39px}
+  .btn{padding:0 14px}
+  .menu-links a{font-size:34px}
 }
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.001ms!important;transition-duration:.001ms!important}.reveal{opacity:1;transform:none}}
+@media(max-width:340px){
+  .hero-actions{flex-direction:column;align-items:stretch}
+  .hero-actions .btn{width:100%}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  .grain{display:none}
+  .cursor-glow{display:none}
+  .marquee-track{animation:none}
+  .marquee-row .track{animation:none}
+}
 </style>
 </head>
-
 <body>
+<a class="skip" href="#wall">Skip to the class</a>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+<div class="progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress"><span id="progressFill"></span></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-arrow-l" viewBox="0 0 24 24"><path d="M20 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-arrow-ur" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
+  <symbol id="i-flip" viewBox="0 0 24 24"><path d="M4 8h12a4 4 0 0 1 0 8h-2"/><path d="m7 5-3 3 3 3"/></symbol>
+</svg>
 
-<div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
-<div class="glow" id="glow" aria-hidden="true"></div>
-
-<div class="loader" id="loader" aria-hidden="true">
-  <div class="loader-seven"><span>FORSHA 7</span>07<div class="loader-line"><span></span></div></div>
-</div>
-
-<header class="topbar">
-  <a href="#home" class="brand" aria-label="FORSHA 7 Home">
+<header class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="FORSHA 7, back to top">
     <span class="brand-mark">7</span>
     <span class="brand-text"><strong>FORSHA 7</strong><small>BALI CRYSTAL COLLEGE</small></span>
   </a>
-  <nav class="nav">
-    <a href="#home" data-nav="home" class="active">Home</a>
-    <a href="#about" data-nav="about">About</a>
-    <a href="#members" data-nav="members">Members</a>
+  <nav class="nav-links" aria-label="Sections">
+    <a href="#wall" data-nav="wall">The Wall</a>
+    <a href="#disciplines" data-nav="disciplines">Disciplines</a>
     <a href="#gallery" data-nav="gallery">Gallery</a>
+    <a href="#about" data-nav="about">About</a>
   </nav>
+  <div class="nav-right">
+    <button class="find-btn" type="button" data-find aria-haspopup="dialog" aria-label="Find your name">
+      <svg class="ic"><use href="#i-search"/></svg>
+      <span class="find-label">Find your name</span>
+      <span class="kbd">/</span>
+    </button>
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><span></span></button>
+  </div>
 </header>
 
-<div class="progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressBar"><span class="bar" id="progressFill"></span></div>
-
-<main>
-
-<section id="home" class="hero section-target">
-  <div class="hero-content">
-    <p class="eyebrow">Bali Crystal College</p>
-    <h1 class="hero-title">FORSHA <span>7</span></h1>
-
-    <div class="wordmark" aria-label="FORSHA acronym">
-      <span class="wordmark-letter" data-word="Front Office">F</span>
-      <span class="wordmark-letter" data-word="One">O</span>
-      <span class="wordmark-letter" data-word="Respect">R</span>
-      <span class="wordmark-letter" data-word="Solidarity">S</span>
-      <span class="wordmark-letter" data-word="Housekeeping">H</span>
-      <span class="wordmark-letter" data-word="Achievement">A</span>
+<div class="overlay menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true">
+  <div class="overlay-bg"></div>
+  <div class="menu-in">
+    <div class="menu-top">
+      <a class="brand" href="#top">
+        <span class="brand-mark">7</span>
+        <span class="brand-text"><strong>FORSHA 7</strong><small>BALI CRYSTAL COLLEGE</small></span>
+      </a>
+      <button class="overlay-close" type="button" data-close="menu" aria-label="Close menu"><svg class="ic"><use href="#i-close"/></svg></button>
     </div>
-
-    <p class="hero-description">One class. Two disciplines. One direction. <strong>Rise Together.</strong></p>
-
-    <div class="hero-actions">
-      <a href="#about" class="btn magnetic">Enter the identity <span>→</span></a>
-      <a href="#members" class="text-link">Meet the class <span>↗</span></a>
+    <nav class="menu-links" aria-label="Menu sections">
+      <a href="#wall"><small>01</small>The Wall</a>
+      <a href="#disciplines"><small>02</small>Disciplines</a>
+      <a href="#gallery"><small>03</small>Gallery</a>
+      <a href="#about"><small>04</small>About</a>
+    </nav>
+    <div class="menu-ticker" aria-hidden="true"><div class="marquee-track" id="menuMarquee"></div></div>
+    <div class="menu-foot">
+      <span>Bali Crystal College · 2026</span>
+      <button type="button" data-find><svg class="ic"><use href="#i-search"/></svg>Find your name</button>
     </div>
   </div>
+</div>
 
-  <div class="hero-faces" aria-hidden="true">
-    <span class="face f1"><img src="img/01a-t.webp" srcset="img/01a-t.webp 400w,img/01a-m.webp 800w,img/01a.webp 1125w" sizes="(max-width:650px) 24vw, 18vw" alt="" loading="eager" fetchpriority="high" decoding="async"></span>
-    <span class="face f2"><img src="img/07a-t.webp" srcset="img/07a-t.webp 400w,img/07a-m.webp 800w,img/07a.webp 1125w" sizes="(max-width:650px) 24vw, 18vw" alt="" loading="eager" fetchpriority="high" decoding="async"></span>
-    <span class="face f3"><img src="img/13a-t.webp" srcset="img/13a-t.webp 400w,img/13a-m.webp 800w,img/13a.webp 1125w" sizes="(max-width:650px) 24vw, 18vw" alt="" loading="eager" fetchpriority="high" decoding="async"></span>
-    <span class="face f4"><img src="img/19a-t.webp" srcset="img/19a-t.webp 400w,img/19a-m.webp 800w,img/19a.webp 1125w" sizes="(max-width:650px) 24vw, 18vw" alt="" loading="eager" fetchpriority="high" decoding="async"></span>
-  </div>
-</section>
-
-<section id="identity" class="section reveal section-target">
-  <div class="split">
-    <div>
-      <p class="eyebrow">One class</p>
-      <h2>More than<br><em>just a class.</em></h2>
+<main id="site">
+  <section class="hero" id="top">
+    <div class="mobile-faces" id="mobileFaces" aria-hidden="true"></div>
+    <div class="corridor" id="corridor" aria-hidden="true">
+      <div class="corridor-wall left" id="wallLeft"></div>
+      <div class="corridor-wall right" id="wallRight"></div>
     </div>
-    <div>
-      <div class="copy">
-        <p>FORSHA 7 brings Front Office and Housekeeping together under one identity.</p>
-        <p>Different responsibilities. Different strengths. One team that chooses to move in the same direction.</p>
-        <p>This space is designed to be explored rather than simply read: every name, letter, principle, and movement connects back to the same identity.</p>
-      </div>
-      <div class="stats">
-        <div class="stat"><b data-to="20" data-pad="2">20</b><small>People</small></div>
-        <div class="stat"><b data-to="7" data-pad="2">07</b><small>Class</small></div>
+    <div class="pass-wrap" aria-hidden="true">
+      <div class="pass-glow"></div>
+      <div class="pass" id="pass">
+        <div class="pass-clip"></div>
+        <div class="pass-hole"></div>
+        <div class="pass-head">
+          <span class="pass-mark">7</span>
+          <span><b>FORSHA 7</b><span>CLASS KEEPSAKE</span></span>
+        </div>
+        <div class="pass-grid" id="passGrid"></div>
+        <div class="pass-foot">
+          <span><b>CLASS OF 2026</b><small>BALI CRYSTAL COLLEGE</small></span>
+          <span class="pass-code"></span>
+        </div>
       </div>
     </div>
-  </div>
-</section>
-
-<section id="about" class="section reveal section-target">
-  <div class="section-head">
-    <h2>FORSHA,<br><em>opened.</em></h2>
-  </div>
-
-  <div class="acronym" id="acronymList">
-
-    <div class="acro-wrap">
-      <button class="acro active" data-letter="F" data-title="Front Office">
-        <span class="acro-letter">F</span><span><strong class="acro-title">Front Office</strong><small class="acro-sub">The first impression.</small></span><span class="acro-arrow">↗</span>
-      </button>
-      <div class="acro-panel open"><div class="acro-panel-inner"><div class="acro-detail"><strong>Front Office</strong><p>The first impression of hospitality: presence, communication, confidence, and the human connection that begins the guest experience.</p></div></div></div>
     </div>
 
-    <div class="acro-wrap">
-      <button class="acro" data-letter="O" data-title="One">
-        <span class="acro-letter">O</span><span><strong class="acro-title">One</strong><small class="acro-sub">One class. One team.</small></span><span class="acro-arrow">↗</span>
-      </button>
-      <div class="acro-panel"><div class="acro-panel-inner"><div class="acro-detail"><strong>One</strong><p>Different roles do not have to create distance. One identity means the class moves with a shared purpose.</p></div></div></div>
+    <div class="hero-chips" aria-hidden="true">
+      <span><b>20</b> people</span>
+      <span><b>02</b> disciplines</span>
+      <span><b>2026</b> class</span>
     </div>
 
-    <div class="acro-wrap">
-      <button class="acro" data-letter="R" data-title="Respect">
-        <span class="acro-letter">R</span><span><strong class="acro-title">Respect</strong><small class="acro-sub">How we work with others.</small></span><span class="acro-arrow">↗</span>
-      </button>
-      <div class="acro-panel"><div class="acro-panel-inner"><div class="acro-detail"><strong>Respect</strong><p>Respect is visible in communication, attitude, reliability, and the way we treat people when nobody is watching.</p></div></div></div>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow"><i></i>FORSHA 7 · Bali Crystal College</p>
+        <h1>
+          <span class="line"><span>Two disciplines.</span></span>
+          <span class="line"><span><em>One identity.</em></span></span>
+        </h1>
+        <p class="hero-sub">Twenty people from <b>Front Office</b> and <b>Housekeeping</b>. One class, one direction. <b>Rise together.</b></p>
+        <div class="hero-actions">
+          <a class="btn solid magnetic" href="#wall">Meet the class <svg class="ic"><use href="#i-arrow-r"/></svg></a>
+          <button class="btn glass magnetic" type="button" data-find>Find your name <svg class="ic"><use href="#i-search"/></svg></button>
+        </div>
+      </div>
     </div>
 
-    <div class="acro-wrap">
-      <button class="acro" data-letter="S" data-title="Solidarity">
-        <span class="acro-letter">S</span><span><strong class="acro-title">Solidarity</strong><small class="acro-sub">We move together.</small></span><span class="acro-arrow">↗</span>
-      </button>
-      <div class="acro-panel"><div class="acro-panel-inner"><div class="acro-detail"><strong>Solidarity</strong><p>When one person is under pressure, the team does not become smaller. It becomes more connected.</p></div></div></div>
+    <div class="scroll-cue" aria-hidden="true"><span>Scroll to enter</span><i></i></div>
+    <div class="hero-marquee" aria-hidden="true"><div class="marquee-track" id="heroMarquee"></div></div>
+  </section>
+
+  <section class="section wall" id="wall" tabindex="-1">
+    <div class="wrap">
+      <div class="wall-head">
+        <div>
+          <p class="kicker">01 · The wall</p>
+          <h2>Everyone, <em>one place.</em></h2>
+          <p class="lede">Twenty people, two disciplines, every face in the class. Hover a card for the second portrait, or search for your own name.</p>
+        </div>
+        <div class="wall-tools">
+          <div class="filters" role="group" aria-label="Filter the class">
+            <button class="filter active" type="button" data-filter="all" aria-pressed="true">Everyone</button>
+            <button class="filter" type="button" data-filter="committee" aria-pressed="false">Committee</button>
+            <button class="filter" type="button" data-filter="member" aria-pressed="false">Members</button>
+          </div>
+          <button class="search-open" type="button" data-find>
+            <svg class="ic"><use href="#i-search"/></svg><span>Search name</span>
+          </button>
+        </div>
+      </div>
+      <div class="wall-grid" id="wallGrid"></div>
+      <div class="wall-note">
+        <span id="wallCount" aria-live="polite">Showing all 20 classmates</span>
+        <span>Hover to flip · click to open</span>
+      </div>
     </div>
+  </section>
 
-    <div class="acro-wrap">
-      <button class="acro" data-letter="H" data-title="Housekeeping">
-        <span class="acro-letter">H</span><span><strong class="acro-title">Housekeeping</strong><small class="acro-sub">The discipline behind comfort.</small></span><span class="acro-arrow">↗</span>
-      </button>
-      <div class="acro-panel"><div class="acro-panel-inner"><div class="acro-detail"><strong>Housekeeping</strong><p>Precision, cleanliness, discipline, and attention to detail: the work guests feel even when they do not see it.</p></div></div></div>
+  <section class="section disciplines" id="disciplines">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="kicker">02 · Disciplines</p>
+          <h2>Two crafts. <em>One standard.</em></h2>
+        </div>
+        <p class="lede">Front Office and Housekeeping look different from the outside. Inside, both are about the same thing: making someone feel expected, considered, and at ease.</p>
+      </div>
+      <div class="disc-grid">
+        <article class="disc disc-fo" data-num="01">
+          <div class="disc-glow"></div>
+          <div>
+            <div class="disc-top"><span>Front Office</span><small>The first impression</small></div>
+            <h3>Presence, <em>on purpose.</em></h3>
+            <p>The first impression is hospitality: presence, communication, confidence, and the human connection that begins the guest experience.</p>
+          </div>
+          <div>
+            <div class="disc-strip" id="foStrip" aria-hidden="true"></div>
+            <div class="disc-foot"><b>Communication · Confidence · Welcome</b></div>
+          </div>
+        </article>
+        <article class="disc disc-hk" data-num="02">
+          <div class="disc-glow"></div>
+          <div>
+            <div class="disc-top"><span>Housekeeping</span><small>The quiet work</small></div>
+            <h3>Comfort, <em>made invisible.</em></h3>
+            <p>The discipline behind comfort: precision, consistency, and the quiet work that makes a room feel effortless before anyone walks in.</p>
+          </div>
+          <div>
+            <div class="disc-strip" id="hkStrip" aria-hidden="true"></div>
+            <div class="disc-foot"><b>Precision · Discipline · Care</b></div>
+          </div>
+        </article>
+      </div>
     </div>
+  </section>
 
-    <div class="acro-wrap">
-      <button class="acro" data-letter="A" data-title="Achievement">
-        <span class="acro-letter">A</span><span><strong class="acro-title">Achievement</strong><small class="acro-sub">Progress made visible.</small></span><span class="acro-arrow">↗</span>
-      </button>
-      <div class="acro-panel"><div class="acro-panel-inner"><div class="acro-detail"><strong>Achievement</strong><p>Achievement is the result of consistency: learning, improving, and turning effort into something real.</p></div></div></div>
+  <section class="section plates" id="gallery">
+    <div class="wrap">
+      <div class="plates-head">
+        <div>
+          <p class="kicker">03 · The plates</p>
+          <h2>Thirty-six frames. <em>Eighteen faces.</em></h2>
+        </div>
+        <p class="lede">Two portraits each. One formal, one at ease. Click any frame to see the full photograph.</p>
+      </div>
     </div>
-
-  </div>
-</section>
-
-<section id="philosophy" class="section reveal section-target">
-  <div class="philosophy">
-    <div><h2>Grow through<br><em>each other.</em></h2></div>
-    <div class="long-copy">
-      <p>FORSHA 7 is built from two hospitality disciplines, but its identity is not divided by them.</p>
-      <p>Front Office brings presence, communication, and welcome. Housekeeping brings precision, discipline, and attention to detail.</p>
-      <p>Together, those strengths form one class: people who respect the process, support one another, and keep moving toward a higher standard.</p>
+    <div class="marquee-row" aria-label="Class portraits, row one"><div class="track" id="galRow1"></div></div>
+    <div class="marquee-row rev" aria-label="Class portraits, row two"><div class="track" id="galRow2"></div></div>
+    <div class="wrap">
+      <div class="plates-note"><span>Every portrait is from the class. No stock faces.</span><span><b>36</b> photographs</span></div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="principles" class="section reveal section-target">
-  <div class="section-head">
-    <p class="kicker">Principles</p>
-    <p class="eyebrow">Principles</p>
-    <h2>What we<br><em>stand for.</em></h2>
-  </div>
+  <section class="section about" id="about">
+    <div class="wrap about-grid">
+      <div class="about-sticky">
+        <p class="kicker">04 · About</p>
+        <h2>A class is a <em>place.</em></h2>
+        <div class="about-stats">
+          <div><b data-count="20" data-pad="2">20</b><small>People</small></div>
+          <div><b data-count="2" data-pad="2">02</b><small>Disciplines</small></div>
+          <div><b data-count="36" data-pad="2">36</b><small>Portraits</small></div>
+          <div><b data-count="1" data-pad="2">01</b><small>Class</small></div>
+        </div>
+      </div>
+      <div class="about-copy">
+        <p><b>FORSHA 7</b> is twenty people from Bali Crystal College, class of 2026, across two hospitality disciplines: Front Office and Housekeeping.</p>
+        <p>FORSHA stands for <b>Front Office, Respect, Solidarity, Housekeeping, Achievement</b>. Seven is the class. Together it reads less like an acronym and more like a way of working.</p>
+        <blockquote class="about-quote">Different responsibilities. Different strengths. One team that chooses to move in the same direction.<span>FORSHA 7</span></blockquote>
+        <p>This page is a keepsake. Every name, role and portrait is real: thirty-six photographs, eighteen faces, no stock images and no invented numbers.</p>
+      </div>
+    </div>
+  </section>
 
-  <div class="principles">
-    <article class="principle spot active" data-detail="Respect: how we communicate, collaborate, and treat every person around us."><span class="principle-index">01</span><h3>Respect</h3><p>People first.</p></article>
-    <article class="principle spot" data-detail="Solidarity: different strengths become more useful when the team stays connected."><span class="principle-index">02</span><h3>Solidarity</h3><p>We move together.</p></article>
-    <article class="principle spot" data-detail="Discipline: consistency turns expectations into habits and habits into standards."><span class="principle-index">03</span><h3>Discipline</h3><p>Standards matter.</p></article>
-    <article class="principle spot" data-detail="Excellence: small details compound. Good work is rarely accidental."><span class="principle-index">04</span><h3>Excellence</h3><p>Details define.</p></article>
-    <article class="principle spot" data-detail="Growth: every challenge is another chance to become more capable than yesterday."><span class="principle-index">05</span><h3>Growth</h3><p>Keep moving.</p></article>
-  </div>
-  <div class="principle-detail" id="principleDetail">Respect: how we communicate, collaborate, and treat every person around us.</div>
-</section>
-
-<section id="members" class="section reveal section-target">
-  <h2 class="names-head">Twenty names.<br><em>One identity.</em></h2>
-
-  <div class="marquee" aria-hidden="true"><div class="marquee-track" id="marqueeTrack"></div></div>
-
-  <div class="people" id="committee"></div>
-</section>
-
-<section id="gallery" class="section reveal section-target">
-  <div class="section-head">
-    <h2>Two frames.<br><em>One person.</em></h2>
-  </div>
-  <div class="gallery" id="galleryGrid"></div>
-</section>
-
-<section id="ending" class="ending reveal section-target">
-  <small>FORSHA 7 · Bali Crystal College</small>
-  <h2>We rise<br><span class="gold">together.</span></h2>
-  <div class="ending-line"></div>
-  <div class="ending-note" id="endingNote">Keep exploring.</div>
-</section>
-
+  <section class="close" id="close">
+    <div class="seven-stage" id="sevenStage" aria-hidden="true"></div>
+    <div class="close-copy">
+      <h2>We rise <em>together.</em></h2>
+      <p>Twenty names, one identity. This is the class of 2026, and this is where we keep it.</p>
+      <div class="close-actions">
+        <button class="btn solid" type="button" data-find>Find your name <svg class="ic"><use href="#i-search"/></svg></button>
+        <a class="btn glass" href="#top">Back to the top</a>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="wrap footer-in">
+        <a class="brand" href="#top">
+          <span class="brand-mark">7</span>
+          <span class="brand-text"><strong>FORSHA 7</strong><small>BALI CRYSTAL COLLEGE · 2026</small></span>
+        </a>
+        <div class="footer-links">
+          <a href="#wall">The Wall</a>
+          <a href="#gallery">Gallery</a>
+          <a href="#about">About</a>
+          <a href="#top">Back to top ↑</a>
+        </div>
+        <div>Made for the class. Rise together.</div>
+      </div>
+    </footer>
+  </section>
 </main>
 
-<footer>
-  <div><strong>FORSHA 7</strong> · Rise Together.</div>
-  <div>Bali Crystal College · 2026</div>
-  <div class="back-top" id="backTop">Back to top ↑</div>
-</footer>
-
-<div class="profile" id="profileOverlay" aria-hidden="true">
-  <div class="profile-inner">
-    <div class="profile-top">
-      <p class="profile-kicker">FORSHA 7 · PROFILE</p>
-      <button class="profile-close" id="profileClose" type="button" aria-label="Close profile">×</button>
+<div class="overlay profile" id="profile" role="dialog" aria-modal="true" aria-labelledby="profileName" aria-hidden="true">
+  <div class="overlay-bg" data-close="profile"></div>
+  <div class="profile-card" role="document">
+    <div class="profile-media">
+      <img id="profileImg" alt="">
+      <div class="ph-fallback" id="profileFallback" hidden></div>
+      <button class="flip-btn" id="profileFlip" type="button" hidden aria-pressed="false">
+        <svg class="ic"><use href="#i-flip"/></svg><span>View second portrait</span>
+      </button>
     </div>
-    <h2 class="profile-name" id="profileName"></h2>
-    <p class="profile-role" id="profileRole"></p>
-    <div class="profile-meta">
-      <div class="box spot"><small>Position</small><strong id="metaRole"></strong></div>
-      <div class="box spot"><small>Photos</small><strong id="metaFoto">-</strong></div>
-      <div class="box spot"><small>Class</small><strong>Bali Crystal College</strong></div>
+    <button class="overlay-close" type="button" data-close="profile" aria-label="Close profile"><svg class="ic"><use href="#i-close"/></svg></button>
+    <div class="profile-body">
+      <p class="profile-kicker">FORSHA 7 · Profile</p>
+      <h2 class="profile-name" id="profileName"></h2>
+      <p class="profile-role" id="profileRole"></p>
+      <div class="profile-meta">
+        <div><small>Number</small><b id="metaNum"></b></div>
+        <div><small>Group</small><b id="metaGroup"></b></div>
+        <div><small>Portraits</small><b id="metaPhotos"></b></div>
+        <div><small>Class</small><b>Bali Crystal College</b></div>
+      </div>
+      <p class="profile-note" id="profileNote"></p>
+      <div class="profile-thumbs" id="profileThumbs" role="group" aria-label="Portraits"></div>
+      <div class="profile-nav">
+        <button class="primary" type="button" data-close="profile">Back to the wall</button>
+        <button class="ghost" type="button" id="profileNext">Next classmate <svg class="ic"><use href="#i-arrow-r"/></svg></button>
+      </div>
     </div>
-    <div class="profile-photos" id="profilePhotos"></div>
-    <button class="profile-back" id="profileBack" type="button"><span>←</span> Back to the class</button>
   </div>
 </div>
 
-<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Photo viewer">
-  <button class="lightbox-close" id="lbClose" type="button" aria-label="Close">×</button>
-  <button class="lightbox-nav lightbox-prev" id="lbPrev" type="button" aria-label="Previous photo">←</button>
-  <img id="lbImg" alt="">
-  <button class="lightbox-nav lightbox-next" id="lbNext" type="button" aria-label="Next photo">→</button>
-  <p class="lightbox-cap" id="lbCap"></p>
+<div class="overlay lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" aria-hidden="true">
+  <div class="overlay-bg" data-close="lightbox"></div>
+  <button class="overlay-close lb-close" type="button" data-close="lightbox" aria-label="Close photo viewer"><svg class="ic"><use href="#i-close"/></svg></button>
+  <button class="lb-prev" id="lbPrev" type="button" aria-label="Previous photo"><svg class="ic"><use href="#i-arrow-l"/></svg></button>
+  <div class="lb-stage">
+    <img id="lbImg" alt="">
+    <p class="lb-cap" id="lbCap"></p>
+  </div>
+  <button class="lb-next" id="lbNext" type="button" aria-label="Next photo"><svg class="ic"><use href="#i-arrow-r"/></svg></button>
 </div>
 
+<div class="overlay finder" id="finder" role="dialog" aria-modal="true" aria-label="Find your name" aria-hidden="true">
+  <div class="overlay-bg" data-close="finder"></div>
+  <div class="finder-box">
+    <div class="finder-input">
+      <svg class="ic"><use href="#i-search"/></svg>
+      <input id="finderInput" type="text" placeholder="Type a name or role..." autocomplete="off" spellcheck="false" role="combobox" aria-expanded="true" aria-controls="finderList" aria-autocomplete="list">
+      <kbd>ESC</kbd>
+    </div>
+    <div class="finder-list" id="finderList" role="listbox" aria-label="Classmates"></div>
+    <div class="finder-foot"><span><b>↑ ↓</b> move · <b>↵</b> open</span><span><b id="finderCount">20</b> classmates</span></div>
+  </div>
+</div>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
 <script>
 (() => {
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const fine = matchMedia("(pointer:fine)").matches;
-  const $ = (s,root=document) => root.querySelector(s);
-  const $$ = (s,root=document) => [...root.querySelectorAll(s)];
+  const $ = (s, root = document) => root.querySelector(s);
+  const $$ = (s, root = document) => [...root.querySelectorAll(s)];
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
-  // ponytail: data inline, no fetch/no json file. 20 rows, never paginated.
-  const PEOPLE = [{"n":1,"nama":"I Made Sukra Mahardika","role":"Korti","foto":"01"},{"n":2,"nama":"Ni Putu Linda Purnama Dewi","role":"Wakil Korti","foto":"02"},{"n":3,"nama":"I Putu Aditya Yuda Saputra","role":"Bendahara","foto":"03"},{"n":4,"nama":"Ni Luh Putu Novitasari","role":"Sekretaris","foto":"04"},{"n":5,"nama":"Ni Made Depi Yulia Lestari","role":"Anggota","foto":"05"},{"n":6,"nama":"Ni Putu Cinta Lestari Dewi","role":"Anggota","foto":"06"},{"n":7,"nama":"Ni Putu Nitadewi","role":"Anggota","foto":"07"},{"n":8,"nama":"I Putu Yoga Aditya Pratama","role":"Anggota","foto":"08"},{"n":9,"nama":"Ni Putu Bunga Mentari","role":"Anggota","foto":"09"},{"n":10,"nama":"I Wayan Gede Surya Atmaja","role":"Anggota","foto":"10"},{"n":11,"nama":"I Wayan Mahesa Putra","role":"Anggota","foto":"11"},{"n":12,"nama":"I Made Yogi Tresna","role":"Anggota","foto":null},{"n":13,"nama":"I Nyoman Doni Saputra","role":"Anggota","foto":"13"},{"n":14,"nama":"I Nyoman Giong Arismawan","role":"Anggota","foto":null},{"n":15,"nama":"I Putu Andika","role":"Anggota","foto":"15"},{"n":16,"nama":"I Putu Andika Putra","role":"Anggota","foto":"16"},{"n":17,"nama":"I Putu Pradita Wiguna","role":"Anggota","foto":"17"},{"n":18,"nama":"I Putu Rispan Pratama","role":"Anggota","foto":"18"},{"n":19,"nama":"Gusti Made Sujana Putra","role":"Anggota","foto":"19"},{"n":20,"nama":"I Kadek Dwi Adnyana","role":"Anggota","foto":"20"}];;
-  const inicial = n => n.replace(/^(I|Ni|Gusti)\s+/,"").trim()[0] || "?";
-  const fotoSet = (p) => p.foto ? [`img/${p.foto}a-t.webp`,`img/${p.foto}b-t.webp`] : [];
-  const fotoFull = (p) => p.foto ? [`img/${p.foto}a.webp`,`img/${p.foto}b.webp`] : [];
-  // <picture>-free srcset: same basename, three widths. sizes mirrors the CSS grids.
-  const srcset = (base) => `${base}-t.webp 400w,${base}-m.webp 800w,${base}.webp 1125w`;
-  const SIZES = {
-    avatar: "48px",
-    pair: "(max-width:650px) 45vw, (max-width:950px) 15vw, 12vw",
-    profile: "(max-width:650px) 90vw, 300px",
-  };
+  // One source of truth. Names and roles are real.
+  const PEOPLE = [{"n":1,"nama":"I Made Sukra Mahardika","role":"Korti","foto":"01"},{"n":2,"nama":"Ni Putu Linda Purnama Dewi","role":"Wakil Korti","foto":"02"},{"n":3,"nama":"I Putu Aditya Yuda Saputra","role":"Bendahara","foto":"03"},{"n":4,"nama":"Ni Luh Putu Novitasari","role":"Sekretaris","foto":"04"},{"n":5,"nama":"Ni Made Depi Yulia Lestari","role":"Anggota","foto":"05"},{"n":6,"nama":"Ni Putu Cinta Lestari Dewi","role":"Anggota","foto":"06"},{"n":7,"nama":"Ni Putu Nitadewi","role":"Anggota","foto":"07"},{"n":8,"nama":"I Putu Yoga Aditya Pratama","role":"Anggota","foto":"08"},{"n":9,"nama":"Ni Putu Bunga Mentari","role":"Anggota","foto":"09"},{"n":10,"nama":"I Wayan Gede Surya Atmaja","role":"Anggota","foto":"10"},{"n":11,"nama":"I Wayan Mahesa Putra","role":"Anggota","foto":"11"},{"n":12,"nama":"I Made Yogi Tresna","role":"Anggota","foto":null},{"n":13,"nama":"I Nyoman Doni Saputra","role":"Anggota","foto":"13"},{"n":14,"nama":"I Nyoman Giong Arismawan","role":"Anggota","foto":null},{"n":15,"nama":"I Putu Andika","role":"Anggota","foto":"15"},{"n":16,"nama":"I Putu Andika Putra","role":"Anggota","foto":"16"},{"n":17,"nama":"I Putu Pradita Wiguna","role":"Anggota","foto":"17"},{"n":18,"nama":"I Putu Rispan Pratama","role":"Anggota","foto":"18"},{"n":19,"nama":"Gusti Made Sujana Putra","role":"Anggota","foto":"19"},{"n":20,"nama":"I Kadek Dwi Adnyana","role":"Anggota","foto":"20"}];
 
-  const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const inicial = n => n.replace(/^(I|Ni|Gusti)\s+/, "").trim()[0] || "?";
+  const aThumb = p => p.foto ? `img/${p.foto}a-t.webp` : null;
+  const bThumb = p => p.foto ? `img/${p.foto}b-t.webp` : null;
+  const aFull = p => p.foto ? `img/${p.foto}a.webp` : null;
+  const bFull = p => p.foto ? `img/${p.foto}b.webp` : null;
+  const srcset = base => `${base}-t.webp 400w,${base}-m.webp 800w,${base}.webp 1125w`;
+  const isCommittee = p => p.n <= 4;
+  const num = n => String(n).padStart(2, "0");
+  const photoPeople = PEOPLE.filter(p => p.foto);
+  const marqueeHTML = PEOPLE.map(p => `<span>${esc(p.nama)}</span>`).join("");
 
-  const avatar = (p, cls="") => {
-    const src = fotoSet(p)[0];
-    return src
-      ? `<span class="avatar ${esc(cls)}"><img src="${esc(src)}" srcset="${srcset(src.replace(/-t\.webp$/,""))}" sizes="${SIZES.avatar}" alt="" loading="lazy" decoding="async"></span>`
-      : `<span class="avatar ${esc(cls)}"><span class="avatar-fallback">${esc(inicial(p.nama))}</span></span>`;
-  };
+  /* ---------- render ---------- */
+  // Hero corridor: framed portraits on both walls, nine a side.
+  const half = Math.ceil(photoPeople.length / 2);
+  const corridorCard = p => `
+    <div class="corridor-card"><img src="${aThumb(p)}" alt="" loading="eager" decoding="async" fetchpriority="low"></div>`;
+  $("#wallLeft").innerHTML = photoPeople.slice(0, half).map(corridorCard).join("");
+  $("#wallRight").innerHTML = photoPeople.slice(half).map(corridorCard).join("");
+  $("#mobileFaces").innerHTML = photoPeople.slice(0, 12).map(p =>
+    `<img src="${aThumb(p)}" alt="" loading="eager" decoding="async" fetchpriority="low">`).join("");
+  $("#passGrid").innerHTML = photoPeople.slice(0, 6).map(p =>
+    `<img src="${aThumb(p)}" alt="" loading="eager" decoding="async" fetchpriority="low">`).join("");
 
-  const state = {
-    viewedSections: new Set(["home"]),
-    openedAcronyms: new Set(),
-    profileOpened: false
-  };
+  $("#heroMarquee").innerHTML = marqueeHTML + marqueeHTML;
+  $("#menuMarquee").innerHTML = marqueeHTML + marqueeHTML;
 
-  const loader = $("#loader");
-  const hideLoader = () => loader?.classList.add("done");
-  addEventListener("load", () => setTimeout(hideLoader, 320), {once:true});
-  setTimeout(hideLoader, 1400);
+  // Wall: twenty cards, committee first in source order.
+  $("#wallGrid").innerHTML = PEOPLE.map((p, i) => {
+    const front = aThumb(p);
+    const back = bThumb(p);
+    return `
+      <button class="pcard" type="button" data-idx="${p.n}" data-group="${isCommittee(p) ? "committee" : "member"}" aria-label="Open profile of ${esc(p.nama)}">
+        <span class="pcard-inner">
+          <span class="pcard-face pcard-front">
+            <span class="pcard-photo">${front
+              ? `<img src="${front}" srcset="${srcset(`img/${p.foto}a`)}" sizes="(max-width:700px) 45vw,(max-width:1180px) 22vw,17vw" alt="${esc(p.nama)}" loading="lazy" decoding="async">`
+              : `<span class="pcard-fallback"><b>${esc(inicial(p.nama))}</b></span>`}</span>
+            <span class="pcard-num">${num(i + 1)}</span>
+            <span class="pcard-body">
+              <span class="pcard-name">${esc(p.nama)}</span>
+              <span class="pcard-role">${esc(p.role)}</span>
+              <span class="pcard-foot"><small>Bali Crystal College</small><b>2026</b></span>
+            </span>
+          </span>
+          <span class="pcard-face pcard-back">
+            ${back ? `<img src="${back}" alt="" loading="lazy" decoding="async">` : ""}
+            <em>FORSHA 7</em>
+            <span class="back-text"><b>${esc(p.nama)}</b><span>View profile <svg class="ic"><use href="#i-arrow-ur"/></svg></span></span>
+          </span>
+        </span>
+      </button>`;
+  }).join("");
 
-  // Reveal-on-scroll.
-  const revealEls = $$(".reveal");
-  if (!reduced && "IntersectionObserver" in window) {
-    const io = new IntersectionObserver((entries,obs) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add("visible");
-          const id = e.target.id || e.target.dataset.section;
-          if (id) state.viewedSections.add(id);
-          obs.unobserve(e.target);
-          updateEndingNote();
-        }
-      });
-    }, {threshold:.12});
-    revealEls.forEach(el => io.observe(el));
-  } else revealEls.forEach(el => el.classList.add("visible"));
+  // Disciplines strips: decorative crops from the class, no role claim.
+  const strip = (from, n) => photoPeople.slice(from, from + n).map((p, i) =>
+    `<span style="--r:${[-4, 3, -2, 4][i] || 0}deg"><img src="${aThumb(p)}" alt="" loading="lazy" decoding="async"></span>`).join("");
+  $("#foStrip").innerHTML = strip(5, 4);
+  $("#hkStrip").innerHTML = strip(9, 4);
 
-  // Hero faces drift on scroll. Same rAF budget as the progress bar.
-  const faces = $$(".hero-faces .face");
-  if (faces.length && fine && !reduced) {
-    const base = [-26, 14, -10, 30];
-    let ticking = false;
-    addEventListener("scroll", () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        const y = Math.min(scrollY * .12, 70);
-        faces.forEach((f, i) => { f.style.transform = `translate3d(0,${base[i] - y}px,0)`; });
-        ticking = false;
-      });
-    }, {passive:true});
+  // Plates: two rows, opposite directions, both portraits.
+  const plate = (p, slot) => `
+    <button class="plate" type="button" data-idx="${p.n}" data-slot="${slot}" aria-label="Open portrait of ${esc(p.nama)}, ${slot + 1} of 2">
+      <img src="${slot ? bThumb(p) : aThumb(p)}" srcset="${srcset(`img/${p.foto}${slot ? "b" : "a"}`)}" sizes="(max-width:700px) 132px,15vw" alt="${esc(p.nama)}, portrait ${slot + 1}" loading="lazy" decoding="async">
+      <span>${esc(p.nama)}</span>
+    </button>`;
+  const row1 = photoPeople.map(p => plate(p, 0)).join("");
+  const row2 = photoPeople.map(p => plate(p, 1)).join("");
+  $("#galRow1").innerHTML = row1 + row1;
+  $("#galRow2").innerHTML = row2 + row2;
+
+  // Closing formation: twenty mini cards.
+  $("#sevenStage").innerHTML = PEOPLE.map(p => `
+    <span class="mini">${aThumb(p)
+      ? `<img src="${aThumb(p)}" alt="" loading="lazy" decoding="async">`
+      : `<b>${esc(inicial(p.nama))}</b>`}</span>`).join("");
+
+  /* ---------- overlays ---------- */
+  const site = $("#site"), nav = $("#nav");
+  const overlays = {};
+  ["menu", "profile", "lightbox", "finder"].forEach(id => overlays[id] = document.getElementById(id));
+  let lastFocus = null;
+
+  const focusables = el => $$('a[href],button:not([disabled]),input:not([disabled]),[tabindex]:not([tabindex="-1"])', el)
+    .filter(x => x.offsetWidth || x.offsetHeight);
+
+  function lock() {
+    if (document.body.classList.contains("locked")) return;
+    document.body.classList.add("locked");
+    site.inert = true;
+    nav.inert = true;
+  }
+  function unlock() {
+    document.body.classList.remove("locked");
+    site.inert = false;
+    nav.inert = false;
+  }
+  function isOpen(name) { return overlays[name].classList.contains("open"); }
+
+  function open(name, focusSel) {
+    Object.entries(overlays).forEach(([k, el]) => {
+      if (k !== name) { el.classList.remove("open"); el.setAttribute("aria-hidden", "true"); }
+    });
+    lastFocus = document.activeElement;
+    if (!lastFocus || lastFocus.closest(".overlay")) lastFocus = $("#menuBtn") || document.body;
+    const el = overlays[name];
+    el.classList.add("open");
+    el.setAttribute("aria-hidden", "false");
+    lock();
+    const target = focusSel ? $(focusSel, el) : focusables(el)[0];
+    setTimeout(() => target && target.focus(), 60);
+    document.dispatchEvent(new CustomEvent("overlay:open", { detail: name }));
+  }
+  function close(name, restore = true) {
+    const el = overlays[name];
+    if (!el || !el.classList.contains("open")) return;
+    el.classList.remove("open");
+    el.setAttribute("aria-hidden", "true");
+    if (!Object.values(overlays).some(o => o.classList.contains("open"))) unlock();
+    if (restore && lastFocus && lastFocus.focus) setTimeout(() => lastFocus.focus(), 40);
+    document.dispatchEvent(new CustomEvent("overlay:close", { detail: name }));
+  }
+  $$("[data-close]").forEach(b => b.addEventListener("click", () => close(b.dataset.close)));
+
+  document.addEventListener("keydown", e => {
+    const openEl = $(".overlay.open");
+    if (!openEl) return;
+    if (e.key === "Escape") {
+      e.preventDefault();
+      close(openEl.id);
+      return;
+    }
+    if (e.key === "Tab") {
+      const f = focusables(openEl);
+      if (!f.length) return;
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+
+  /* ---------- profile ---------- */
+  const profile = overlays.profile;
+  const profileImg = $("#profileImg");
+  const profileFallback = $("#profileFallback");
+  const profileFlip = $("#profileFlip");
+  let current = null, flipSlot = 0, currentIndex = 0;
+
+  function setProfilePhoto(p, slot) {
+    const a = aFull(p), b = bFull(p);
+    flipSlot = slot;
+    if (!a) {
+      profileImg.hidden = true;
+      profileImg.removeAttribute("src");
+      profileFallback.hidden = false;
+      profileFallback.textContent = inicial(p.nama);
+      profileFlip.hidden = true;
+      return;
+    }
+    profileImg.hidden = false;
+    profileFallback.hidden = true;
+    profileImg.src = slot === 1 && b ? b : a;
+    profileImg.alt = `${p.nama}, portrait ${slot === 1 && b ? 2 : 1} of ${b ? 2 : 1}`;
+    profileFlip.hidden = !b;
+    profileFlip.setAttribute("aria-pressed", String(slot === 1));
+    profileFlip.querySelector("span").textContent = slot === 1 ? "View first portrait" : "View second portrait";
+    $$("#profileThumbs button").forEach((btn, i) => btn.setAttribute("aria-current", String(i === slot)));
   }
 
-  // Wordmark: each letter reveals its word as a native tooltip. No JS output
-  // element to keep in sync, and it works on touch via long-press.
-  $$(".wordmark-letter").forEach(letter => {
-    letter.title = letter.dataset.word;
-    letter.setAttribute("role", "img");
-    letter.setAttribute("aria-label", `${letter.textContent}: ${letter.dataset.word}`);
+  function renderThumbs(p) {
+    const box = $("#profileThumbs");
+    const arr = p.foto ? [aThumb(p), bThumb(p)] : [];
+    box.innerHTML = arr.map((src, i) => `
+      <button type="button" data-slot="${i}" aria-label="Show portrait ${i + 1} of ${arr.length}" aria-current="${i === flipSlot}">
+        <img src="${src}" alt="" loading="lazy" decoding="async">
+      </button>`).join("");
+  }
+
+  function openProfile(p) {
+    if (!p) return;
+    current = p;
+    currentIndex = PEOPLE.findIndex(x => x.n === p.n);
+    $("#profileName").textContent = p.nama;
+    $("#profileRole").textContent = p.role;
+    $("#metaNum").textContent = num(p.n);
+    $("#metaGroup").textContent = isCommittee(p) ? "Committee" : "Member";
+    $("#metaPhotos").textContent = p.foto ? "2 portraits" : "No photo yet";
+    $("#profileNote").textContent = p.foto
+      ? "Two portraits from the class keepsake. This is a personal page, kept for the class of 2026."
+      : "Portrait still pending. The name and role are part of the class record.";
+    renderThumbs(p);
+    setProfilePhoto(p, 0);
+    open("profile", ".overlay-close");
+    history.replaceState({ member: p.n }, "", `#member-${num(p.n)}`);
+  }
+
+  $("#wallGrid").addEventListener("click", e => {
+    const card = e.target.closest(".pcard");
+    if (card) openProfile(PEOPLE.find(p => p.n === +card.dataset.idx));
   });
-
-  // Accordion acronym: the clicked item opens where it is.
-  $$(".acro").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const wrap = btn.closest(".acro-wrap");
-      const panel = $(".acro-panel", wrap);
-      const wasOpen = panel.classList.contains("open");
-
-      $$(".acro-panel").forEach(p => p.classList.remove("open"));
-      $$(".acro").forEach(b => b.classList.remove("active"));
-
-      if (!wasOpen) {
-        panel.classList.add("open");
-        btn.classList.add("active");
-        state.openedAcronyms.add(btn.dataset.letter);
-        updateEndingNote();
-      }
-    });
+  $("#profileFlip").addEventListener("click", () => current && setProfilePhoto(current, flipSlot ? 0 : 1));
+  $("#profileThumbs").addEventListener("click", e => {
+    const b = e.target.closest("button[data-slot]");
+    if (b && current) setProfilePhoto(current, +b.dataset.slot);
   });
-
-  // B1 fix: click only, no mouseenter-select (hover preview ≠ committed detail).
-  const principleDetail = $("#principleDetail");
-  $$(".principle").forEach(card => {
-    card.addEventListener("click", () => {
-      $$(".principle").forEach(x => x.classList.remove("active"));
-      card.classList.add("active");
-      principleDetail.textContent = card.dataset.detail;
-      state.viewedSections.add("principles");
-      state.principlesOpened = true;
-      updateEndingNote();
-    });
+  $("#profileNext").addEventListener("click", () => {
+    const next = PEOPLE[(currentIndex + 1) % PEOPLE.length];
+    openProfile(next);
   });
+  document.addEventListener("overlay:close", e => {
+    if (e.detail === "profile" && location.hash.startsWith("#member-")) {
+      history.replaceState({}, "", "#wall");
+    }
+  });
+  addEventListener("popstate", () => { if (isOpen("profile")) close("profile", false); });
 
-  // One list, all twenty. Committee is a badge, not a second section.
-  // ponytail: the old split (4 big cards + 16 rows) listed the same people twice.
-  const isCommittee = p => p.n <= 4;
-  $("#committee").innerHTML = PEOPLE.map((p, i) => `
-    <button type="button" class="person profile-trigger" data-idx="${p.n}" aria-label="Buka profil ${esc(p.nama)}">
-      <span class="person-index">${String(i+1).padStart(2,"0")}</span>
-      ${avatar(p)}
-      <span class="person-text"><span class="person-name">${esc(p.nama)}</span><span class="role">${esc(p.role)}</span></span>
-      ${isCommittee(p) ? '<span class="badge">Committee</span>' : ""}
-      <span class="arrow" aria-hidden="true">↗</span>
-    </button>`).join("");
-
-  // Gallery: one tile per person, both photos inside. Was 36 identical tiles,
-  // which is a wallpaper, not a gallery. 18 tiles with a face pair reads as people.
-  const galeri = PEOPLE.filter(p => p.foto);
-  $("#galleryGrid").innerHTML = galeri.map(p => `
-    <figure class="gallery-item" data-idx="${p.n}">
-      <div class="pair">
-        ${fotoFull(p).map((src,i) => `
-          <button type="button" class="pair-img" data-idx="${p.n}" data-slot="${i}" aria-label="Perbesar foto, ${i+1} dari 2">
-            <img src="${fotoSet(p)[i]}" srcset="${srcset(`img/${p.foto}${i?"b":"a"}`)}" sizes="${SIZES.pair}" alt="${esc(p.nama)}, foto ${i+1} dari 2" loading="lazy" decoding="async">
-          </button>`).join("")}
-      </div>
-      <figcaption><span>${esc(p.nama)}</span><small>${esc(p.role)}</small></figcaption>
-    </figure>`).join("");
-
-// Lightbox: flat list of every full-size photo, prev/next walks it.
-  const LB = galeri.flatMap(p => fotoFull(p).map((src,i) => ({src, cap:`${p.nama} · ${p.role}`})));
-  const lb = $("#lightbox"), lbImg = $("#lbImg"), lbCap = $("#lbCap");
+  /* ---------- lightbox ---------- */
+  const LB = photoPeople.flatMap(p => [
+    { src: aFull(p), cap: `${p.nama} · ${p.role}` },
+    { src: bFull(p), cap: `${p.nama} · ${p.role}` }
+  ]);
+  const lbImg = $("#lbImg"), lbCap = $("#lbCap");
   let lbAt = 0;
-  const lbShow = i => {
+  function lbShow(i) {
     lbAt = (i + LB.length) % LB.length;
     lbImg.src = LB[lbAt].src;
     lbImg.alt = LB[lbAt].cap;
     lbCap.textContent = LB[lbAt].cap;
-    lb.classList.add("show");
-    lb.setAttribute("aria-hidden","false");
-    document.body.classList.add("locked");
-  };
-  const lbHide = () => {
-    lb.classList.remove("show");
-    lb.setAttribute("aria-hidden","true");
-    document.body.classList.remove("locked");
-  };
-  $("#lbClose").addEventListener("click", lbHide);
-  $("#lbPrev").addEventListener("click", () => lbShow(lbAt-1));
-  $("#lbNext").addEventListener("click", () => lbShow(lbAt+1));
-  lb.addEventListener("click", e => { if (e.target === lb) lbHide(); });
-  addEventListener("keydown", e => {
-    if (!lb.classList.contains("show")) return;
-    if (e.key === "ArrowRight") lbShow(lbAt+1);
-    if (e.key === "ArrowLeft") lbShow(lbAt-1);
-    if (e.key === "Escape") lbHide();
+    if (!isOpen("lightbox")) open("lightbox", ".lb-close");
+  }
+  $("#lbPrev").addEventListener("click", () => lbShow(lbAt - 1));
+  $("#lbNext").addEventListener("click", () => lbShow(lbAt + 1));
+  $("#gallery").addEventListener("click", e => {
+    const p = e.target.closest(".plate");
+    if (!p) return;
+    const person = PEOPLE.find(x => x.n === +p.dataset.idx);
+    const idx = LB.findIndex(x => x.src === aFull(person) || x.src === bFull(person));
+    lbShow(idx + (+p.dataset.slot || 0));
+  });
+  document.addEventListener("keydown", e => {
+    if (!isOpen("lightbox")) return;
+    if (e.key === "ArrowRight") lbShow(lbAt + 1);
+    if (e.key === "ArrowLeft") lbShow(lbAt - 1);
   });
 
-  // Profile system with saved scroll position.
-  const profile = $("#profileOverlay");
-  const profileName = $("#profileName");
-  const profileRole = $("#profileRole");
-  const metaRole = $("#metaRole");
-  const metaFoto = $("#metaFoto");
-  const profilePhotos = $("#profilePhotos");
-  let savedScroll = 0;
+  /* ---------- finder ---------- */
+  const finder = overlays.finder;
+  const finderInput = $("#finderInput");
+  const finderList = $("#finderList");
+  let finderResults = PEOPLE.slice(), finderActive = 0;
 
-  function openProfile(person) {
-    savedScroll = scrollY;
-    profileName.textContent = person.nama;
-    profileRole.textContent = person.role;
-    metaRole.textContent = person.role;
-    metaFoto.textContent = person.foto ? "2 photos" : "No photo yet";
-    const full = fotoFull(person);
-    profilePhotos.innerHTML = full.length
-      ? full.map((src,i) => `<button class="profile-photo${full.length===1?" solo":""}" data-idx="${person.n}" data-slot="${i}" type="button" aria-label="Perbesar foto, ${i+1} dari ${full.length}"><img src="${src}" srcset="${srcset(src.replace(/\.webp$/,""))}" sizes="${SIZES.profile}" alt="${esc(person.nama)}, foto ${i+1} dari ${full.length}" loading="lazy" decoding="async"></button>`).join("")
-      : `<div class="profile-photo solo"><span class="avatar-fallback">${inicial(person.nama)}</span></div>`;
-    profile.classList.add("open");
-    profile.setAttribute("aria-hidden","false");
-    document.body.classList.add("locked");
-    state.profileOpened = true;
-    updateEndingNote();
-    // B2 fix: replaceState, not pushState. Back button used to need 2 taps to undo open+close.
-    history.replaceState({member:person.n},"",`#member-${String(person.n).padStart(2,"0")}`);
-  }
-  const byIdx = n => PEOPLE.find(p => p.n === n);
-
-  $$(".profile-trigger").forEach(t => {
-    t.addEventListener("click", () => openProfile(byIdx(+t.dataset.idx)));
-  });
-
-  $("#galleryGrid").addEventListener("click", e => {
-    const btn = e.target.closest(".pair-img");
-    if (!btn) return;
-    const p = byIdx(+btn.dataset.idx);
-    lbShow(LB.findIndex(x => x.src === fotoFull(p)[+btn.dataset.slot]));
-  });
-
-  profilePhotos.addEventListener("click", e => {
-    const btn = e.target.closest(".profile-photo[data-idx]");
-    if (!btn) return;
-    const p = byIdx(+btn.dataset.idx);
-    lbShow(LB.findIndex(x => x.src === fotoFull(p)[+btn.dataset.slot]));
-  });
-
-  function closeProfile(push=true) {
-    profile.classList.remove("open");
-    profile.setAttribute("aria-hidden","true");
-    document.body.classList.remove("locked");
-    if (push) history.replaceState({},"","#members");
-    setTimeout(() => scrollToPosition(savedScroll), 20);
-  }
-
-  function scrollToPosition(top) {
-    window.scrollTo({top,behavior:"auto"});
-  }
-
-  $("#profileBack").addEventListener("click", () => closeProfile());
-  $("#profileClose").addEventListener("click", () => closeProfile());
-  profile.addEventListener("click", e => { if (e.target === profile) closeProfile(); });
-  addEventListener("popstate", () => {
-    if (profile.classList.contains("open")) closeProfile(false);
-  });
-  addEventListener("keydown", e => {
-    if (e.key === "Escape" && profile.classList.contains("open")) closeProfile();
-  });
-
-  // Navigation state.
-  const navLinks = $$(".nav a");
-  const navSections = ["home","about","members","gallery"].map(id => document.getElementById(id)).filter(Boolean);
-  function updateNav() {
-    const marker = scrollY + 160;
-    let current = "home";
-    navSections.forEach(s => { if (marker >= s.offsetTop) current = s.id; });
-    navLinks.forEach(n => n.classList.toggle("active", n.dataset.nav === current));
-  }
-  addEventListener("resize", updateNav);
-  updateNav();
-  function scrollToSection(el) {
-    const navH = $(".topbar")?.offsetHeight || 0;
-    const top = el.getBoundingClientRect().top + scrollY - navH - 10;
-    scrollTo({top:Math.max(0,top),behavior:reduced ? "auto" : "smooth"});
-  }
-  $$('a[href^="#"]').forEach(link => {
-    link.addEventListener("click", e => {
-      const target = $(link.getAttribute("href"));
-      if (!target) return;
-      e.preventDefault();
-      scrollToSection(target);
-      history.replaceState(null,"",link.getAttribute("href"));
-    });
-  });
-
-  // Reading progress bar. One element reporting real scroll position.
-  const bar = $("#progressFill");
-  const barWrap = $("#progressBar");
-  function updateProgress() {
-    const max = document.documentElement.scrollHeight - innerHeight;
-    const pct = max > 0 ? Math.min(100, Math.max(0, (scrollY / max) * 100)) : 0;
-    bar.style.width = pct + "%";
-    barWrap.setAttribute("aria-valuenow", String(Math.round(pct)));
-  }
-  // One rAF-throttled handler for both the bar and the nav state.
-  let scrollTick = false;
-  addEventListener("scroll", () => {
-    if (scrollTick) return;
-    scrollTick = true;
-    requestAnimationFrame(() => { updateProgress(); updateNav(); scrollTick = false; });
-  }, {passive:true});
-  updateProgress();
-
-  // Magnetic buttons desktop only.
-  if (fine && !reduced) {
-    $$(".magnetic").forEach(btn => {
-      btn.addEventListener("mousemove", e => {
-        const r = btn.getBoundingClientRect();
-        const x = e.clientX-r.left-r.width/2;
-        const y = e.clientY-r.top-r.height/2;
-        btn.style.transform = `translate(${x*.08}px,${y*.08}px)`;
-      });
-      btn.addEventListener("mouseleave", () => btn.style.transform = "");
-    });
-  }
-
-  // Back to top.
-  $("#backTop").addEventListener("click", () => {
-    scrollTo({top:0,behavior:reduced ? "auto" : "smooth"});
-    history.replaceState(null,"","#home");
-  });
-
-  // Fase 2: spotlight — one delegated listener, coords on the card itself.
-  if (fine && !reduced) {
-    addEventListener("pointermove", e => {
-      const c = e.target.closest?.(".spot");
-      if (!c) return;
-      const r = c.getBoundingClientRect();
-      c.style.setProperty("--mx", `${e.clientX-r.left}px`);
-      c.style.setProperty("--my", `${e.clientY-r.top}px`);
-    }, {passive:true});
-  }
-
-  // Fase 2: marquee — every name, twice (track duplicated for seamless loop).
-  const marqueeSrc = PEOPLE.map(p => `<span>${esc(p.nama)}</span>`).join("");
-  $("#marqueeTrack").innerHTML = marqueeSrc + marqueeSrc;
-
-  // Fase 2: stat counters — count up once, on first viewport entry.
-  if (!reduced && "IntersectionObserver" in window) {
-    const counters = $$(".stat b");
-    counters.forEach(c => c.textContent = "0".repeat(Math.max(1, +(c.dataset.pad||1))));
-    const cio = new IntersectionObserver((ents,obs) => ents.forEach(en => {
-        if (!en.isIntersecting) return;
-        const el = en.target, to = +el.dataset.to || 0;
-        let t0 = null;
-        const step = ts => {
-          if (!t0) t0 = ts;
-          const k = Math.min((ts-t0)/700, 1);
-          el.textContent = String(Math.round(to * (1-Math.pow(1-k,3)))).padStart(el.dataset.pad || 0, "0");
-          if (k < 1) requestAnimationFrame(step);
-        };
-        requestAnimationFrame(step);
-        obs.unobserve(el);
-      }), {threshold:.5});
-    counters.forEach(c => cio.observe(c));
-  }
-
-  // Fase 3: per-word reveal on headings. Splits h1/h2 text nodes only — child
-  // elements (<em>, <span>) are rebuilt as whole words so markup survives.
-  function splitWords(el){
-    const out = [];
-    el.childNodes.forEach(node => {
-      if (node.nodeType === 3) {
-        node.textContent.split(/(\s+)/).forEach(tok => {
-          if (!tok.trim()) { out.push(document.createTextNode(tok)); return; }
-          const w = document.createElement("span"); w.className = "rw";
-          const i = document.createElement("i"); i.textContent = tok;
-          w.appendChild(i); out.push(w);
-        });
-      } else if (node.nodeType === 1) {
-        if (node.tagName === "BR") { out.push(node.cloneNode(false)); return; }
-        const w = document.createElement("span"); w.className = "rw";
-        const i = document.createElement("i"); i.appendChild(node.cloneNode(true));
-        w.appendChild(i); out.push(w);
-      }
-    });
-    el.replaceChildren(...out);
-  }
-  if (!reduced) {
-    const headings = $$("h1, h2, .ending h2");
-    headings.forEach(splitWords);
-    const words = $$(".rw");
-    words.forEach((w,i) => { w.querySelector("i").style.transitionDelay = `${Math.min(i%7,6)*70}ms`; });
-    if ("IntersectionObserver" in window) {
-      const wio = new IntersectionObserver((ents,obs) => ents.forEach(en => {
-        if (en.isIntersecting) { en.target.classList.add("in"); obs.unobserve(en.target); }
-      }), {threshold:.25});
-      words.forEach(w => wio.observe(w));
-    } else words.forEach(w => w.classList.add("in"));
-    // hero is above the fold — reveal it immediately on load
-    // (add .in to the .rw spans themselves, not to their parent heading)
-    setTimeout(() => {
-      $$(".hero .rw").forEach(el => el.classList.add("in"));
-    }, 420);
-  }
-
-  // Fase 3: scroll-linked classes for browsers with native scroll timelines.
-  if (!reduced && CSS.supports?.("animation-timeline","view()")) {
-    $$(".section-head, .copy, .long-copy, .people-side").forEach(el => el.classList.add("fade"));
-    $$(".stat, .principle, .acro-wrap, .person, .member, .section-head h2").forEach(el => el.classList.add("rise"));
-  }
-
-  // Fase 3: 3D tilt on gallery + profile photos, desktop only.
-  if (fine && !reduced) {
-    addEventListener("pointermove", e => {
-      const t = e.target.closest?.(".gallery-item, .profile-photo");
-      if (!t) return;
-      const r = t.getBoundingClientRect();
-      const px = (e.clientX-r.left)/r.width - .5, py = (e.clientY-r.top)/r.height - .5;
-      t.classList.add("tilt");
-      t.style.transform = `perspective(760px) rotateX(${(-py*5).toFixed(2)}deg) rotateY(${(px*5).toFixed(2)}deg) translateZ(6px)`;
-    }, {passive:true});
-    addEventListener("pointerout", e => {
-      const t = e.target.closest?.(".gallery-item, .profile-photo");
-      if (t) t.style.transform = "";
-    }, {passive:true});
-  }
-
-  // Fase 4: cursor glow. Same delegated pointermove budget as spotlight/tilt.
-  const glow = $("#glow");
-  if (fine && !reduced && glow) {
-    let gx = 0, gy = 0, gQueued = false;
-    addEventListener("pointermove", e => {
-      gx = e.clientX; gy = e.clientY;
-      if (gQueued) return;
-      gQueued = true;
-      requestAnimationFrame(() => {
-        glow.style.transform = `translate3d(${gx}px,${gy}px,0)`;
-        glow.classList.add("on");
-        gQueued = false;
-      });
-    }, {passive:true});
-    addEventListener("pointerleave", () => glow.classList.remove("on"));
-  }
-
-  // Ending note. Driven by real interaction, never by how far the page was scrolled.
-  // The old version also drove a decorative status dot; the dot is gone (banned pattern).
-  function updateEndingNote() {
-    const note = $("#endingNote");
-    if (!note) return;
-    const count = state.openedAcronyms.size;
-    if (state.profileOpened || count >= 3) note.textContent = "You looked closer.";
-    else if (count > 0) note.textContent = `${count}/6 identity details explored`;
-    else if (state.principlesOpened) note.textContent = "You read what we stand for.";
-    else note.textContent = "Keep exploring.";
-  }
-  updateEndingNote();
-
-  // Direct deep links: run on first paint AND on later hash changes.
-  function applyHash() {
-    const hash = location.hash;
-    if (!hash) return;
-    if (hash.startsWith("#member-")) {
-      const person = byIdx(parseInt(hash.replace("#member-",""),10));
-      if (person) openProfile(person);
+  function renderFinder(list) {
+    finderResults = list;
+    finderActive = 0;
+    $("#finderCount").textContent = list.length;
+    if (!list.length) {
+      finderList.innerHTML = `<div class="finder-empty">No classmate matches that. Try another name.</div>`;
       return;
     }
-    const target = $(hash);
-    if (target) scrollToSection(target);
+    finderList.innerHTML = list.map((p, i) => `
+      <button class="finder-item" type="button" role="option" data-idx="${p.n}" aria-selected="${i === 0}">
+        <span class="fi-avatar">${aThumb(p) ? `<img src="${aThumb(p)}" alt="" loading="lazy">` : esc(inicial(p.nama))}</span>
+        <span class="fi-text"><b>${esc(p.nama)}</b><small>${esc(p.role)}</small></span>
+        <span class="fi-num">${num(p.n)}</span>
+      </button>`).join("");
   }
+  function finderFilter(q) {
+    const s = q.trim().toLowerCase();
+    renderFinder(!s ? PEOPLE.slice() : PEOPLE.filter(p => (p.nama + " " + p.role).toLowerCase().includes(s)));
+  }
+  function finderMove(d) {
+    const items = $$(".finder-item", finderList);
+    if (!items.length) return;
+    finderActive = (finderActive + d + items.length) % items.length;
+    items.forEach((it, i) => it.setAttribute("aria-selected", String(i === finderActive)));
+    items[finderActive].scrollIntoView({ block: "nearest" });
+  }
+  function finderOpen(index) {
+    const p = finderResults[index];
+    if (!p) return;
+    close("finder", false);
+    setTimeout(() => openProfile(p), 80);
+  }
+  function openFinder() {
+    if (isOpen("menu")) close("menu", false);
+    finderInput.value = "";
+    finderFilter("");
+    open("finder", "#finderInput");
+    setTimeout(() => finderInput.focus(), 90);
+  }
+  finderInput.addEventListener("input", () => finderFilter(finderInput.value));
+  finderList.addEventListener("click", e => {
+    const it = e.target.closest(".finder-item");
+    if (it) finderOpen(finderResults.findIndex(p => p.n === +it.dataset.idx));
+  });
+  finderInput.addEventListener("keydown", e => {
+    if (e.key === "ArrowDown") { e.preventDefault(); finderMove(1); }
+    if (e.key === "ArrowUp") { e.preventDefault(); finderMove(-1); }
+    if (e.key === "Enter") { e.preventDefault(); finderOpen(finderActive); }
+  });
+  $$("[data-find]").forEach(b => b.addEventListener("click", openFinder));
+  addEventListener("keydown", e => {
+    if (e.key !== "/" || document.querySelector(".overlay.open")) return;
+    if (/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)) return;
+    e.preventDefault();
+    openFinder();
+  });
+
+  /* ---------- nav, scroll, progress ---------- */
+  const navLinks = $$(".nav-links a");
+  const sections = ["wall", "disciplines", "gallery", "about"].map(id => document.getElementById(id));
+  const progress = $("#progressFill"), progressBar = $("#progress");
+
+  function updateScroll() {
+    nav.classList.toggle("scrolled", scrollY > 24);
+    const max = document.documentElement.scrollHeight - innerHeight;
+    const pct = max > 0 ? Math.min(100, Math.max(0, scrollY / max * 100)) : 0;
+    progress.style.width = pct + "%";
+    progressBar.setAttribute("aria-valuenow", String(Math.round(pct)));
+    let active = "";
+    sections.forEach(s => { if (scrollY + innerHeight * .35 >= s.offsetTop) active = s.id; });
+    navLinks.forEach(a => {
+      const on = a.dataset.nav === active;
+      a.classList.toggle("active", on);
+      if (on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+    });
+  }
+  let ticking = false;
+  addEventListener("scroll", () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => { updateScroll(); ticking = false; });
+  }, { passive: true });
+  updateScroll();
+
+  function scrollToEl(el) {
+    const y = el === document.body ? 0 : el.getBoundingClientRect().top + scrollY - 66;
+    window.scrollTo({ top: Math.max(0, y), behavior: reduced ? "auto" : "smooth" });
+  }
+  $$('a[href^="#"]').forEach(a => {
+    a.addEventListener("click", e => {
+      const id = a.getAttribute("href");
+      const el = id === "#top" ? document.body : $(id);
+      if (!el) return;
+      e.preventDefault();
+      if (isOpen("menu")) close("menu", false);
+      scrollToEl(el);
+      history.replaceState(null, "", id);
+    });
+  });
+
+  $("#menuBtn").addEventListener("click", () => {
+    open("menu", ".overlay-close");
+    $("#menuBtn").setAttribute("aria-expanded", "true");
+  });
+  $("#menu").addEventListener("click", e => {
+    if (e.target.closest("a")) $("#menuBtn").setAttribute("aria-expanded", "false");
+  });
+  document.addEventListener("overlay:close", e => {
+    if (e.detail === "menu") $("#menuBtn").setAttribute("aria-expanded", "false");
+  });
+
+  /* ---------- filters ---------- */
+  const wallCount = $("#wallCount");
+  $$(".filter").forEach(btn => btn.addEventListener("click", () => {
+    const f = btn.dataset.filter;
+    $$(".filter").forEach(b => {
+      const on = b === btn;
+      b.classList.toggle("active", on);
+      b.setAttribute("aria-pressed", String(on));
+    });
+    let shown = 0;
+    $$(".pcard").forEach(card => {
+      const ok = f === "all" || card.dataset.group === f;
+      card.hidden = !ok;
+      if (ok) {
+        shown++;
+        if (!reduced && window.gsap) gsap.set(card, { opacity: 1, y: 0 });
+      }
+    });
+    wallCount.textContent = `Showing ${shown} ${shown === 1 ? "classmate" : "classmates"}`;
+    if (hasGSAP) setTimeout(() => ScrollTrigger.refresh(), 80);
+  }));
+
+  /* ---------- motion ---------- */
+  if (window.gsap) gsap.registerPlugin(ScrollTrigger);
+  const hasGSAP = !!window.gsap;
+  if (hasGSAP) {
+    let rz;
+    addEventListener("resize", () => {
+      clearTimeout(rz);
+      rz = setTimeout(() => ScrollTrigger.refresh(), 260);
+    });
+  }
+
+  if (hasGSAP && !reduced) {
+    // Intro: light the corridor, settle the pass, reveal the title.
+    gsap.timeline({ defaults: { ease: "power3.out" } })
+      .from(".nav", { y: -26, opacity: 0, duration: .8 }, 0)
+      .from(".corridor-wall", { opacity: 0, duration: 1.5, stagger: .18 }, .1)
+      .from("#pass", { y: 90, opacity: 0, rotateX: 16, scale: .9, duration: 1.35 }, .35)
+      .from(".eyebrow", { y: 16, opacity: 0, duration: .7 }, .45)
+      .from(".hero-copy .line > span", { yPercent: 118, duration: 1.05, stagger: .12 }, .55)
+      .from(".hero-sub", { y: 20, opacity: 0, duration: .75 }, .9)
+      .from(".hero-actions > *", { y: 20, opacity: 0, duration: .7, stagger: .08 }, 1)
+      .from(".hero-chips span", { x: 18, opacity: 0, duration: .6, stagger: .08 }, 1.05)
+      .from(".scroll-cue", { opacity: 0, duration: .6 }, 1.2);
+
+    // Camera push through the corridor.
+    gsap.fromTo(".corridor", { scale: 1, yPercent: 0 }, {
+      scale: 1.12, yPercent: -3, ease: "none", immediateRender: false,
+      scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true }
+    });
+    gsap.fromTo(".hero-copy", { y: 0, opacity: 1 }, {
+      y: -70, opacity: 0, ease: "none", immediateRender: false,
+      scrollTrigger: { trigger: ".hero", start: "top top", end: "68% top", scrub: true }
+    });
+    gsap.fromTo("#pass", { y: 0, scale: 1, opacity: 1 }, {
+      y: -110, scale: 1.06, opacity: .35, ease: "none", immediateRender: false,
+      scrollTrigger: { trigger: ".hero", start: "top top", end: "70% top", scrub: true }
+    });
+
+    // Per-word headings.
+    const splitWords = el => {
+      const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+      const nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+      nodes.forEach(node => {
+        if (!node.textContent.trim()) return;
+        const frag = document.createDocumentFragment();
+        node.textContent.split(/(\s+)/).forEach(tok => {
+          if (!tok) return;
+          if (!tok.trim()) { frag.appendChild(document.createTextNode(tok)); return; }
+          const w = document.createElement("span"); w.className = "w";
+          const i = document.createElement("i"); i.textContent = tok;
+          w.appendChild(i); frag.appendChild(w);
+        });
+        node.replaceWith(frag);
+      });
+    };
+    $$("main h2").forEach(h => {
+      splitWords(h);
+      gsap.from($$(".w > i", h), {
+        yPercent: 112, opacity: 0, duration: .9, stagger: .035, ease: "power3.out",
+        scrollTrigger: { trigger: h, start: "top 88%", once: true }
+      });
+    });
+
+    // Wall assemble.
+    gsap.set(".pcard", { y: 44, opacity: 0 });
+    ScrollTrigger.batch(".pcard", {
+      start: "top 94%",
+      onEnter: batch => gsap.to(batch, { y: 0, opacity: 1, duration: .75, stagger: .05, ease: "power2.out", overwrite: true })
+    });
+
+    // Section entrances.
+    gsap.from(".disc", {
+      y: 70, opacity: 0, duration: 1, stagger: .14, ease: "power3.out",
+      scrollTrigger: { trigger: ".disc-grid", start: "top 82%", once: true }
+    });
+    gsap.from(".about-copy > *", {
+      y: 28, opacity: 0, duration: .8, stagger: .08, ease: "power2.out",
+      scrollTrigger: { trigger: ".about-copy", start: "top 82%", once: true }
+    });
+    gsap.from(".plates-head > *", {
+      y: 30, opacity: 0, duration: .8, stagger: .1, ease: "power2.out",
+      scrollTrigger: { trigger: ".plates-head", start: "top 86%", once: true }
+    });
+
+    // Counters.
+    $$("[data-count]").forEach(el => {
+      const to = +el.dataset.count, pad = +(el.dataset.pad || 0);
+      ScrollTrigger.create({
+        trigger: el, start: "top 92%", once: true,
+        onEnter: () => {
+          const start = performance.now();
+          const step = now => {
+            const k = Math.min((now - start) / 900, 1);
+            el.textContent = String(Math.round(to * (1 - Math.pow(1 - k, 3)))).padStart(pad, "0");
+            if (k < 1) requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+        }
+      });
+    });
+
+    // Closing formation: twenty cards assemble into a seven.
+    buildSeven();
+
+    // Nav + pass tilt + magnetic buttons.
+    if (fine) {
+      const passWrap = $(".pass-wrap");
+      addEventListener("pointermove", e => {
+        const x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .5;
+        if (innerWidth > 960) passWrap.style.transform =
+          `translate(-50%,-50%) perspective(900px) rotateX(${(-y * 6).toFixed(2)}deg) rotateY(${(x * 8).toFixed(2)}deg)`;
+        const glow = $("#cursorGlow");
+        glow.style.opacity = "1";
+        glow.style.left = e.clientX + "px";
+        glow.style.top = e.clientY + "px";
+      }, { passive: true });
+      $$(".magnetic").forEach(btn => {
+        btn.addEventListener("pointermove", e => {
+          const r = btn.getBoundingClientRect();
+          btn.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * .07}px,${(e.clientY - r.top - r.height / 2) * .07}px)`;
+        });
+        btn.addEventListener("pointerleave", () => btn.style.transform = "");
+      });
+      $$(".pcard").forEach(card => {
+        card.addEventListener("pointermove", e => {
+          const r = card.getBoundingClientRect();
+          const px = (e.clientX - r.left) / r.width - .5;
+          const py = (e.clientY - r.top) / r.height - .5;
+          card.style.setProperty("--ty", `${(px * 9).toFixed(2)}deg`);
+          card.style.setProperty("--tx", `${(-py * 9).toFixed(2)}deg`);
+          card.style.setProperty("--mx", `${e.clientX - r.left}px`);
+          card.style.setProperty("--my", `${e.clientY - r.top}px`);
+        });
+        card.addEventListener("pointerleave", () => {
+          card.style.setProperty("--ty", "0deg");
+          card.style.setProperty("--tx", "0deg");
+        });
+      });
+    }
+  } else {
+    // Static, complete fallback.
+    $$("[data-count]").forEach(el => el.textContent = String(+el.dataset.count).padStart(+(el.dataset.pad || 0), "0"));
+    formSevenStatic();
+  }
+
+  function sevenPattern() {
+    return [
+      [0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],
+      [5,1],[6,1],[5,2],[6,2],[4,3],[5,3],[3,4],[4,4],[2,5],[3,5],
+      [0,6],[1,6],[2,6]
+    ];
+  }
+  function sevenLayout() {
+    const stage = $("#sevenStage");
+    const cards = $$(".mini", stage);
+    const sw = stage.clientWidth, sh = stage.clientHeight;
+    const cw = cards[0].offsetWidth, ch = cards[0].offsetHeight;
+    const cell = sw / 7;
+    const targets = sevenPattern().map(([c, r]) => ({
+      x: c * cell + (cell - cw) / 2,
+      y: r * cell + (cell - ch) / 2
+    }));
+    return { stage, cards, sw, sh, targets };
+  }
+  function formSevenStatic() {
+    const { cards, targets } = sevenLayout();
+    cards.forEach((c, i) => {
+      if (window.gsap) gsap.set(c, { x: targets[i].x, y: targets[i].y });
+      else c.style.transform = `translate(${targets[i].x}px,${targets[i].y}px)`;
+    });
+  }
+  function buildSeven() {
+    if (reduced || !hasGSAP) return formSevenStatic();
+    const { stage, cards, sw, sh, targets } = sevenLayout();
+    const rand = (a, b) => a + Math.random() * (b - a);
+    cards.forEach((c, i) => {
+      gsap.set(c, { x: rand(-sw * .2, sw * .9), y: rand(sh * .55, sh * 1.25), rotation: rand(-40, 40), scale: .55, opacity: .2 });
+    });
+    const tw = gsap.to(cards, {
+      x: i => targets[i].x, y: i => targets[i].y, rotation: 0, scale: 1, opacity: 1,
+      duration: 1, ease: "power2.inOut", stagger: .025,
+      scrollTrigger: { trigger: "#close", start: "top 85%", end: "top 20%", scrub: .6 }
+    });
+    let rt;
+    addEventListener("resize", () => {
+      clearTimeout(rt);
+      rt = setTimeout(() => {
+        tw.scrollTrigger && tw.scrollTrigger.kill();
+        tw.kill();
+        $$(".mini", stage).forEach(c => gsap.set(c, { clearProps: "all" }));
+        buildSeven();
+      }, 220);
+    }, { once: true });
+  }
+
+  /* ---------- deep links + start ---------- */
+  function applyHash() {
+    const h = location.hash;
+    if (!h) return;
+    if (h.startsWith("#member-")) {
+      const p = PEOPLE.find(x => x.n === parseInt(h.replace("#member-", ""), 10));
+      if (p) openProfile(p);
+      return;
+    }
+    const el = $(h);
+    if (el) scrollToEl(el);
+  }
+  addEventListener("hashchange", () => { if (!document.querySelector(".overlay.open")) applyHash(); });
   if (document.readyState === "complete") applyHash();
-  else addEventListener("load", applyHash, {once:true});
-  addEventListener("hashchange", () => { if (!profile.classList.contains("open")) applyHash(); });
+  else addEventListener("load", applyHash, { once: true });
 })();
 </script>
-
 </body>
 </html>
