@@ -11,8 +11,10 @@
 <link rel="stylesheet" href="vendor/fonts/outfit.css">
 <style>
 :root{
+  color-scheme:dark;
   --ink:#04070d;--navy:#071a31;--navy-2:#0a1c36;--gold:#c9a227;--gold-2:#e8cd7a;
   --text:#f4f5f7;--muted:#93a0b4;--line:rgba(255,255,255,.12);--card:#f2eddf;--card-ink:#0a1524;
+  --ease:cubic-bezier(.22,1,.36,1);
   --font:"Outfit",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -28,12 +30,25 @@ body::before{
   content:"";position:fixed;inset:-40%;pointer-events:none;opacity:.05;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-main{position:relative;width:min(620px,100%)}
-.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+/* the corridor, without the people: a dim row of frames behind the card */
+.frames{
+  position:fixed;inset:auto 0 0 0;height:170px;z-index:0;pointer-events:none;
+  display:flex;gap:clamp(8px,1.6vw,16px);justify-content:center;align-items:flex-end;
+  padding:0 4vw;opacity:.11;
+}
+.frames i{
+  width:clamp(52px,6.6vw,84px);aspect-ratio:3/4;border-radius:10px;
+  background:linear-gradient(180deg,rgba(244,245,247,.92),rgba(147,160,180,.3));
+  transform:translateY(var(--y,34%)) rotate(var(--r,0deg));
+}
+main{position:relative;z-index:1;width:min(620px,100%)}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;animation:rise .6s var(--ease) both}
 .brand{display:flex;align-items:center;gap:12px}
 .mark{
   display:grid;place-items:center;width:36px;height:36px;border:1px solid rgba(201,162,39,.65);
   border-radius:9px;color:var(--gold);font-size:18px;font-weight:600;background:rgba(201,162,39,.06);
+  box-shadow:0 0 40px -12px rgba(201,162,39,.5);
 }
 .brand b{display:block;font-size:11px;letter-spacing:.24em;font-weight:600}
 .brand small{display:block;font-size:8px;letter-spacing:.18em;color:var(--muted);margin-top:3px}
@@ -42,15 +57,24 @@ main{position:relative;width:min(620px,100%)}
   position:relative;overflow:hidden;border-radius:24px;padding:clamp(30px,6vw,56px);
   background:linear-gradient(158deg,rgba(13,36,68,.92),rgba(7,20,39,.96));
   border:1px solid var(--line);box-shadow:0 50px 120px -40px #000;
+  animation:rise .75s var(--ease) .05s both;
 }
 .card::after{
   content:"404";position:absolute;right:-14px;bottom:-40px;font-size:200px;line-height:.8;
-  font-weight:700;letter-spacing:-.08em;color:rgba(255,255,255,.035);pointer-events:none;
+  font-weight:700;letter-spacing:-.08em;color:rgba(201,162,39,.05);pointer-events:none;
+  animation:drift 26s ease-in-out infinite alternate;
 }
-.card h1{font-size:clamp(34px,7vw,58px);line-height:.98;letter-spacing:-.045em;font-weight:600;text-wrap:balance}
+.rule{
+  width:74px;height:1px;margin-bottom:24px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+  animation:rise .6s var(--ease) .16s both;
+}
+.card h1{font-size:clamp(34px,7vw,58px);line-height:.98;letter-spacing:-.045em;font-weight:600;text-wrap:balance;
+  animation:rise .7s var(--ease) .1s both}
 .card h1 em{font-style:normal;color:var(--gold)}
-.card p{margin-top:18px;max-width:44ch;color:var(--muted);font-size:15.5px;line-height:1.65}
-.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.card p{margin-top:18px;max-width:44ch;color:var(--muted);font-size:15.5px;line-height:1.65;
+  animation:rise .7s var(--ease) .18s both}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px;animation:rise .7s var(--ease) .26s both}
 a{
   display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:48px;padding:0 20px;
   border-radius:11px;font-size:12px;font-weight:500;text-decoration:none;transition:.2s;
@@ -60,11 +84,26 @@ a.primary:hover{transform:translateY(-2px);box-shadow:0 18px 40px -18px rgba(255
 a.ghost{border:1px solid var(--line);color:var(--text);background:rgba(255,255,255,.05)}
 a.ghost:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.24)}
 a svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-footer{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-top:22px;color:rgba(255,255,255,.34);font-size:10px;letter-spacing:.08em}
-@media(max-width:420px){.card{border-radius:18px}.code{display:none}footer{font-size:9px}}
+footer{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-top:22px;color:rgba(255,255,255,.34);font-size:10px;letter-spacing:.08em;
+  animation:rise .7s var(--ease) .34s both}
+@keyframes rise{from{opacity:0;transform:translateY(18px);filter:blur(8px)}}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(-12px,-16px) scale(1.03)}}
+@media(max-width:420px){
+  .card{border-radius:18px}.code{display:none}footer{font-size:9px}
+  .frames{height:120px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.001ms!important;transition-delay:0s!important}
+  body::before{display:none}
+}
 </style>
 </head>
 <body>
+<div class="frames" aria-hidden="true">
+  <i style="--y:46%;--r:-4deg"></i><i style="--y:30%;--r:3deg"></i><i style="--y:52%;--r:-2deg"></i>
+  <i style="--y:24%;--r:4deg"></i><i style="--y:40%;--r:0deg"></i><i style="--y:28%;--r:-3deg"></i>
+  <i style="--y:50%;--r:2deg"></i><i style="--y:34%;--r:-5deg"></i><i style="--y:44%;--r:3deg"></i>
+</div>
 <main>
   <div class="top">
     <div class="brand">
@@ -74,6 +113,7 @@ footer{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;margin
     <span class="code">404 / NOT FOUND</span>
   </div>
   <div class="card">
+    <div class="rule" aria-hidden="true"></div>
     <h1>This page is not <em>in the class.</em></h1>
     <p>The address may be mistyped, or the page has moved. The wall with every name is still where you left it.</p>
     <div class="actions">

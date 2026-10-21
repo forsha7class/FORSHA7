@@ -82,16 +82,22 @@ GSAP 3.13 (core + ScrollTrigger) and the Outfit woff2 files are vendored in
 | Counters | 20 / 02 / 36 / 01 count once on view |
 | Close | twenty cards converge into the number 7 |
 | Cinema Reel | one continuous sequence: identity card, twenty portraits (a portrait-to-portrait crossfade mid-scene), the seven at the end |
+| Profile | the card lifts in from a blur; the portrait settles, then name and role follow |
+| Lightbox | the stage rises, and a blurred copy of the portrait drifts behind it |
+| Plates | a hovered or focused frame lifts, lights up its gold edge and zooms its portrait |
+| 404 | the card and its lines rise in; the ghost "404" drifts behind them |
 | Micro | pass tilt, card tilt + spotlight, magnetic CTAs, cursor glow, marquees |
 
 Rules:
 - Transform and opacity only.
 - Nothing essential is hidden if GSAP fails.
+- Every entrance ends at rest: card, name, portrait and stage all finish at
+  their final values, so a dropped transition still leaves a readable page.
 - No CSS `scroll-behavior: smooth` — it breaks ScrollTrigger measurement. Anchor
   smoothness comes from `scrollTo({behavior:"smooth"})`.
 - `prefers-reduced-motion: reduce` removes all travel: static hero, no marquee
   movement (hero, menu and gallery rows), the 7 already formed, all content
-  visible.
+visible. It also zeroes animation and transition delays, not just durations.
 - Under reduced motion the Cinema Reel still runs, but as cuts: no travel, no
   reveal delays (animation and transition delays collapse to zero), and the final
   seven is placed statically. Nothing is left animating.
@@ -104,8 +110,15 @@ Rules:
 - **Wall card**: hover flips to the second portrait; click opens the profile.
   On touch, tap opens the profile; the profile shows both portraits.
 - **Profile**: dialog with focus trap, Esc, a sticky close on mobile, two
-  portrait thumbnails, next classmate.
-- **Plates**: full-image lightbox with arrows and Esc.
+  portrait thumbnails, next classmate. The card arrives from a blur; the
+  portrait settles first, then the name and role follow.
+- **Plates**: hover or keyboard focus lifts the frame, lights up its gold edge
+  and zooms the portrait, in one shared state. Click opens the full-image
+  lightbox, where a blurred copy of the portrait drifts behind the stage;
+  arrows and Esc.
+- **404**: a standalone page for a wrong address. No JavaScript and no images:
+  one heading, two ways back, the same tokens, and the same reduced-motion
+  guard.
 - **Filters**: Everyone / Committee / Members, live count, `aria-pressed`.
 - **Cinema Reel**: opens from the hero or the menu overlay. One overlay, one
   continuous sequence, no control bar and no progress UI. Space or a tap holds
@@ -128,6 +141,10 @@ Rules:
 - The Cinema Reel focuses its own dialog root (not a control), so Space holds the
   reel instead of activating Close, and the dialog is what a screen reader
   announces.
+- Hover and `:focus-visible` share one visual state on the gallery plates, so
+  keyboard users see the same lift, edge and caption as pointer users.
+- The 404 page also carries `:focus-visible`, `color-scheme: dark`, and its own
+  reduced-motion block, and keeps one `<h1>`.
 - Contrast: body text on dark is ≥ 7:1; cream cards use navy ink.
 - The page works without JS above the fold; the wall, plates and close are
   rendered from `PEOPLE` (same decision as v2, documented in PRD).
@@ -157,7 +174,15 @@ Rules:
 selection, accessible names and target sizes, the closing formation, the Cinema
 Reel (including proof that its seven is the same glyph as the closing one),
 reduced motion, horizontal overflow at 320/390/820/1440, and third-party
-requests. 92 checks, exits non-zero on failure. Run it before shipping a change.
+requests. It also covers the v3 polish: the profile settling at rest, the
+lightbox backdrop mirroring the shown photo and drifting only while open, the
+plate hover/revert and its focus parity, and the 404 page (one heading, noindex,
+in-origin only, no small targets, no overflow at 375/320, still under reduced
+motion). 115 checks, exits non-zero on failure. Run it before shipping a change.
+
+Entrance transitions are asserted through rAF polling rather than fixed sleeps:
+an idle headless page does not produce frames, so a running transition can sit
+at its start value until the next paint.
 
 ## 10. Content rules
 

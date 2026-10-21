@@ -448,6 +448,7 @@ svg.ic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;str
 .plate{
   position:relative;display:block;width:clamp(150px,15vw,225px);aspect-ratio:3/4;border-radius:12px;
   overflow:hidden;background:#0a1424;flex:none;border:1px solid var(--line-soft);
+  transition:transform .5s var(--ease),border-color .4s ease,box-shadow .5s ease;
 }
 .plate img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s var(--ease),filter .5s}
 .plate::after{
@@ -458,8 +459,12 @@ svg.ic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;str
   position:absolute;left:12px;right:12px;bottom:10px;z-index:1;font-size:11px;line-height:1.2;
   letter-spacing:.02em;color:#fff;opacity:0;transform:translateY(6px);transition:.35s;
 }
-.plate:hover img{transform:scale(1.06)}
-.plate:hover::after,.plate:hover span{opacity:1;transform:none}
+/* hover and keyboard focus share one state, so the row reads the same whether
+   it is pointed at or tabbed to. */
+.plate:hover,.plate:focus-visible{transform:translateY(-6px);border-color:rgba(201,162,39,.5);
+  box-shadow:0 32px 60px -32px #000,0 0 0 1px rgba(201,162,39,.22)}
+.plate:hover img,.plate:focus-visible img{transform:scale(1.07)}
+.plate:hover::after,.plate:hover span,.plate:focus-visible::after,.plate:focus-visible span{opacity:1;transform:none}
 .plates-note{display:flex;justify-content:space-between;gap:20px;margin-top:26px;color:rgba(255,255,255,.4);font-size:10.5px}
 .plates-note b{color:var(--gold);font-weight:500}
 
@@ -535,10 +540,20 @@ svg.ic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;str
   position:relative;z-index:1;width:min(1120px,92vw);margin:6vh auto 7vh;border-radius:26px;overflow:hidden;
   display:grid;grid-template-columns:1.06fr .94fr;background:var(--card);color:var(--card-ink);
   box-shadow:0 60px 140px -40px rgba(0,0,0,.9);
-  transform:translateY(30px) scale(.97);opacity:0;
-  transition:transform .55s var(--ease),opacity .45s ease;
+  transform:translateY(34px) scale(.965);opacity:0;filter:blur(8px);
+  transition:transform .6s var(--ease),opacity .5s ease,filter .5s ease;
 }
-.overlay.open .profile-card{transform:none;opacity:1}
+.overlay.open .profile-card{transform:none;opacity:1;filter:none}
+/* the portrait settles first, then the name follows: an arrival, not a fade.
+   Short distances only, and every piece ends at rest so nothing is left
+   invisible if a transition is dropped. */
+.profile-media img,.profile-media .ph-fallback{transform:scale(1.06);transition:transform 1.2s var(--ease)}
+.overlay.open .profile-media img,.overlay.open .profile-media .ph-fallback{transform:none}
+.profile-kicker,.profile-name,.profile-role{opacity:0;transform:translateY(14px);
+  transition:opacity .5s ease,transform .6s var(--ease)}
+.overlay.open .profile-kicker,.overlay.open .profile-name,.overlay.open .profile-role{opacity:1;transform:none}
+.overlay.open .profile-name{transition-delay:.07s}
+.overlay.open .profile-role{transition-delay:.14s}
 .profile-media{position:relative;min-height:min(74vh,720px);background:#e7e0cf;overflow:hidden}
 .profile-media img{width:100%;height:100%;object-fit:cover;display:block;mix-blend-mode:multiply}
 .profile-media .ph-fallback{position:absolute;inset:0;display:grid;place-items:center;font-size:120px;color:#b59a4a;font-weight:600}
@@ -581,7 +596,17 @@ svg.ic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;str
 
 /* lightbox */
 .lightbox{display:grid;place-items:center;z-index:110}
-.lightbox .lb-stage{position:relative;z-index:1;width:min(94vw,1000px);display:flex;flex-direction:column;align-items:center;gap:14px}
+/* a blurred copy of the portrait on screen, drifting slowly behind it. Same
+   src as the photo itself, so it costs one decode and no extra request. The
+   drift is attached only while the overlay is open. */
+.lb-blur{position:absolute;left:-8%;top:-8%;width:116%;height:116%;object-fit:cover;z-index:0;
+  filter:blur(52px) brightness(.46) saturate(1.05);opacity:0;transition:opacity .7s ease}
+.overlay.open .lb-blur{opacity:.6;animation:lbDrift 24s ease-in-out infinite alternate}
+@keyframes lbDrift{from{transform:scale(1.02)}to{transform:scale(1.14)}}
+.lightbox .lb-stage{position:relative;z-index:1;width:min(94vw,1000px);display:flex;flex-direction:column;align-items:center;gap:14px;
+  opacity:0;transform:translateY(16px) scale(.985);
+  transition:opacity .45s ease,transform .55s var(--ease)}
+.overlay.open .lb-stage{opacity:1;transform:none}
 .lightbox img{max-width:100%;max-height:78vh;object-fit:contain;border-radius:8px;box-shadow:0 40px 100px -30px #000}
 .lb-cap{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.6)}
 .lb-close{position:absolute;right:3vw;top:3vh;z-index:2}
@@ -1193,6 +1218,7 @@ svg.ic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;str
 
 <div class="overlay lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" aria-hidden="true">
   <div class="overlay-bg" data-close="lightbox"></div>
+  <img class="lb-blur" id="lbBlur" alt="" aria-hidden="true" decoding="async">
   <button class="overlay-close lb-close" type="button" data-close="lightbox" aria-label="Close photo viewer"><svg class="ic"><use href="#i-close"/></svg></button>
   <button class="lb-prev" id="lbPrev" type="button" aria-label="Previous photo"><svg class="ic"><use href="#i-arrow-l"/></svg></button>
   <div class="lb-stage">
@@ -1451,12 +1477,13 @@ svg.ic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;str
     { src: aFull(p), cap: `${p.nama} · ${p.role}` },
     { src: bFull(p), cap: `${p.nama} · ${p.role}` }
   ]);
-  const lbImg = $("#lbImg"), lbCap = $("#lbCap");
+  const lbImg = $("#lbImg"), lbCap = $("#lbCap"), lbBlur = $("#lbBlur");
   let lbAt = 0;
   function lbShow(i) {
     lbAt = (i + LB.length) % LB.length;
     lbImg.src = LB[lbAt].src;
     lbImg.alt = LB[lbAt].cap;
+    lbBlur.src = LB[lbAt].src;  // same file, so the cache serves both
     lbCap.textContent = LB[lbAt].cap;
     if (!isOpen("lightbox")) open("lightbox", ".lb-close");
   }

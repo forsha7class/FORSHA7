@@ -81,17 +81,26 @@ Kontrolnya tetap bisa dipakai (Space menahan, panah pindah adegan, Esc keluar).
 Potret reel baru diunduh saat adegannya dipanaskan, jadi sebelum dibuka reel
 tidak menambah satu pun permintaan gambar.
 
+Poles v3 menambahkan gerak masuk yang seluruhnya CSS, dipicu oleh kelas
+`.overlay.open`: kartu profil mendarat dari blur, lightbox menampilkan salinan
+potret yang diburamkan sebagai latar yang melayang pelan, dan pelat galeri
+terangkat saat disentuh maupun difokus. Salinan blur itu memakai berkas foto
+yang sama, jadi tidak menambah permintaan. `404.html` memakai gerak masuk yang
+sama dan tetap tanpa JavaScript serta tanpa gambar.
+
 Catatan penting: jangan menambahkan `scroll-behavior: smooth` di CSS. Itu
 mengacaukan pengukuran ScrollTrigger. Smooth scroll untuk anchor sudah diatur
 lewat JavaScript.
 
 ## Verifikasi
 
-`tools/verify_motion.py` menguji klaim halaman di browser sungguhan: 92
+`tools/verify_motion.py` menguji klaim halaman di browser sungguhan: 115
 pemeriksaan untuk gerak (GSAP/ScrollTrigger), gambar, aksesibilitas, formasi
 penutup, Cinema Reel (termasuk bukti bahwa angka 7 di reel identik dengan angka 7
-di section penutup), reduced motion, dan overflow di 320/390/820/1440 px. Skrip
-mencetak laporan `ok`/`FAIL` dan keluar dengan kode non-nol bila ada yang gagal.
+di section penutup), reduced motion, overflow di 320/390/820/1440 px, dan poles
+v3 (profil yang mendarat, latar lightbox yang melayang, hover pelat, serta
+halaman 404). Skrip mencetak laporan `ok`/`FAIL` dan keluar dengan kode non-nol
+bila ada yang gagal.
 
 ```
 python3 -m pip install playwright
@@ -107,7 +116,8 @@ sekaligus, dan halaman ini membuka puluhan gambar sekaligus saat first paint.
 
 - `DESIGN.md` kontrak desain v3 (konsep, token, motion, aksesibilitas).
 - `PRD.md` catatan pekerjaan v2; sebagian metrik visualnya sudah digantikan v3.
-- `404.html` halaman yang disajikan GitHub Pages untuk alamat salah.
+- `404.html` halaman yang disajikan GitHub Pages untuk alamat salah; berdiri
+  sendiri, tanpa JavaScript dan tanpa gambar.
 - `vendor/` GSAP, ScrollTrigger, dan font Outfit (self-hosted).
 - `vendor/fonts/outfit.css` subset CSS dari Google Fonts (lisensi SIL OFL 1.1);
   dua berkas woff2 menutup lima bobot, latin dan latin-ext.
