@@ -37,6 +37,43 @@ def check(name, ok, detail=""):
         fails.append(name)
 
 
+# Every author rule as (selector, declarations), with @media/@supports flattened
+# so a claim about "this style exists" can be checked without resizing anything.
+CSS_DUMP = """(()=>{const out=[];
+  const walk=rules=>{for(const r of rules){
+    if(r.selectorText) out.push([r.selectorText, r.style.cssText]);
+    if(r.cssRules && r.cssRules.length) walk(r.cssRules);}};
+  for(const s of document.styleSheets){try{walk(s.cssRules)}catch(e){}}
+  return out;})()"""
+
+# Wait conditions for the v3 polish transitions. A bare wait_for_timeout does not
+# produce frames on an idle headless page, so a running transition can sit at its
+# start value until the next paint; polling on rAF keeps frames coming.
+PROFILE_SETTLED = """(()=>{const q=s=>document.querySelector(s), st=s=>getComputedStyle(q(s));
+  const ok=s=>st(s).opacity==='1' && st(s).transform==='none' && st(s).filter==='none';
+  return ok('.profile-card') && ok('.profile-name') && ok('.profile-role')
+      && ok('.profile-kicker') && st('.profile-media img').transform==='none';})()"""
+LB_STAGE_SETTLED = """(()=>{const s=getComputedStyle(document.querySelector('.lb-stage'));
+  return s.opacity==='1' && s.transform==='none';})()"""
+PLATE_HOVER_SETTLED = """(()=>{const p=document.querySelector('#galRow1 .plate:hover');
+  if(!p) return false;
+  const m=new DOMMatrixReadOnly(getComputedStyle(p).transform);
+  const mi=new DOMMatrixReadOnly(getComputedStyle(p.querySelector('img')).transform);
+  return Math.abs(m.m42+6)<0.02 && Math.abs(mi.a-1.07)<0.0005;})()"""
+PLATE_IDLE = """(i=>{const p=[...document.querySelectorAll('#galRow1 .plate')][i];
+  return getComputedStyle(p).transform==='none'
+      && parseFloat(getComputedStyle(p,'::after').opacity) < 0.001
+      && parseFloat(getComputedStyle(p.querySelector('span')).opacity) < 0.001;})"""
+
+
+def wait_settled(page, expr, arg=None, timeout=6000):
+    try:
+        page.wait_for_function(expr, arg=arg, timeout=timeout, polling="raf")
+        return True
+    except PlaywrightTimeoutError:
+        return False
+
+
 # --- environment bootstrap -------------------------------------------------
 # Some sandboxes ship the browser under a different revision directory than the
 # installed Python package expects, and keep the shared libraries outside the
@@ -81,6 +118,7 @@ def bootstrap_env():
 for line in bootstrap_env():
     print(f"     note: {line}")
 
+from playwright.sync_api import TimeoutError as PlaywrightTimeoutError  # noqa: E402
 from playwright.sync_api import sync_playwright  # noqa: E402
 
 
@@ -264,6 +302,34 @@ try:
         check("the opened profile is a Putu",
               chosen.startswith(("I Putu", "Ni Putu")), chosen)
 
+        # --- v3 polish: the profile arrives instead of appearing -------------
+        wait_settled(page, PROFILE_SETTLED)
+        prof_rest = page.evaluate(
+            """(()=>{const g=sel=>{const el=document.querySelector(sel);
+                 if(!el) return null; const c=getComputedStyle(el);
+                 return {op:c.opacity, tf:c.transform, fl:c.filter};};
+                 return {card:g('.profile-card'), name:g('.profile-name'),
+                         role:g('.profile-role'), kicker:g('.profile-kicker'),
+                         img:g('.profile-media img')};})()"""
+        )
+        check("the opened profile settles completely",
+              all(v and v["op"] == "1" and v["tf"] == "none" and v["fl"] == "none"
+                  for v in prof_rest.values()), prof_rest)
+
+        rules = page.evaluate(CSS_DUMP)
+
+        def has_rule(sel_part, css_part):
+            return any(sel_part in s and css_part in c for s, c in rules)
+
+        check("the profile card enters from a blur",
+              has_rule(".profile-card", "blur(8px)")
+              and has_rule(".overlay.open .profile-card", "filter: none"))
+        check("the profile portrait settles from a slight zoom",
+              has_rule(".ph-fallback", "scale(1.06)"))
+        check("the name and role stagger behind the portrait",
+              has_rule(".overlay.open .profile-name", "0.07s")
+              and has_rule(".overlay.open .profile-role", "0.14s"))
+
         # --- profile --------------------------------------------------------
         thumbs = page.evaluate("document.querySelectorAll('#profileThumbs button').length")
         check("profile shows both portraits as thumbs", thumbs == 2, thumbs)
@@ -299,8 +365,86 @@ try:
         page.wait_for_timeout(400)
         lb1 = page.evaluate("document.getElementById('lbImg').getAttribute('src')")
         check("ArrowRight moves to the next plate", lb0 != lb1, f"{lb0} -> {lb1}")
+
+        wait_settled(page, LB_STAGE_SETTLED)
+        lb = page.evaluate(
+            """(()=>{const bl=document.getElementById('lbBlur'), im=document.getElementById('lbImg'),
+                 st=document.querySelector('.lb-stage');
+                 return {same: bl.getAttribute('src')===im.getAttribute('src'),
+                         path: [new URL(bl.src).pathname, new URL(im.src).pathname],
+                         loaded: bl.naturalWidth>0,
+                         anim: getComputedStyle(bl).animationName,
+                         animTargets: document.getAnimations().filter(a=>a.playState==='running'
+                            && a.effect && a.effect.target===bl).length,
+                         stageOp: getComputedStyle(st).opacity, stageTf: getComputedStyle(st).transform};})()"""
+        )
+        check("the lightbox backdrop mirrors the photo on screen",
+              lb["same"] and lb["path"][0] == lb["path"][1] and lb["loaded"], lb["path"])
+        check("the backdrop drifts while the viewer is open",
+              lb["anim"] == "lbDrift" and lb["animTargets"] >= 1, lb["anim"])
+        check("the lightbox stage settles into place",
+              lb["stageOp"] == "1" and lb["stageTf"] == "none",
+              [lb["stageOp"], lb["stageTf"]])
+        check("the backdrop is a blurred copy of the photo",
+              has_rule(".lb-blur", "blur(52px)"))
+
         page.keyboard.press("Escape")
         page.wait_for_timeout(300)
+        gone = page.evaluate("getComputedStyle(document.getElementById('lbBlur')).animationName")
+        check("the backdrop's drift detaches when the viewer closes", gone == "none", gone)
+
+        # --- v3 polish: gallery plates answer the pointer and the keyboard ----
+        page.evaluate("document.querySelector('.plates').scrollIntoView({block:'center'})")
+        page.wait_for_timeout(600)
+        target = page.evaluate(
+            """(()=>{const ps=[...document.querySelectorAll('#galRow1 .plate')];
+                 for(let i=0;i<ps.length;i++){const r=ps[i].getBoundingClientRect();
+                   if(r.left>=0&&r.right<=innerWidth&&r.top>=0&&r.bottom<=innerHeight)
+                     return {i, x:r.x+r.width/2, y:r.y+r.height/2};}
+                 return null;})()"""
+        )
+        idle = page.evaluate(
+            """(i=>{const p=[...document.querySelectorAll('#galRow1 .plate')][i];
+                 return {tf:getComputedStyle(p).transform, border:getComputedStyle(p).borderTopColor,
+                         after:getComputedStyle(p,'::after').opacity,
+                         cap:getComputedStyle(p.querySelector('span')).opacity};})""",
+            target["i"],
+        )
+        check("a gallery plate rests flat before it is touched",
+              idle["tf"] == "none" and float(idle["after"]) < 0.001 and float(idle["cap"]) < 0.001,
+              idle)
+
+        page.mouse.move(target["x"], target["y"])
+        wait_settled(page, PLATE_HOVER_SETTLED)
+        hover = page.evaluate(
+            """(()=>{const p=document.querySelector('#galRow1 .plate:hover');
+                 if(!p) return null;
+                 const m=new DOMMatrixReadOnly(getComputedStyle(p).transform);
+                 const mi=new DOMMatrixReadOnly(getComputedStyle(p.querySelector('img')).transform);
+                 return {ty:m.m42, img:mi.a, border:getComputedStyle(p).borderTopColor,
+                         after:getComputedStyle(p,'::after').opacity,
+                         cap:getComputedStyle(p.querySelector('span')).opacity};})()"""
+        )
+        check("a gallery plate lifts and lights up on hover",
+              hover and abs(hover["ty"] + 6) < 0.6 and abs(hover["img"] - 1.07) < 0.005
+              and float(hover["after"]) > 0.9 and float(hover["cap"]) > 0.9, hover)
+        check("the lift swaps the plate edge for gold",
+              hover and hover["border"] != idle["border"],
+              [idle["border"], hover["border"] if hover else None])
+
+        page.mouse.move(6, 6)
+        wait_settled(page, PLATE_IDLE, arg=target["i"])
+        back = page.evaluate(
+            """(i=>{const p=[...document.querySelectorAll('#galRow1 .plate')][i];
+                 return {tf:getComputedStyle(p).transform,
+                         after:getComputedStyle(p,'::after').opacity};})""",
+            target["i"],
+        )
+        check("the plate returns to rest when the pointer leaves",
+              back["tf"] == "none" and float(back["after"]) < 0.001, back)
+        check("hover and keyboard focus share one plate state",
+              any(".plate:hover" in s and ".plate:focus-visible" in s for s, _ in rules)
+              and any(".plate:focus-visible img" in s for s, _ in rules))
 
         # --- filters --------------------------------------------------------
         page.evaluate("document.querySelector('.filters').scrollIntoView({block:'center'})")
@@ -354,6 +498,63 @@ try:
         check("document language is set", page.evaluate("document.documentElement.lang") == "en",
               page.evaluate("document.documentElement.lang"))
         check("exactly one h1", page.evaluate("document.querySelectorAll('h1').length") == 1)
+
+        # --- v3 polish: the 404 stands on its own ----------------------------
+        # A second page, so its requests and console output are attributed to it
+        # rather than to the home page. It is served by the same preview server.
+        p404 = ctx.new_page()
+        p404.on("console", lambda m: console_errors.append(m.text) if m.type == "error" else None)
+        p404.on("pageerror", lambda e: console_errors.append(str(e)))
+        r404 = []
+        p404.on("request", lambda r: r404.append(r.url))
+        p404.on("response",
+                lambda r: failed_requests.append(f"{r.status} {r.url}") if r.status >= 400 else None)
+        p404.goto(URL + "404.html", wait_until="load")
+        p404.wait_for_timeout(1400)
+        nf = p404.evaluate(
+            """(()=>{const a=[...document.querySelectorAll('a')];
+                 return {h1:document.querySelectorAll('h1').length,
+                         text:((document.querySelector('h1')||{}).textContent||'').trim(),
+                         lang:document.documentElement.lang,
+                         robots:(document.querySelector('meta[name=robots]')||{}).content,
+                         links:a.length,
+                         small:a.filter(e=>{const r=e.getBoundingClientRect();
+                            return r.width>0 && r.height>0 && (r.width<24 || r.height<24);}).length,
+                         font:document.fonts.check('400 16px Outfit')};})()"""
+        )
+        check("the 404 page keeps exactly one heading",
+              nf["h1"] == 1 and nf["text"].endswith("in the class."), nf["text"])
+        check("the 404 page is marked noindex", nf["robots"] == "noindex", nf["robots"])
+        check("the 404 page declares its language", nf["lang"] == "en", nf["lang"])
+        check("the 404 page offers its two ways back", nf["links"] == 2, nf["links"])
+        check("no visible target under 24px on the 404", nf["small"] == 0, nf["small"])
+        check("the 404 uses the self-hosted font", nf["font"])
+        off404 = sorted({u.split("/")[2] for u in r404 if "://" in u and not u.startswith(URL)})
+        check("the 404 loads nothing from a third party", not off404, off404)
+
+        p404.set_viewport_size({"width": 375, "height": 812})
+        p404.wait_for_timeout(400)
+        o375 = p404.evaluate("document.documentElement.scrollWidth-document.documentElement.clientWidth")
+        p404.set_viewport_size({"width": 320, "height": 700})
+        p404.wait_for_timeout(400)
+        o320 = p404.evaluate("document.documentElement.scrollWidth-document.documentElement.clientWidth")
+        check("the 404 holds its width at 375 and 320", o375 <= 0 and o320 <= 0, [o375, o320])
+
+        p404.emulate_media(reduced_motion="reduce")
+        p404.set_viewport_size({"width": 1440, "height": 900})
+        p404.goto(URL + "404.html", wait_until="load")
+        p404.wait_for_timeout(900)
+        nfr = p404.evaluate(
+            """(()=>({running:document.getAnimations().filter(a=>a.playState==='running').length,
+                 cardOp:getComputedStyle(document.querySelector('.card')).opacity,
+                 grain:getComputedStyle(document.body,'::before').display,
+                 visible:[...document.querySelectorAll('.top,.card,.rule,h1,p,footer')]
+                   .filter(e=>getComputedStyle(e).opacity!=='0').length}))()"""
+        )
+        check("reduced motion leaves the 404 still and fully visible",
+              nfr["running"] == 0 and nfr["cardOp"] == "1" and nfr["grain"] == "none"
+              and nfr["visible"] == 6, nfr)
+        p404.close()
 
         # --- reduced motion -------------------------------------------------
         page.emulate_media(reduced_motion="reduce")
