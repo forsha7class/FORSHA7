@@ -39,6 +39,10 @@ Mengubah nama atau peran cukup di sini.
 - **Plates** — dua baris marquee 36 foto, klik membuka lightbox.
 - **About** — konteks kelas dan angka.
 - **Close** — 20 kartu menyusun angka 7, lalu penutup.
+- **Cinema Reel** — overlay satu urutan tanpa henti: kartu identitas, 20 potret
+  satu per satu (potret kedua menyusul di tengah adegan), lalu angka 7 di akhir.
+  Dibuka dari tombol "Cinema Reel" di hero atau di menu. Tidak ada event apa pun;
+  ini murni untuk animasi dan estetika.
 
 ## Menambah atau mengganti foto
 
@@ -71,16 +75,23 @@ GSAP 3.13 (core + ScrollTrigger) dan font Outfit di-vendor di `vendor/`, tanpa
 CDN, jadi halaman tetap jalan offline. `prefers-reduced-motion` menghapus semua
 pergerakan (termasuk marquee) dan menampilkan versi statis yang lengkap.
 
+Cinema Reel tetap berjalan di bawah `prefers-reduced-motion`, tapi sebagai
+potongan: tanpa travel, tanpa crossfade bertahap, dan angka 7 langsung jadi.
+Kontrolnya tetap bisa dipakai (Space menahan, panah pindah adegan, Esc keluar).
+Potret reel baru diunduh saat adegannya dipanaskan, jadi sebelum dibuka reel
+tidak menambah satu pun permintaan gambar.
+
 Catatan penting: jangan menambahkan `scroll-behavior: smooth` di CSS. Itu
 mengacaukan pengukuran ScrollTrigger. Smooth scroll untuk anchor sudah diatur
 lewat JavaScript.
 
 ## Verifikasi
 
-`tools/verify_motion.py` menguji klaim halaman di browser sungguhan: 56
+`tools/verify_motion.py` menguji klaim halaman di browser sungguhan: 92
 pemeriksaan untuk gerak (GSAP/ScrollTrigger), gambar, aksesibilitas, formasi
-penutup, reduced motion, dan overflow di 320/390/820/1440 px. Skrip mencetak
-laporan `ok`/`FAIL` dan keluar dengan kode non-nol bila ada yang gagal.
+penutup, Cinema Reel (termasuk bukti bahwa angka 7 di reel identik dengan angka 7
+di section penutup), reduced motion, dan overflow di 320/390/820/1440 px. Skrip
+mencetak laporan `ok`/`FAIL` dan keluar dengan kode non-nol bila ada yang gagal.
 
 ```
 python3 -m pip install playwright

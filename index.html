@@ -646,8 +646,157 @@ svg.ic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;str
 .menu-links a:hover{color:var(--gold);transform:translateX(8px)}
 .menu-foot{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-top:24px;border-top:1px solid var(--line-soft);color:rgba(255,255,255,.45);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
 .menu-foot button{display:inline-flex;flex:none;align-items:center;gap:8px;height:42px;padding:0 16px;border-radius:999px;border:1px solid rgba(201,162,39,.45);color:var(--gold-2);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+.menu-foot-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
 .menu-ticker{overflow:hidden;margin-top:22px;border-top:1px solid var(--line-soft);padding-top:18px}
 .menu-ticker .marquee-track{animation-duration:60s}
+
+/* ---------- cinema reel ---------- */
+/* Isolated: every selector below is scoped to .cinema/#cinema, so the page
+   outside the overlay is untouched. One overlay, one running reel: identity,
+   twenty portraits, the class number seven. No control bar, no progress. */
+.cinema{
+  --seven-size:min(52vh,64vw,680px);
+  overflow:hidden;overscroll-behavior:contain;
+  background:
+    radial-gradient(1000px 700px at 50% 42%,rgba(201,162,39,.12),transparent 66%),
+    radial-gradient(1200px 800px at 12% 100%,rgba(20,60,90,.24),transparent 70%),
+    #02050a;
+}
+.cinema-scene{
+  position:absolute;inset:0;z-index:1;opacity:0;transform:scale(1.04);
+  transition:transform 1.3s var(--ease),opacity .9s ease;
+}
+.cinema.open .cinema-scene{opacity:1;transform:none}
+.cinema .cinema-grain{z-index:3;opacity:.07;inset:-50%}
+.cinema:focus,.cinema:focus-visible{outline:none}
+.cinema-bars{position:absolute;inset:0;z-index:4;pointer-events:none}
+.cinema-bars i{position:absolute;left:0;right:0;height:5.4vh;background:#02050a;
+  transition:transform 1.1s var(--ease)}
+.cinema-bars i::after{content:"";position:absolute;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,162,39,.55),transparent)}
+.cinema-bars .bar-t{top:0;transform:translateY(-101%)}
+.cinema-bars .bar-t::after{bottom:0}
+.cinema-bars .bar-b{bottom:0;transform:translateY(101%)}
+.cinema-bars .bar-b::after{top:0}
+.cinema.open .cinema-bars i{transform:none}
+.cinema-close{position:absolute;right:clamp(14px,2.4vw,30px);top:calc(5.4vh + 16px);z-index:7}
+.cinema-actions{position:absolute;left:0;right:0;bottom:calc(5.4vh + 24px);z-index:6;
+  display:flex;justify-content:center;gap:12px;flex-wrap:wrap;padding:0 5vw}
+
+/* scene layers: only the active one paints, so the blurred ambient copies of
+   the other nineteen portraits cost nothing while they wait. */
+.reel-layer{position:absolute;inset:0;z-index:1;opacity:0;visibility:hidden;
+  transition:opacity .9s ease,visibility 0s linear .9s}
+.reel-layer.is-active{z-index:2;opacity:1;visibility:visible;
+  transition:opacity .9s ease,visibility 0s linear 0s}
+
+/* identity */
+.reel-ident{position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;padding:0 6vw}
+.ident-mark{display:grid;place-items:center;width:clamp(56px,7vw,76px);aspect-ratio:1;border-radius:20px;
+  border:1px solid rgba(201,162,39,.6);background:rgba(201,162,39,.07);color:var(--gold);
+  font-size:clamp(28px,3.6vw,40px);font-weight:600;
+  box-shadow:0 0 90px -10px rgba(201,162,39,.45)}
+.ident-brand{margin-top:clamp(18px,2.6vh,30px);font-size:clamp(40px,7.6vw,104px);
+  line-height:.92;letter-spacing:-.05em;font-weight:600}
+.ident-sub{margin-top:14px;font-size:clamp(9px,1.05vw,12px);letter-spacing:.34em;
+  text-transform:uppercase;color:#aeb9c8}
+.ident-rule{display:block;width:76px;height:1px;margin:clamp(20px,2.8vh,32px) 0;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.ident-tag{font-size:clamp(12px,1.8vw,21px);letter-spacing:.42em;text-transform:uppercase;color:var(--gold-2)}
+.ident-hint{position:absolute;left:0;right:0;bottom:calc(5.4vh + 22px);
+  font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.34)}
+
+/* member */
+.reel-ambient{position:absolute;inset:-12%;z-index:0;overflow:hidden;opacity:.4}
+.reel-ambient img{width:100%;height:100%;object-fit:cover;display:block;
+  filter:blur(46px) brightness(.5) saturate(.9)}
+.reel-ambient::after{content:"";position:absolute;inset:0;
+  background:radial-gradient(62% 62% at 50% 44%,transparent,rgba(2,5,10,.74) 72%,#02050a 100%)}
+.reel-member{position:absolute;inset:0;z-index:1;display:grid;align-items:center;
+  grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);gap:clamp(24px,4vw,72px);
+  padding:calc(5.4vh + 26px) clamp(26px,6vw,96px)}
+.reel-media{display:grid;place-items:center;justify-self:center;width:100%;min-width:0}
+.reel-frame{grid-area:1/1;display:block;width:auto;height:auto;max-width:100%;
+  max-height:clamp(260px,68vh,740px);border-radius:8px;object-fit:contain;
+  border:1px solid rgba(201,162,39,.34);background:rgba(6,12,22,.6);
+  box-shadow:0 60px 140px -50px #000,0 0 0 1px rgba(0,0,0,.45);
+  filter:brightness(.92) saturate(.86) contrast(1.04)}
+.reel-frame.b{opacity:0;transition:opacity 1.15s ease}
+.reel-layer.is-second .reel-frame.b{opacity:1}
+.reel-fallback{grid-area:1/1;display:grid;place-items:center;
+  width:clamp(200px,30vw,360px);aspect-ratio:3/4;border-radius:8px;
+  background:linear-gradient(160deg,#efe8d7,#ddd3bd);color:#8a6a12;font-weight:600;
+  font-size:clamp(80px,10vw,148px);letter-spacing:-.04em;
+  border:1px solid rgba(201,162,39,.34);box-shadow:0 60px 140px -50px #000}
+.reel-meta{position:relative;z-index:1;min-width:0}
+.reel-num{font-size:clamp(50px,6.6vw,118px);line-height:.86;font-weight:600;letter-spacing:-.06em;
+  color:rgba(201,162,39,.16);-webkit-text-stroke:1px rgba(201,162,39,.72)}
+.reel-name{margin-top:clamp(12px,1.8vh,20px);font-size:clamp(29px,4vw,60px);line-height:1.03;
+  letter-spacing:-.04em;font-weight:600;text-wrap:balance}
+.reel-role{margin-top:12px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
+.reel-index{margin-top:7px;font-size:10px;letter-spacing:.2em;color:rgba(255,255,255,.4)}
+
+/* finale */
+.reel-finale{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:clamp(12px,2.4vh,32px);padding:calc(5.4vh + 14px) 5vw}
+.reel-seven{position:relative;flex:none;width:var(--seven-size);aspect-ratio:1;
+  --cell:calc(var(--seven-size)/7)}
+.cinema .mini{position:absolute;left:0;top:0;width:calc(var(--cell)*.70);height:calc(var(--cell)*.94);
+  border-radius:calc(var(--cell)*.11);overflow:hidden;background:var(--card);
+  border:1px solid rgba(201,162,39,.42);box-shadow:0 18px 40px -22px rgba(0,0,0,.9);
+  will-change:transform}
+.cinema .mini img{width:100%;height:100%;object-fit:cover;display:block;mix-blend-mode:multiply}
+.cinema .mini b{position:absolute;inset:0;display:grid;place-items:center;
+  font-size:calc(var(--cell)*.34);color:#8a6a12}
+.reel-finale-copy{text-align:center}
+.reel-finale-brand{font-size:clamp(30px,5vw,66px);line-height:.98;letter-spacing:-.05em;
+  font-weight:600;color:var(--gold)}
+.reel-finale-tag{margin-top:10px;font-size:clamp(10px,1.35vw,14px);letter-spacing:.42em;
+  text-transform:uppercase;color:#c8d1dd}
+
+/* reveals. Keyframes only describe the start, so the resting style is the end
+   state and the global reduced-motion rule collapses everything to a cut. */
+.reel-layer.is-active .ident-mark{animation:reelPop 1s var(--ease)}
+.reel-layer.is-active .ident-brand{animation:reelRise 1.1s var(--ease) .12s both}
+.reel-layer.is-active .ident-sub{animation:reelRise 1.1s var(--ease) .3s both}
+.reel-layer.is-active .ident-rule{animation:reelRule 1.2s var(--ease) .5s both}
+.reel-layer.is-active .ident-tag{animation:reelRise 1.1s var(--ease) .62s both}
+.reel-layer.is-active .ident-hint{animation:reelFade 1s ease 1.1s both}
+.reel-layer.is-active .reel-frame.a{animation:reelLift 1.4s var(--ease)}
+.reel-layer.is-active .reel-fallback{animation:reelLift 1.4s var(--ease)}
+.reel-layer.is-active .reel-media{animation:reelDrift 7s var(--ease) both}
+.reel-layer.is-active .reel-num{animation:reelRise 1s var(--ease) .1s both}
+.reel-layer.is-active .reel-name{animation:reelRise 1.1s var(--ease) .18s both}
+.reel-layer.is-active .reel-role{animation:reelRise 1.1s var(--ease) .3s both}
+.reel-layer.is-active .reel-index{animation:reelFade 1s ease .44s both}
+.reel-layer.is-active .reel-finale-copy{animation:reelRise 1.2s var(--ease) 1.6s both}
+@keyframes reelRise{from{opacity:0;transform:translateY(72%)}}
+@keyframes reelFade{from{opacity:0}}
+@keyframes reelPop{from{opacity:0;transform:scale(.86)}}
+@keyframes reelRule{from{opacity:0;transform:scaleX(0)}}
+@keyframes reelLift{from{filter:brightness(.42) saturate(.42) contrast(1.12)}}
+@keyframes reelDrift{from{transform:scale(1)}to{transform:scale(1.035)}}
+
+@media(max-width:860px){
+  .cinema{--seven-size:min(80vw,44vh)}
+  .reel-member{grid-template-columns:1fr;align-content:center;justify-items:center;
+    gap:clamp(14px,2.6vh,26px);padding:calc(5.4vh + 20px) 7vw;text-align:center}
+  .reel-frame{max-height:50vh}
+  .reel-fallback{width:clamp(170px,52vw,240px);font-size:clamp(64px,20vw,96px)}
+  .reel-meta{max-width:100%}
+  .reel-num{font-size:clamp(38px,12vw,62px)}
+  .reel-name{margin-top:10px;font-size:clamp(25px,7.4vw,38px)}
+  .reel-role{margin-top:9px;letter-spacing:.2em}
+  .reel-finale{gap:clamp(10px,1.8vh,22px)}
+  .ident-hint{bottom:calc(5.4vh + 16px);font-size:9px;letter-spacing:.14em}
+  .cinema-actions{bottom:calc(5.4vh + 16px);gap:9px}
+}
+@media(max-height:560px){
+  .cinema{--seven-size:min(46vh,60vw)}
+  .reel-frame{max-height:44vh}
+  .ident-sub{letter-spacing:.24em}
+}
 
 /* ---------- responsive ---------- */
 @media(max-width:1180px){
@@ -746,7 +895,7 @@ svg.ic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;str
 }
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.001ms!important;transition-delay:0s!important}
   .grain{display:none}
   .cursor-glow{display:none}
   .marquee-track{animation:none}
@@ -766,6 +915,8 @@ svg.ic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;str
   <symbol id="i-arrow-l" viewBox="0 0 24 24"><path d="M20 12H5M11 6l-6 6 6 6"/></symbol>
   <symbol id="i-arrow-ur" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
   <symbol id="i-flip" viewBox="0 0 24 24"><path d="M4 8h12a4 4 0 0 1 0 8h-2"/><path d="m7 5-3 3 3 3"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8.5 5.5v13l10.5-6.5z"/></symbol>
+  <symbol id="i-replay" viewBox="0 0 24 24"><path d="M3.5 12a8.5 8.5 0 1 0 2.4-5.9"/><path d="M3.5 3.5V9h5.5"/></symbol>
 </svg>
 
 <header class="nav" id="nav">
@@ -808,7 +959,10 @@ svg.ic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;str
     <div class="menu-ticker" aria-hidden="true"><div class="marquee-track" id="menuMarquee"></div></div>
     <div class="menu-foot">
       <span>Bali Crystal College · 2026</span>
-      <button type="button" data-find><svg class="ic"><use href="#i-search"/></svg>Find your name</button>
+      <span class="menu-foot-actions">
+        <button type="button" data-reel aria-haspopup="dialog"><svg class="ic"><use href="#i-play"/></svg>Cinema Reel</button>
+        <button type="button" data-find><svg class="ic"><use href="#i-search"/></svg>Find your name</button>
+      </span>
     </div>
   </div>
 </div>
@@ -855,6 +1009,7 @@ svg.ic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;str
         <div class="hero-actions">
           <a class="btn solid magnetic" href="#wall">Meet the class <svg class="ic"><use href="#i-arrow-r"/></svg></a>
           <button class="btn glass magnetic" type="button" data-find>Find your name <svg class="ic"><use href="#i-search"/></svg></button>
+          <button class="btn glass magnetic" type="button" data-reel aria-haspopup="dialog"><svg class="ic"><use href="#i-play"/></svg>Cinema Reel</button>
         </div>
       </div>
     </div>
@@ -993,6 +1148,17 @@ svg.ic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;str
     </footer>
   </section>
 </main>
+
+<div class="overlay cinema" id="cinema" role="dialog" aria-modal="true" aria-label="Cinema Reel" aria-hidden="true" tabindex="-1">
+  <div class="cinema-scene" id="cinemaScene" aria-hidden="true"></div>
+  <div class="cinema-bars" aria-hidden="true"><i class="bar-t"></i><i class="bar-b"></i></div>
+  <div class="grain cinema-grain" aria-hidden="true"></div>
+  <div class="cinema-actions" id="cinemaActions" hidden>
+    <button class="btn solid" type="button" data-cine-replay><svg class="ic"><use href="#i-replay"/></svg>Replay the reel</button>
+    <button class="btn glass" type="button" data-close="cinema">Close</button>
+  </div>
+  <button class="overlay-close cinema-close" type="button" data-close="cinema" aria-label="Close Cinema Reel"><svg class="ic"><use href="#i-close"/></svg></button>
+</div>
 
 <div class="overlay profile" id="profile" role="dialog" aria-modal="true" aria-labelledby="profileName" aria-hidden="true">
   <div class="overlay-bg" data-close="profile"></div>
@@ -1141,7 +1307,7 @@ svg.ic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;str
   /* ---------- overlays ---------- */
   const site = $("#site"), nav = $("#nav");
   const overlays = {};
-  ["menu", "profile", "lightbox", "finder"].forEach(id => overlays[id] = document.getElementById(id));
+  ["menu", "profile", "lightbox", "finder", "cinema"].forEach(id => overlays[id] = document.getElementById(id));
   let lastFocus = null;
 
   const focusables = el => $$('a[href],button:not([disabled]),input:not([disabled]),[tabindex]:not([tabindex="-1"])', el)
@@ -1170,7 +1336,10 @@ svg.ic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;str
     el.classList.add("open");
     el.setAttribute("aria-hidden", "false");
     lock();
-    const target = focusSel ? $(focusSel, el) : focusables(el)[0];
+    // focusSel usually names a control inside the overlay, but it may name the
+    // overlay itself: the reel focuses its dialog root, so Space holds the reel
+    // instead of activating a button.
+    const target = focusSel ? ($(focusSel, el) || $(focusSel)) : focusables(el)[0];
     setTimeout(() => target && target.focus(), 60);
     document.dispatchEvent(new CustomEvent("overlay:open", { detail: name }));
   }
@@ -1367,6 +1536,265 @@ svg.ic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;str
     if (/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)) return;
     e.preventDefault();
     openFinder();
+  });
+
+  /* ---------- cinema reel ---------- */
+  const cinemaEl = overlays.cinema;
+  const reelSceneEl = $("#cinemaScene");
+  const reelActions = $("#cinemaActions");
+  const REEL_SIZES = "(max-width:860px) 100vw, 58vw";
+  const REEL_MS = { intro: 4600, member: 5000, finale: 0 };
+  const SECOND_MS = 2400;  // the second portrait dissolves in here
+  const SEVEN_MS = 2400;   // the finale copy and its actions arrive here
+
+  // One reel: the identity card, every classmate in source order, the seven.
+  // Same PEOPLE array as the wall, the finder and the closing formation.
+  const REEL = [
+    { kind: "intro", ms: REEL_MS.intro },
+    ...PEOPLE.map(p => ({ kind: "member", p, ms: REEL_MS.member })),
+    { kind: "finale", ms: REEL_MS.finale }
+  ];
+
+  // Portraits are attached on demand: a data-src becomes a request only when
+  // its scene is warmed, so the reel costs the page nothing until it runs.
+  const reelImg = (p, slot) => {
+    const base = slot ? bFull(p) : aFull(p);
+    if (!base) return "";
+    return `<img class="reel-frame ${slot ? "b" : "a"}" alt="" decoding="async" data-src="${base}" data-srcset="${srcset(base.replace(/\.webp$/, ""))}" data-sizes="${REEL_SIZES}">`;
+  };
+
+  function reelLayerHTML(s, i) {
+    if (s.kind === "intro") return `
+      <div class="reel-layer" data-kind="intro" data-i="${i}">
+        <div class="reel-ident">
+          <span class="ident-mark">7</span>
+          <p class="ident-brand">FORSHA 7</p>
+          <p class="ident-sub">Bali Crystal College · Class of 2026</p>
+          <i class="ident-rule"></i>
+          <p class="ident-tag">Rise Together</p>
+          <p class="ident-hint">Space to pause · Esc to exit</p>
+        </div>
+      </div>`;
+
+    if (s.kind === "finale") return `
+      <div class="reel-layer" data-kind="finale" data-i="${i}">
+        <div class="reel-finale">
+          <div class="reel-seven" id="reelSeven">${PEOPLE.map(p => `<span class="mini">${aThumb(p)
+            ? `<img alt="" decoding="async" data-src="${aThumb(p)}">`
+            : `<b>${esc(inicial(p.nama))}</b>`}</span>`).join("")}</div>
+          <div class="reel-finale-copy">
+            <p class="reel-finale-brand">FORSHA 7</p>
+            <p class="reel-finale-tag">Rise Together</p>
+          </div>
+        </div>
+      </div>`;
+
+    const p = s.p, amb = aFull(p);
+    return `
+      <div class="reel-layer" data-kind="member" data-i="${i}" data-n="${p.n}">
+        ${amb ? `<div class="reel-ambient"><img alt="" decoding="async" data-src="${amb}" data-srcset="${srcset(amb.replace(/\.webp$/, ""))}" data-sizes="${REEL_SIZES}"></div>` : ""}
+        <div class="reel-member">
+          <div class="reel-media">${amb ? reelImg(p, 0) + reelImg(p, 1) : `<span class="reel-fallback">${esc(inicial(p.nama))}</span>`}</div>
+          <div class="reel-meta">
+            <p class="reel-num">${num(p.n)}</p>
+            <p class="reel-name">${esc(p.nama)}</p>
+            <p class="reel-role">${esc(p.role)}</p>
+            <p class="reel-index">${num(p.n)} / ${PEOPLE.length}</p>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  reelSceneEl.innerHTML = REEL.map(reelLayerHTML).join("");
+  const reelLayers = $$(".reel-layer", reelSceneEl);
+  const reelSevenEl = () => $("#reelSeven");
+
+  function reelLoad(img) {
+    if (!img || img.getAttribute("src") || !img.dataset.src) return;
+    if (img.dataset.srcset) img.srcset = img.dataset.srcset;
+    if (img.dataset.sizes) img.sizes = img.dataset.sizes;
+    img.src = img.dataset.src;
+  }
+  function warmScene(i) {
+    const s = REEL[i];
+    if (!s || s.kind !== "member") return;
+    $$("img", reelLayers[i]).forEach(reelLoad);
+  }
+  function warmAround(i) { [i, i + 1, i + 2, i + 3].forEach(warmScene); }
+  function warmSeven() {
+    const stage = reelSevenEl();
+    if (stage) $$("img", stage).forEach(reelLoad);
+  }
+
+  let at = -1, playing = false, sceneTimer = 0, aux = [], resizeTimer = 0;
+  let sevenTween = null, priorHash = "", swipedAt = 0;
+
+  const later = (fn, ms) => { const id = setTimeout(fn, ms); aux.push(id); return id; };
+  const clearAux = () => { aux.forEach(clearTimeout); aux = []; };
+
+  // One formation, one glyph: the same sevenPattern/sevenLayout the page's
+  // closing section uses, pointed at the reel's stage instead.
+  function placeSeven() {
+    const stage = reelSevenEl();
+    if (!stage) return;
+    const { cards, targets } = sevenLayout(stage);
+    cards.forEach((c, i) => {
+      if (window.gsap) gsap.set(c, { x: targets[i].x, y: targets[i].y, rotation: 0, scale: 1, opacity: 1 });
+      else c.style.transform = `translate(${targets[i].x}px,${targets[i].y}px)`;
+    });
+  }
+  function formSeven() {
+    const stage = reelSevenEl();
+    if (!stage) return;
+    const { cards, sw, sh, targets } = sevenLayout(stage);
+    if (!cards.length) return;
+    if (reduced || !window.gsap) return placeSeven();
+    const rand = (a, b) => a + Math.random() * (b - a);
+    cards.forEach(c => gsap.set(c, {
+      x: rand(-sw * .25, sw * .95), y: rand(sh * .6, sh * 1.3),
+      rotation: rand(-45, 45), scale: .5, opacity: 0
+    }));
+    sevenTween = gsap.to(cards, {
+      x: i => targets[i].x, y: i => targets[i].y, rotation: 0, scale: 1, opacity: 1,
+      duration: 1.15, ease: "power2.inOut", stagger: .03
+    });
+  }
+  function killSeven() {
+    if (sevenTween) { sevenTween.kill(); sevenTween = null; }
+    const stage = reelSevenEl();
+    if (stage && window.gsap) gsap.killTweensOf($$(".mini", stage));
+  }
+
+  function schedule() {
+    clearTimeout(sceneTimer);
+    sceneTimer = 0;
+    if (!playing) return;
+    const s = REEL[at];
+    if (!s) return;
+    if (!s.ms) { playing = false; return; }  // the finale holds, so the reel ends
+    sceneTimer = setTimeout(() => goTo(at + 1), s.ms);
+  }
+  function enterScene(i) {
+    const s = REEL[i], el = reelLayers[i];
+    if (!s || !el) return;
+    el.classList.remove("is-second");
+    el.classList.add("is-active");
+    if (s.kind === "member") {
+      warmAround(i);
+      if (s.p.foto) later(() => el.classList.add("is-second"), SECOND_MS);
+    } else if (s.kind === "finale") {
+      warmSeven();
+      formSeven();
+      later(() => { reelActions.hidden = false; }, SEVEN_MS);
+    }
+  }
+  function leaveScene(i) {
+    const s = REEL[i], el = reelLayers[i];
+    if (!s || !el) return;
+    el.classList.remove("is-active");
+    if (s.kind === "finale") { killSeven(); reelActions.hidden = true; placeSeven(); }
+  }
+  function goTo(i) {
+    if (i < 0 || i >= REEL.length || i === at) return;
+    clearAux();
+    clearTimeout(sceneTimer);
+    leaveScene(at);
+    at = i;
+    enterScene(i);
+    schedule();
+  }
+  function pause() { playing = false; clearTimeout(sceneTimer); sceneTimer = 0; }
+  function play() { if (playing) return; playing = true; schedule(); }
+  function step(d) { goTo(at + d); }
+
+  function startReel() {
+    clearAux();
+    clearTimeout(sceneTimer);
+    sceneTimer = 0;
+    killSeven();
+    reelLayers.forEach(el => el.classList.remove("is-active", "is-second"));
+    reelActions.hidden = true;
+    at = -1;
+    [0, 1, 2, 3].forEach(warmScene);  // the first three portraits lead the reel
+    playing = true;
+    goTo(0);
+  }
+  function stopReel() {
+    playing = false;
+    clearTimeout(sceneTimer);
+    sceneTimer = 0;
+    clearAux();
+    clearTimeout(resizeTimer);
+    killSeven();
+    reelLayers.forEach(el => el.classList.remove("is-active", "is-second"));
+    reelActions.hidden = true;
+    at = -1;
+    if (location.hash === "#reel") {
+      history.replaceState(null, "", priorHash || location.pathname + location.search);
+    }
+  }
+
+  function openReel() { open("cinema", "#cinema"); }
+  $$("[data-reel]").forEach(b => b.addEventListener("click", openReel));
+  $$("[data-cine-replay]").forEach(b => b.addEventListener("click", startReel));
+
+  document.addEventListener("overlay:open", e => {
+    if (e.detail !== "cinema") return;
+    priorHash = location.hash === "#reel" ? "" : location.hash;
+    history.replaceState(null, "", "#reel");
+    startReel();
+  });
+  document.addEventListener("overlay:close", e => { if (e.detail === "cinema") stopReel(); });
+
+  document.addEventListener("keydown", e => {
+    if (!isOpen("cinema")) return;
+    if (e.key === " " || e.key === "Spacebar") {
+      if (e.target.closest && e.target.closest("button,a,input,select,textarea")) return;
+      e.preventDefault();
+      playing ? pause() : play();
+      return;
+    }
+    if (e.key === "ArrowRight") { e.preventDefault(); step(1); return; }
+    if (e.key === "ArrowLeft") { e.preventDefault(); step(-1); }
+  });
+
+  // Tap the frame to hold it; swipe to move. Both stop at the ends on purpose:
+  // this is a reel with a first frame and a last frame, not a carousel.
+  cinemaEl.addEventListener("click", e => {
+    if (!isOpen("cinema")) return;
+    if (Date.now() - swipedAt < 500) return;
+    if (e.target.closest("button,a")) return;
+    playing ? pause() : play();
+  });
+  let tX = 0, tY = 0, tOn = false;
+  cinemaEl.addEventListener("touchstart", e => {
+    const t = e.touches[0];
+    tX = t.clientX; tY = t.clientY; tOn = true;
+  }, { passive: true });
+  cinemaEl.addEventListener("touchmove", e => {
+    if (!tOn) return;
+    const t = e.touches[0], dx = t.clientX - tX, dy = t.clientY - tY;
+    if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy) * 1.2) e.preventDefault();
+  }, { passive: false });
+  cinemaEl.addEventListener("touchend", e => {
+    if (!tOn) return;
+    tOn = false;
+    const t = e.changedTouches[0], dx = t.clientX - tX, dy = t.clientY - tY;
+    if (Math.abs(dx) > 46 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+      swipedAt = Date.now();
+      step(dx < 0 ? 1 : -1);
+    }
+  }, { passive: true });
+  cinemaEl.addEventListener("touchcancel", () => { tOn = false; }, { passive: true });
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden && isOpen("cinema") && playing) pause();
+  });
+
+  addEventListener("resize", () => {
+    if (!isOpen("cinema") || !REEL[at] || REEL[at].kind !== "finale") return;
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => { killSeven(); placeSeven(); }, 220);
   });
 
   /* ---------- nav, scroll, progress ---------- */
@@ -1594,13 +2022,12 @@ svg.ic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;str
   function sevenPattern() {
     return [
       [0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],
-      [5,1],[6,1],[5,2],[6,2],[4,3],[5,3],[3,4],[4,4],[2,5],[3,5],
+      [5,1],[6,1],[4,2],[5,2],[3,3],[4,3],[2,4],[3,4],[1,5],[2,5],
       [0,6],[1,6],[2,6]
     ];
   }
-  function sevenLayout() {
-    const stage = $("#sevenStage");
-    const cards = $$(".mini", stage);
+  function sevenLayout(stage = $("#sevenStage"), cardSel = ".mini") {
+    const cards = $$(cardSel, stage);
     const sw = stage.clientWidth, sh = stage.clientHeight;
     const cw = cards[0].offsetWidth, ch = cards[0].offsetHeight;
     const cell = sw / 7;
@@ -1645,6 +2072,7 @@ svg.ic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;str
   function applyHash() {
     const h = location.hash;
     if (!h) return;
+    if (h === "#reel") { openReel(); return; }
     if (h.startsWith("#member-")) {
       const p = PEOPLE.find(x => x.n === parseInt(h.replace("#member-", ""), 10));
       if (p) openProfile(p);

@@ -63,6 +63,8 @@ plain sections.
   intentionally loud section.
 - The close assembles twenty mini cards into a seven. That is the page's
   signature scroll moment.
+- The Cinema Reel and the close share one glyph and one formation routine: the
+  reel's seven is the same twenty cards on the same pattern, at projector scale.
 - Mobile is its own composition: corridor hidden, blurred portrait field behind
   the copy, the pass above the title, two-column wall, single-column plates.
 
@@ -79,6 +81,7 @@ GSAP 3.13 (core + ScrollTrigger) and the Outfit woff2 files are vendored in
 | Wall | cards assemble on scroll |
 | Counters | 20 / 02 / 36 / 01 count once on view |
 | Close | twenty cards converge into the number 7 |
+| Cinema Reel | one continuous sequence: identity card, twenty portraits (a portrait-to-portrait crossfade mid-scene), the seven at the end |
 | Micro | pass tilt, card tilt + spotlight, magnetic CTAs, cursor glow, marquees |
 
 Rules:
@@ -89,6 +92,9 @@ Rules:
 - `prefers-reduced-motion: reduce` removes all travel: static hero, no marquee
   movement (hero, menu and gallery rows), the 7 already formed, all content
   visible.
+- Under reduced motion the Cinema Reel still runs, but as cuts: no travel, no
+  reveal delays (animation and transition delays collapse to zero), and the final
+  seven is placed statically. Nothing is left animating.
 - No sound, no scroll hijack on touch, no custom cursor on touch.
 
 ## 6. Interaction
@@ -101,6 +107,11 @@ Rules:
   portrait thumbnails, next classmate.
 - **Plates**: full-image lightbox with arrows and Esc.
 - **Filters**: Everyone / Committee / Members, live count, `aria-pressed`.
+- **Cinema Reel**: opens from the hero or the menu overlay. One overlay, one
+  continuous sequence, no control bar and no progress UI. Space or a tap holds
+  it, arrows step (clamped at both ends, no wrap), swipe on touch, Esc exits; the
+  end offers Replay and Close. The `#reel` hash deep-links to it, and closing
+  restores the previous hash.
 
 ## 7. Accessibility
 
@@ -114,6 +125,9 @@ Rules:
   under 960px.
 - Every visible target is at least 24x24 CSS px (WCAG 2.5.8); primary actions
   are 40–48px tall. Measured at 375px, the smallest is 29px.
+- The Cinema Reel focuses its own dialog root (not a control), so Space holds the
+  reel instead of activating Close, and the dialog is what a screen reader
+  announces.
 - Contrast: body text on dark is ≥ 7:1; cream cards use navy ink.
 - The page works without JS above the fold; the wall, plates and close are
   rendered from `PEOPLE` (same decision as v2, documented in PRD).
@@ -124,6 +138,9 @@ Rules:
   the fold.
 - Hero corridor images are `fetchpriority="low"`; the pass and title lead.
 - Full-size photos load only in the profile and lightbox.
+- Cinema Reel portraits attach on demand: all 22 scenes exist in the DOM from the
+  start, but each frame keeps its `data-src` until its scene is warmed, so the
+  reel adds no image request until it is opened (the first three portraits lead).
 - Everything is same-origin: GSAP, ScrollTrigger, the font and every image.
   Nothing is fetched from a third party, so the page works offline.
 - Measured on a cold cache:
@@ -137,9 +154,10 @@ Rules:
 
 `tools/verify_motion.py` re-asserts the claims above in a real browser: motion
 (GSAP/ScrollTrigger land where they should), image weights and candidate
-selection, accessible names and target sizes, the closing formation, reduced
-motion, horizontal overflow at 320/390/820/1440, and third-party requests. 58
-checks, exits non-zero on failure. Run it before shipping a change.
+selection, accessible names and target sizes, the closing formation, the Cinema
+Reel (including proof that its seven is the same glyph as the closing one),
+reduced motion, horizontal overflow at 320/390/820/1440, and third-party
+requests. 92 checks, exits non-zero on failure. Run it before shipping a change.
 
 ## 10. Content rules
 

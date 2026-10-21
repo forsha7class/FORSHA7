@@ -241,6 +241,24 @@ try:
         check("closing cards are fully visible at the end",
               all(abs(float(o) - 1) < 0.01 for o in mini_op), sorted(set(mini_op)))
 
+        # Record the glyph as grid cells while the formation is still on screen,
+        # so the reel finale further down can be held against it.
+        close_cells = page.evaluate(
+            """(()=>{const st=document.getElementById('sevenStage');
+                 const cw=st.clientWidth/7, ch=st.clientHeight/7, sr=st.getBoundingClientRect();
+                 return [...st.querySelectorAll('.mini')].map(c=>{const r=c.getBoundingClientRect();
+                   return [Math.round((r.left-sr.left+r.width/2)/cw-0.5),
+                           Math.round((r.top-sr.top+r.height/2)/ch-0.5)];});})()"""
+        )
+        rows = {}
+        for col, row in close_cells:
+            rows.setdefault(row, []).append(col)
+        check("the closing seven is a clean glyph: full top bar, even diagonal, three-wide foot",
+              sorted(rows) == [0, 1, 2, 3, 4, 5, 6]
+              and [len(rows[r]) for r in sorted(rows)] == [7, 2, 2, 2, 2, 2, 3]
+              and all(sorted(rows[r]) == list(range(min(rows[r]), max(rows[r]) + 1)) for r in rows),
+              [sorted(rows[r]) for r in sorted(rows)])
+
         # --- finder ---------------------------------------------------------
         page.evaluate("scrollTo(0,0)")
         page.wait_for_timeout(300)
@@ -319,6 +337,174 @@ try:
         check("clearing the filter restores all 20",
               page.evaluate("""[...document.querySelectorAll('.pcard')].filter(c=>c.getBoundingClientRect().height>0).length""") == 20)
 
+        # --- cinema reel ----------------------------------------------------
+        # A second way into the same twenty classmates: one overlay, one
+        # continuous sequence, no control bar. Every claim below is driven the
+        # way a visitor drives it, and the finale is held against the closing
+        # formation captured above so "one glyph" is proven, not assumed.
+        entry = page.evaluate(
+            """(()=>{const h=document.querySelector('.hero-actions [data-reel]');
+                 const m=document.querySelector('#menu [data-reel]');
+                 return {hero:h&&h.tagName, menu:m&&m.tagName,
+                         label:h?(h.innerText||'').trim():'',
+                         popup:h?h.getAttribute('aria-haspopup'):null};})()"""
+        )
+        check("the hero offers a Cinema Reel entry",
+              entry["hero"] == "BUTTON" and "Cinema Reel" in entry["label"], entry)
+        check("the mobile menu offers the same entry", entry["menu"] == "BUTTON", entry)
+        check("the reel entry announces that it opens a dialog",
+              entry["popup"] == "dialog", entry["popup"])
+
+        page.evaluate("scrollTo(0,0)")
+        page.wait_for_timeout(300)
+        page.click(".hero-actions [data-reel]")
+        page.wait_for_timeout(400)
+        opened = page.evaluate(
+            """(()=>({open:document.getElementById('cinema').classList.contains('open'),
+                 locked:document.body.classList.contains('locked'),
+                 inert:document.getElementById('site').inert && document.getElementById('nav').inert,
+                 hash:location.hash,
+                 layers:document.querySelectorAll('#cinemaScene .reel-layer').length,
+                 kinds:[...document.querySelectorAll('#cinemaScene .reel-layer')].map(l=>l.dataset.kind),
+                 active:document.querySelector('#cinemaScene .reel-layer.is-active')?.dataset.kind,
+                 focus:document.activeElement?document.activeElement.id:''}))()"""
+        )
+        check("the hero entry opens the cinema overlay",
+              opened["open"] and opened["locked"], opened)
+        check("the reel inerts the page behind it", opened["inert"], opened)
+        check("the reel claims the #reel deep link", opened["hash"] == "#reel", opened["hash"])
+        check("the reel builds 22 scenes: identity, twenty portraits, the seven",
+              opened["layers"] == 22 and opened["kinds"].count("member") == 20
+              and opened["kinds"][0] == "intro" and opened["kinds"][-1] == "finale",
+              f"{opened['layers']} scenes, kinds {sorted(set(opened['kinds']))}")
+        check("the reel starts on the identity card", opened["active"] == "intro", opened["active"])
+        check("focus starts on the dialog itself, so Space holds instead of closing",
+              opened["focus"] == "cinema", opened["focus"])
+
+        frames = page.evaluate(
+            """(()=>{const f=[...document.querySelectorAll('#cinemaScene .reel-frame')];
+                 return {n:f.length, withSrc:f.filter(i=>i.getAttribute('src')).length,
+                         noAlt:f.filter(i=>!i.hasAttribute('alt')).length,
+                         fallbacks:document.querySelectorAll('#cinemaScene .reel-fallback').length};})()"""
+        )
+        check("each photographed classmate contributes two frames", frames["n"] == 36, frames["n"])
+        check("the reel warms the next portraits on demand, not everything up front",
+              0 < frames["withSrc"] < frames["n"], frames)
+        check("every reel frame is decorative (empty alt)", frames["noAlt"] == 0, frames["noAlt"])
+        check("the two classmates without a photograph fall back to their initial",
+              frames["fallbacks"] == 2, frames["fallbacks"])
+
+        page.keyboard.press("ArrowRight")
+        page.wait_for_timeout(250)
+        first = page.evaluate(
+            """(()=>{const a=document.querySelector('#cinemaScene .reel-layer.is-active');
+                 return {kind:a.dataset.kind, i:a.dataset.i,
+                         name:(a.querySelector('.reel-name')||{}).textContent||'',
+                         frames:a.querySelectorAll('.reel-frame').length};})()"""
+        )
+        check("ArrowRight steps to the first classmate",
+              first["kind"] == "member" and first["i"] == "1" and bool(first["name"]), first)
+        check("the classmate scene carries both portraits for the crossfade",
+              first["frames"] == 2, first["frames"])
+        page.wait_for_timeout(2600)
+        check("the second portrait crossfades in mid-scene",
+              page.evaluate("document.querySelector('#cinemaScene .reel-layer.is-active')"
+                            ".classList.contains('is-second')"))
+
+        page.keyboard.press("ArrowLeft")
+        page.wait_for_timeout(250)
+        check("ArrowLeft steps back to the identity card",
+              page.evaluate("document.querySelector('#cinemaScene .reel-layer.is-active').dataset.kind")
+              == "intro")
+        page.keyboard.press("ArrowLeft")
+        page.wait_for_timeout(250)
+        check("the reel stops at the first frame instead of wrapping",
+              page.evaluate("document.querySelector('#cinemaScene .reel-layer.is-active').dataset.i") == "0")
+
+        page.keyboard.press("Space")
+        page.wait_for_timeout(200)
+        held_at = page.evaluate("document.querySelector('#cinemaScene .reel-layer.is-active').dataset.i")
+        page.wait_for_timeout(5200)
+        still_at = page.evaluate("document.querySelector('#cinemaScene .reel-layer.is-active').dataset.i")
+        check("Space holds the reel (a held frame does not advance on its own)",
+              held_at == "0" and still_at == "0", f"{held_at} -> {still_at} over 5.2s")
+        page.keyboard.press("Space")
+        page.wait_for_timeout(200)
+
+        for _ in range(21):
+            page.keyboard.press("ArrowRight")
+        page.wait_for_timeout(3000)
+        finale = page.evaluate(
+            """(()=>{const a=document.querySelector('#cinemaScene .reel-layer.is-active');
+                 const st=document.getElementById('reelSeven');
+                 const m=[...st.querySelectorAll('.mini')];
+                 const cw=st.clientWidth/7, ch=st.clientHeight/7, sr=st.getBoundingClientRect();
+                 return {kind:a.dataset.kind, cards:m.length,
+                   unloaded:m.filter(c=>{const i=c.querySelector('img'); return i && !i.getAttribute('src');}).length,
+                   opacities:[...new Set(m.map(c=>getComputedStyle(c).opacity))],
+                   cells:m.map(c=>{const r=c.getBoundingClientRect();
+                     return [Math.round((r.left-sr.left+r.width/2)/cw-0.5),
+                             Math.round((r.top-sr.top+r.height/2)/ch-0.5)];}),
+                   actionsHidden:document.getElementById('cinemaActions').hidden,
+                   actionBtns:document.querySelectorAll('#cinemaActions button').length};})()"""
+        )
+        reel_cells = sorted(map(tuple, finale["cells"]))
+        check("the reel ends on the seven", finale["kind"] == "finale", finale["kind"])
+        check("the finale forms the seven from the same twenty cards",
+              finale["cards"] == 20 and len(set(reel_cells)) == 20,
+              f"{finale['cards']} cards, {len(set(reel_cells))} distinct cells")
+        check("every finale portrait is attached and fully visible",
+              finale["unloaded"] == 0 and all(abs(float(o) - 1) < 0.02 for o in finale["opacities"]),
+              f"{finale['unloaded']} unloaded, opacity {finale['opacities']}")
+        check("the reel's seven is the very same glyph as the closing section",
+              reel_cells == sorted(map(tuple, close_cells)),
+              {"reel": reel_cells[:3], "closing": sorted(map(tuple, close_cells))[:3]})
+        check("the end of the reel offers Replay and Close",
+              not finale["actionsHidden"] and finale["actionBtns"] == 2, finale)
+
+        closebtn = page.evaluate(
+            """(()=>{const b=document.querySelector('.cinema-close');const r=b.getBoundingClientRect();
+                 return {label:b.getAttribute('aria-label'),
+                         w:Math.round(r.width), h:Math.round(r.height)};})()"""
+        )
+        check("the reel's close control is named and meets the 24px target",
+              bool(closebtn["label"]) and closebtn["w"] >= 24 and closebtn["h"] >= 24, closebtn)
+
+        page.click("[data-cine-replay]")
+        page.wait_for_timeout(400)
+        restarted = page.evaluate(
+            """(()=>({kind:document.querySelector('#cinemaScene .reel-layer.is-active').dataset.kind,
+                 actionsHidden:document.getElementById('cinemaActions').hidden}))()"""
+        )
+        check("Replay starts the reel over from the identity card",
+              restarted["kind"] == "intro" and restarted["actionsHidden"], restarted)
+
+        page.keyboard.press("Escape")
+        page.wait_for_timeout(400)
+        closed = page.evaluate(
+            """(()=>({open:document.getElementById('cinema').classList.contains('open'),
+                 locked:document.body.classList.contains('locked'),
+                 inert:document.getElementById('site').inert,
+                 hash:location.hash,
+                 active:document.querySelectorAll('#cinemaScene .reel-layer.is-active').length}))()"""
+        )
+        check("Escape closes the reel", not closed["open"] and not closed["locked"], closed)
+        check("closing the reel releases the page and drops the deep link",
+              not closed["inert"] and closed["hash"] != "#reel" and closed["active"] == 0, closed)
+
+        page.goto(URL + "#reel", wait_until="load")
+        page.wait_for_timeout(700)
+        deep = page.evaluate(
+            """(()=>({open:document.getElementById('cinema').classList.contains('open'),
+                 kind:document.querySelector('#cinemaScene .reel-layer.is-active')?.dataset.kind}))()"""
+        )
+        check("the #reel deep link opens the reel on load",
+              deep["open"] and deep["kind"] == "intro", deep)
+        page.keyboard.press("Escape")
+        page.wait_for_timeout(300)
+        check("closing a deep-linked reel restores the bare URL",
+              page.evaluate("location.hash") == "", page.evaluate("location.hash"))
+
         # --- layout / a11y --------------------------------------------------
         for w in (320, 390, 820, 1440):
             page.set_viewport_size({"width": w, "height": 900})
@@ -377,6 +563,36 @@ try:
         check("reduced motion stops every animation", reduced["running"] == 0, reduced["running"])
         check("reduced motion stops the marquees", reduced["marquee"] == "none", reduced["marquee"])
         check("reduced motion hides the grain layer", reduced["grain"] == "none", reduced["grain"])
+
+        # the reel under reduced motion: still a reel, but cut instead of moved,
+        # with the seven landing statically.
+        page.evaluate("scrollTo(0,0)")
+        page.wait_for_timeout(200)
+        page.click(".hero-actions [data-reel]")
+        page.wait_for_timeout(400)
+        for _ in range(21):
+            page.keyboard.press("ArrowRight")
+        page.wait_for_timeout(2600)
+        rm = page.evaluate(
+            """(()=>{const st=document.getElementById('reelSeven');
+                 const m=[...st.querySelectorAll('.mini')];
+                 const cw=st.clientWidth/7, ch=st.clientHeight/7, sr=st.getBoundingClientRect();
+                 return {cards:m.length,
+                   opacities:[...new Set(m.map(c=>getComputedStyle(c).opacity))],
+                   cells:m.map(c=>{const r=c.getBoundingClientRect();
+                     return [Math.round((r.left-sr.left+r.width/2)/cw-0.5),
+                             Math.round((r.top-sr.top+r.height/2)/ch-0.5)];}),
+                   running:document.getAnimations().filter(a=>a.playState==='running').length,
+                   grain:getComputedStyle(document.querySelector('.cinema-grain')).display};})()"""
+        )
+        check("reduced motion still forms the seven in the reel",
+              rm["cards"] == 20 and len({tuple(c) for c in rm["cells"]}) == 20
+              and all(abs(float(o) - 1) < 0.02 for o in rm["opacities"]), rm["cards"])
+        check("reduced motion runs the reel as cuts, with nothing left animating",
+              rm["running"] == 0, rm["running"])
+        check("reduced motion hides the reel grain too", rm["grain"] == "none", rm["grain"])
+        page.keyboard.press("Escape")
+        page.wait_for_timeout(300)
         page.emulate_media(reduced_motion=None)
 
         # --- first paint payload, measured not estimated ---------------------
